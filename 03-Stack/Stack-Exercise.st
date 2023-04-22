@@ -145,61 +145,39 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	category: 'Stack-Exercise'!
 
 
-!classDefinition: #NodoStack category: 'Stack-Exercise'!
-Object subclass: #NodoStack
-	instanceVariableNames: 'next element'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!NodoStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 19:18:02'!
-element
-	^element! !
-
-!NodoStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 19:21:42'!
-newElement: anElement next: nodo
-	next := nodo.
-	element := anElement ! !
-
-!NodoStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 19:18:37'!
-next
-	^next! !
-
-
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: 'pila estado'
+	instanceVariableNames: 'current'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/20/2023 21:23:45'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:40:00'!
 initialize
-	pila := OrderedCollection new ! !
+	current := OOStackEmptyElement new! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/20/2023 21:29:22'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:40:44'!
 isEmpty
-	^pila isEmpty! !
+	^current size isZero! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 14:57:54'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:47:10'!
 pop
-	(pila isEmpty) 
-		ifTrue: [ ^ self error: self class stackEmptyErrorDescription ]
-		ifFalse: [^ pila removeFirst ].! !
+	|topElement|
+	topElement := current top.
+	current := current pop.
+	^topElement! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/20/2023 21:51:38'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:49:35'!
 push: anElement
-	^pila addFirst: anElement! !
+	current := OOStackWithElement put: anElement over: current ! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/20/2023 21:33:45'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:42:03'!
 size
-	^pila size! !
+	^current size! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 14:58:10'!
+!OOStack methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:49:58'!
 top
-	(pila isEmpty ) 
-		ifTrue: [ ^self error: self class stackEmptyErrorDescription ] 
-		ifFalse: [ ^pila at:1 ] ! !
+	^current top! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -212,6 +190,80 @@ stackEmptyErrorDescription
 	
 	^ 'stack is empty!!!!!!'! !
 
+
+!classDefinition: #OOStackElement category: 'Stack-Exercise'!
+Object subclass: #OOStackElement
+	instanceVariableNames: 'previous element size'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:09:56'!
+pop
+ 	self subclassResponsibility ! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:11:26'!
+size
+ 	self subclassResponsibility ! !
+
+!OOStackElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:11:17'!
+top
+ 	self subclassResponsibility ! !
+
+
+!classDefinition: #OOStackEmptyElement category: 'Stack-Exercise'!
+OOStackElement subclass: #OOStackEmptyElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackEmptyElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:12:15'!
+pop 
+	self error: OOStack stackEmptyErrorDescription ! !
+
+!OOStackEmptyElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:11:55'!
+size
+	^0! !
+
+!OOStackEmptyElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:12:23'!
+top 
+	self error: OOStack stackEmptyErrorDescription ! !
+
+
+!classDefinition: #OOStackWithElement category: 'Stack-Exercise'!
+OOStackElement subclass: #OOStackWithElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackWithElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:46:15'!
+pop
+	^previous! !
+
+!OOStackWithElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:46:15'!
+put: anElement over: anotherElement
+	element := anElement.
+	previous := anotherElement ! !
+
+!OOStackWithElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:46:15'!
+size 
+	^1 + previous size! !
+
+!OOStackWithElement methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:24:47'!
+top
+	^element ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOStackWithElement class' category: 'Stack-Exercise'!
+OOStackWithElement class
+	instanceVariableNames: ''!
+
+!OOStackWithElement class methodsFor: 'as yet unclassified' stamp: 'DA 4/21/2023 20:56:28'!
+put: anElement over: anotherElement
+	^self new put: anElement over: anotherElement ! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
