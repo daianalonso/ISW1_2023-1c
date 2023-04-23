@@ -268,26 +268,67 @@ put: anElement over: anotherElement
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
-	instanceVariableNames: ''
+	instanceVariableNames: 'prefix stack auxiliaryStack foundSentences'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'jflo 4/21/2023 19:17:30'!
-findSentencesWithFirst: letters at: anStack
-	| element |
-	
-	"  "
-	( anStack isEmpty ) ifTrue: OOStack new.
-	
-	element := anStack top.
-	
-	(element findString: letters startingAt: 1) 
-		ifTrue: [ ^( self findSentencesWithFirst: letters at: anStack pop ) push: element ]	
-		
-	"tests
-	stack vacio de devuelve 0
-	stack con 10 elementos de los cuales 2 coinciden devuelve 2
-	pusheo el prefijo en stack vacio y devuelvo 1
-	pusho 10 veces y devuelvo 10
-	sentencefinder... es case sensitive"! !
+!SentenceFinderByPrefix methodsFor: 'finding - private' stamp: 'DA 4/23/2023 19:46:58'!
+addIfStackTopBeginsWithPrefix
+	|aSentence|
+	aSentence :=stack pop.
+	auxiliaryStack push: aSentence.
+	(aSentence beginsWith: prefix) ifTrue: [foundSentences add: aSentence].! !
+
+!SentenceFinderByPrefix methodsFor: 'finding - private' stamp: 'DA 4/23/2023 18:41:33'!
+findAllSentencesByPrefixIntoStack
+	stack size timesRepeat:  [self addIfStackTopBeginsWithPrefix]! !
+
+!SentenceFinderByPrefix methodsFor: 'finding - private' stamp: 'DA 4/23/2023 19:47:41'!
+restoreOriginalStack
+	auxiliaryStack size timesRepeat: [stack push: auxiliaryStack pop].! !
+
+
+!SentenceFinderByPrefix methodsFor: 'finding' stamp: 'DA 4/23/2023 18:50:50'!
+find
+	foundSentences := OrderedCollection new.
+	self findAllSentencesByPrefixIntoStack.
+	self restoreOriginalStack.
+	^foundSentences! !
+
+
+!SentenceFinderByPrefix methodsFor: 'initialize' stamp: 'DA 4/23/2023 18:55:59'!
+initialize: aStack finding: aPrefix
+	prefix:= aPrefix. 
+	stack := aStack.
+	auxiliaryStack :=OOStack new.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
+SentenceFinderByPrefix class
+	instanceVariableNames: ''!
+
+!SentenceFinderByPrefix class methodsFor: 'instance creation' stamp: 'DA 4/23/2023 18:55:47'!
+with: aPrefix on: aStack
+	self assertNotEmpty: aPrefix.
+	self assertWithNoSpaces: aPrefix.
+	^self new initialize: aStack finding: aPrefix! !
+
+
+!SentenceFinderByPrefix class methodsFor: 'assertions' stamp: 'DA 4/23/2023 18:57:44'!
+assertNotEmpty: aPrefix
+	(aPrefix  isEmpty) ifTrue: [self error: self emptyPrefixErrorDescription].! !
+
+!SentenceFinderByPrefix class methodsFor: 'assertions' stamp: 'DA 4/23/2023 19:45:25'!
+assertWithNoSpaces: aPrefix
+	(aPrefix includesSubString: ' ') ifTrue: [self error: self spaceInPrefixErrorDescription]. ! !
+
+
+!SentenceFinderByPrefix class methodsFor: 'error messages' stamp: 'DA 4/23/2023 19:01:18'!
+emptyPrefixErrorDescription
+	^ 'El prefijo es vacío'! !
+
+!SentenceFinderByPrefix class methodsFor: 'error messages' stamp: 'DA 4/23/2023 19:00:51'!
+spaceInPrefixErrorDescription
+	^ 'El prefijo contiene espacios'! !
