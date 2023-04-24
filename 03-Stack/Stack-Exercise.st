@@ -144,6 +144,138 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 20:35:13'!
+test01NoSentenceFoundReturnEmpty
+	| finder sentencesStack sentencesFounded |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'It is me, mario'.
+	
+	finder := SentenceFinderByPrefix with: 'Wint' on: sentencesStack.
+	
+	sentencesFounded := finder find.
+	
+	self assert: sentencesFounded isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 20:31:58'!
+test02PrefixShouldNotEmpty
+	| sentencesStack  |
+	sentencesStack := OOStack new.
+		
+	self should: [SentenceFinderByPrefix with: '' on: sentencesStack] raise: Error withExceptionDo:  [ :anError | self assert: anError messageText equals: SentenceFinderByPrefix emptyPrefixErrorDescription  ]
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 20:32:50'!
+test03PrefixShouldNotIncludeSpaces
+	| sentencesStack  |
+	sentencesStack := OOStack new.
+		
+	self should: [SentenceFinderByPrefix with: 'Wint ' on: sentencesStack] raise: Error withExceptionDo:  [ :anError | self assert: anError messageText equals: SentenceFinderByPrefix spaceInPrefixErrorDescription ]
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:36:33'!
+test04EmptyStackReturnsEmpty
+	| finder sentencesStack sentencesFounded |
+	sentencesStack := OOStack new.
+	
+	
+	finder := SentenceFinderByPrefix with: 'Wint' on: sentencesStack.
+	
+	sentencesFounded := finder find.
+	
+	self assert: sentencesStack isEmpty.
+	self assert: sentencesFounded isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:36:43'!
+test05StackIsPreserved
+	| finder sentencesStack  |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'Algoritmo1'.
+	sentencesStack push: 'Algoritmo2'.
+	sentencesStack push: 'Algoritmo3'.
+	sentencesStack push: 'Algoritmo4'.
+	
+	finder := SentenceFinderByPrefix with: 'Wint' on: sentencesStack.
+	
+	finder find.
+	
+	self assert: sentencesStack pop equals: 'Algoritmo4'.
+	self assert: sentencesStack pop equals: 'Algoritmo3'.
+	self assert: sentencesStack pop equals: 'Algoritmo2'.
+	self assert: sentencesStack pop equals: 'Algoritmo1'.
+	self assert: sentencesStack isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:43:09'!
+test06PrefixMatchReturnsNotEmpty
+	| finder sentencesStack  sentencesFound |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'Algoritmo1'.
+	sentencesStack push: 'Algoritmo2'.
+	sentencesStack push: 'Algoritmo3'.
+	sentencesStack push: 'Algoritmo4'.
+	
+	finder := SentenceFinderByPrefix with: 'Algo' on: sentencesStack.
+	
+	sentencesFound := finder find.
+	
+	self assert: sentencesFound size = 4.
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:43:28'!
+test07NoPrefixMatchReturnsEmpty
+	| finder sentencesStack  sentencesFound |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'Algoritmo1'.
+	sentencesStack push: 'Algoritmo2'.
+	sentencesStack push: 'Algoritmo3'.
+	sentencesStack push: 'Algoritmo4'.
+	
+	finder := SentenceFinderByPrefix with: 'Orga' on: sentencesStack.
+	
+	sentencesFound := finder find.
+	
+	self assert: sentencesFound isEmpty 
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:37:14'!
+test08FindIsCaseSensitive
+	| finder sentencesStack  sentencesFound |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'Algoritmo1'.
+	sentencesStack push: 'algoritmo2'.
+	sentencesStack push: 'Algoritmo3'.
+	sentencesStack push: 'algoritmo4'.
+	
+	finder := SentenceFinderByPrefix with: 'Algo' on: sentencesStack.
+	
+	sentencesFound := finder find.
+	
+	self assert: sentencesFound size = 2.
+! !
+
+!SentenceFinderByPrefixTest methodsFor: 'testing' stamp: 'jflo 4/23/2023 22:44:35'!
+test09FindSentencesIncludesInOriginalStack
+	| finder sentencesStack  sentencesFound |
+	sentencesStack := OOStack new.
+	
+	sentencesStack push: 'Sistemas'.
+	sentencesStack push: 'Algoritmo2'.
+	sentencesStack push: 'Orga2'.
+	sentencesStack push: 'Algoritmos3'.
+	
+	finder := SentenceFinderByPrefix with: 'Algo' on: sentencesStack.
+	
+	sentencesFound := finder find.
+	
+	self assert: sentencesFound size = 2.
+	self assert: 'Algoritmos3' equals: (sentencesFound at: 1) .
+	self assert: 'Algoritmo2' equals: (sentencesFound at: 2) .
+! !
+
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
