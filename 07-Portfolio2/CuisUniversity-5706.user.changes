@@ -3997,3 +3997,1647 @@ addLinesOn: reportTemplate with: aBlock
 	^reportTemplate ! !
 
 ----SNAPSHOT----(31 May 2023 22:19:43) CuisUniversity-5706.image priorSource: 8998769!
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:05:28'!
+test03PortfolioReportPrintNestedPortfolios
+	| portfolio otherPortfolio account reportFamily|
+	
+	account := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	portfolio := Portfolio named: 'Portfolio de la familia' with: account .
+	
+	otherPortfolio := Portfolio named: 'Portfolio de hijos' with: (ReceptiveAccount named: 'Cuenta de Juan' ) with: (ReceptiveAccount named: 'Cuenta de Angeles' ).
+	
+	portfolio add: otherPortfolio.
+	
+	reportFamily := 'Portfolio de la familia' , String newLineString ,	 String tab , 'Cuenta Mia', String newLineString , String tab, 'Portfolio de hijos', String newLineString , 
+		String tab , String tab, 'Cuenta de Juan' , String newLineString ,
+		String tab , String tab, 'Cuenta de Angeles' .
+	
+	self assert: reportFamily equals: (PortfolioReport for: portfolio ) report. ! !
+
+!testRun: #PortfolioReportTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:05:35'!
+ERROR!
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 23:05:43'!
+named: aString with: aReceptiveAccount with: aReceptiveAccount3 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeNamed: aString with: aReceptiveAccount with: aReceptiveAccount3 ! !
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 23:06:33' prior: 50613097!
+named: aName with: aReceptiveAccount with: anotherReceptiveAccount 
+	^self new initializeNamed: aName with: aReceptiveAccount with: anotherReceptiveAccount ! !
+
+!testRun: #PortfolioReportTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:06:36'!
+ERROR!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:06:46'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName account name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:06:46'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName account name receptiveAccount'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:06:46'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName account name receptiveAccount anotherReceptiveAccount_CHANGE_ME'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 23:06:46'!
+initializeNamed: aName with: aReceptiveAccount with: anotherReceptiveAccount 
+	self shouldBeImplemented.
+	name := aName.
+	receptiveAccount := aReceptiveAccount.
+	anotherReceptiveAccount_CHANGE_ME := anotherReceptiveAccount.! !
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 23:08:03' prior: 50613147!
+initializeNamed: aName with: aReceptiveAccount with: anotherReceptiveAccount 
+	portfolioName := aName.
+	accounts add: aReceptiveAccount .
+	accounts add: anotherReceptiveAccount.! !
+
+!testRun: #PortfolioReportTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:08:05'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 23:08:05'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 23:08:05'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:08:05'!
+PASSED!
+
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:09:07'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!methodRemoval: Account #imprimirDepositos: stamp: 'jul 5/31/2023 23:10:53'!
+imprimirDepositos: report 
+	self subclassResponsibility !
+!AccountTransaction methodsFor: 'nil' stamp: 'jul 5/31/2023 23:12:21'!
+report: aReport with: reportTemplate
+	self subclassResponsibility ! !
+
+!classRenamed: #PortfolioReport as: #PortfolioSummary stamp: 'jul 5/31/2023 23:16:20'!
+Smalltalk renameClassNamed: #PortfolioReport as: #PortfolioSummary!
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:16:20' prior: 50612806!
+test02PortfolioReportPrintNameOfAccount
+	| portfolio otherPortfolio account reportFamily|
+	
+	account := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	portfolio := Portfolio named: 'Portfolio de la familia' with: account .
+	
+	otherPortfolio := Portfolio named: 'Portfolio de hijos'.
+	
+	portfolio add: otherPortfolio.
+	
+	reportFamily := 'Portfolio de la familia' , String newLineString ,	 String tab , 'Cuenta Mia', String newLineString , String tab, 'Portfolio de hijos'.
+	
+	self assert: reportFamily equals: (PortfolioSummary for: portfolio ) report. ! !
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:16:20' prior: 50613065!
+test03PortfolioReportPrintNestedPortfolios
+	| portfolio otherPortfolio account reportFamily|
+	
+	account := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	portfolio := Portfolio named: 'Portfolio de la familia' with: account .
+	
+	otherPortfolio := Portfolio named: 'Portfolio de hijos' with: (ReceptiveAccount named: 'Cuenta de Juan' ) with: (ReceptiveAccount named: 'Cuenta de Angeles' ).
+	
+	portfolio add: otherPortfolio.
+	
+	reportFamily := 'Portfolio de la familia' , String newLineString ,	 String tab , 'Cuenta Mia', String newLineString , String tab, 'Portfolio de hijos', String newLineString , 
+		String tab , String tab, 'Cuenta de Juan' , String newLineString ,
+		String tab , String tab, 'Cuenta de Angeles' .
+	
+	self assert: reportFamily equals: (PortfolioSummary for: portfolio ) report. ! !
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:16:20' prior: 50612422!
+test01PortfolioReportOfEmptyPortfolioPrintTheirName
+	| portfolio |
+	portfolio := Portfolio named: 'Portfolio de la familia'.
+	
+	self assert: 'Portfolio de la familia' equals: (PortfolioSummary for: portfolio ) report. ! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:17:19'!
+reportDeposit: aDeposit with: reportTemplate
+	self subclassResponsibility! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:17:38'!
+report
+	self subclassResponsibility ! !
+
+!classDefinition: #PortfolioSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:19:24'!
+Report subclass: #PortfolioSummary
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:19:24' prior: 50613024 overrides: 50613273!
+report
+	|res|
+	res := account generateReport: self with: (Array with: '' with: 0). 
+	^res at: 1.! !
+!PortfolioSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:19:24' prior: 50612504!
+initializeFor: aPortfolio 
+	account := aPortfolio.! !
+
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:20:32'!
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #PortfolioSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:20:36'!
+Report subclass: #PortfolioSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #TransferNetSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferNetSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:20:43'!
+Report subclass: #TransferNetSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Report methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:20:50'!
+initializeFor: anAccount 
+	account := anAccount.! !
+
+!methodRemoval: TransferNetSummary #initializeFor: stamp: 'jul 5/31/2023 23:20:50'!
+initializeFor: anAccount 
+	account := anAccount.!
+
+!methodRemoval: PortfolioSummary #initializeFor: stamp: 'jul 5/31/2023 23:20:57'!
+initializeFor: aPortfolio 
+	account := aPortfolio.!
+
+!methodRemoval: AccountSummary #report stamp: 'jul 5/31/2023 23:21:03'!
+report
+	^ (account generateReport: self with: ''), 'Balance = ', (account balance printString)!
+
+!classRemoval: #Transfer stamp: 'jul 5/31/2023 23:22:28'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw transferValue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #TransferNetSummary stamp: 'jul 5/31/2023 23:22:29'!
+Report subclass: #TransferNetSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #PortfolioSummary stamp: 'jul 5/31/2023 23:22:29'!
+Report subclass: #PortfolioSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #AccountSummary stamp: 'jul 5/31/2023 23:22:29'!
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Report stamp: 'jul 5/31/2023 23:22:29'!
+Object subclass: #Report
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #WithdrawTransfer stamp: 'jul 5/31/2023 23:22:30'!
+TransferTransaction subclass: #WithdrawTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #DepositTransfer stamp: 'jul 5/31/2023 23:22:30'!
+TransferTransaction subclass: #DepositTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #TransferTransaction stamp: 'jul 5/31/2023 23:22:30'!
+AccountTransaction subclass: #TransferTransaction
+	instanceVariableNames: 'transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Withdraw stamp: 'jul 5/31/2023 23:22:30'!
+RegularTransaction subclass: #Withdraw
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Deposit stamp: 'jul 5/31/2023 23:22:30'!
+RegularTransaction subclass: #Deposit
+	instanceVariableNames: 'value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #RegularTransaction stamp: 'jul 5/31/2023 23:22:30'!
+AccountTransaction subclass: #RegularTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #AccountTransaction stamp: 'jul 5/31/2023 23:22:31'!
+Object subclass: #AccountTransaction
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #ReceptiveAccount stamp: 'jul 5/31/2023 23:22:31'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions receptiveAccountName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Portfolio stamp: 'jul 5/31/2023 23:22:31'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #Account stamp: 'jul 5/31/2023 23:22:31'!
+Object subclass: #Account
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #TransferTest stamp: 'jul 5/31/2023 23:22:32'!
+TestCase subclass: #TransferTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #TransferNetTest stamp: 'jul 5/31/2023 23:22:32'!
+ReportTest subclass: #TransferNetTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #PortfolioReportTest stamp: 'jul 5/31/2023 23:22:32'!
+ReportTest subclass: #PortfolioReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #AccountSummaryTest stamp: 'jul 5/31/2023 23:22:32'!
+ReportTest subclass: #AccountSummaryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #ReportTest stamp: 'jul 5/31/2023 23:22:33'!
+TestCase subclass: #ReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #ReceptiveAccountTest stamp: 'jul 5/31/2023 23:22:33'!
+TestCase subclass: #ReceptiveAccountTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classRemoval: #PortfolioTest stamp: 'jul 5/31/2023 23:22:33'!
+TestCase subclass: #PortfolioTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+----End fileIn of /home/julian/Escritorio/linux64/Portfolio-Solucion.st----!
+
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:23:31'!
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #PortfolioSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:23:34'!
+Report subclass: #PortfolioSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #TransferNetSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferNetSummary category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:23:39'!
+Report subclass: #TransferNetSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Report methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:23:46'!
+initializeFor: anAccount 
+	account := anAccount.! !
+
+!methodRemoval: TransferNetSummary #initializeFor: stamp: 'jul 5/31/2023 23:23:46'!
+initializeFor: anAccount 
+	account := anAccount.!
+
+!methodRemoval: PortfolioSummary #initializeFor: stamp: 'jul 5/31/2023 23:23:51'!
+initializeFor: aPortfolio 
+	account := aPortfolio.!
+
+!methodRemoval: AccountSummary #initializeFor: stamp: 'jul 5/31/2023 23:24:00'!
+initializeFor: anAccount
+	account := anAccount!
+
+Object subclass: #Report
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Report category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 23:24:39'!
+Object subclass: #Report
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:25:14'!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	self subclassResponsibility ! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:25:29'!
+reportPortfolio: aPortfolio with: reportTemplate 
+	self subclassResponsibility ! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:25:44'!
+reportReceptiveAccount: anAccount with: aReportTemplate
+	self subclassResponsibility ! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:25:59'!
+reportWithdraw: aWithdraw with: reportTemplate
+	self subclassResponsibility ! !
+!Report methodsFor: 'nil' stamp: 'jul 5/31/2023 23:26:21'!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	self subclassResponsibility ! !
+
+!methodRemoval: AccountSummary #report stamp: 'jul 5/31/2023 23:27:31'!
+report
+	^ (account generateReport: self with: ''), 'Balance = ', (account balance printString)!
+!AccountSummary methodsFor: 'report' stamp: 'jul 5/31/2023 23:29:19' overrides: 50614996!
+report
+	^ (account generateReport: self with: ''), 'Balance = ', (account balance printString).! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test08AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test09AccountSummaryInPortfoliosRecognizeNestedAccounts stamp: 'jul 5/31/2023 23:31:18'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 23:31:24'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 23:31:24'!
+PASSED!
+
+!testRun: #PortfolioReportTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:31:24'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test07TransferNetReportOnPortfolioWithTransferReportWithdraw stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDeposit stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test09TransferNetReportOnPortfolioNotRegisterRegularTransactions stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferNetTest #test10TransferNetReportOfNestedPorfolioRegisterInsideTranference stamp: 'jul 5/31/2023 23:31:30'!
+PASSED!
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/31/2023 23:31:35'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferRegisterTransaction stamp: 'jul 5/31/2023 23:31:35'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferInSameAccountRaiseErro stamp: 'jul 5/31/2023 23:31:35'!
+PASSED!
+
+!testRun: #TransferTest #test04AnAccountNavigatesThrowTransfers stamp: 'jul 5/31/2023 23:31:35'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferMustBePositive stamp: 'jul 5/31/2023 23:31:35'!
+PASSED!
+
+----SNAPSHOT----(31 May 2023 23:31:46) CuisUniversity-5706.image priorSource: 9005140!
+!TransferTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:31:59'!
+test03TransferInSameAccountRaiseError
+	| accountSender  transfer|
+	accountSender := ReceptiveAccount new. 
+	
+	self
+		should: [transfer := Transfer transferAmount: 10 from: accountSender to: accountSender .]
+		raise: Error
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText equals: Transfer transferErrorSameAccount.
+			self assert: (accountSender balance) equals: 0.
+			self assert: (accountSender transactions isEmpty) .
+			].! !
+
+!methodRemoval: TransferTest #test03TransferInSameAccountRaiseErro stamp: 'jul 5/31/2023 23:31:59'!
+test03TransferInSameAccountRaiseErro
+	| accountSender  transfer|
+	accountSender := ReceptiveAccount new. 
+	
+	self
+		should: [transfer := Transfer transferAmount: 10 from: accountSender to: accountSender .]
+		raise: Error
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText equals: Transfer transferErrorSameAccount.
+			self assert: (accountSender balance) equals: 0.
+			self assert: (accountSender transactions isEmpty) .
+			].!
+
+!classRenamed: #PortfolioReportTest as: #PortfolioSummaryTest stamp: 'jul 5/31/2023 23:32:45'!
+Smalltalk renameClassNamed: #PortfolioReportTest as: #PortfolioSummaryTest!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:35:36'!
+test04PortfolioReportNotAllowedForReceptiveAccount
+	self should: [ PortfolioSummary for: (ReceptiveAccount named: 'Cuenta Mia')]
+		raise: Error
+		! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:37:25' prior: 50615572!
+test04PortfolioReportNotAllowedForReceptiveAccount
+	self should: [ PortfolioSummary for: (ReceptiveAccount named: 'Cuenta Mia')]
+		raise: Error
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText equals: PortfolioSummary onlyPortfoliosAvailable]
+		! !
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:37:28'!
+FAILURE!
+!PortfolioSummary class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 23:40:19' prior: 50615170!
+for: aPortfolio 
+	(aPortfolio isKindOf: ReceptiveAccount ) ifTrue: [ self class error onlyPortfoliosAvailable ].
+	^self new initializeFor: aPortfolio ! !
+!PortfolioSummary class methodsFor: 'nil' stamp: 'jul 5/31/2023 23:41:07'!
+onlyPortfoliosAvailable
+	^'Only Portfolios Available'! !
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:41:18'!
+FAILURE!
+!AccountSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:42:04' overrides: 50615358!
+initializeFor: anAccount 
+	account := anAccount.! !
+!PortfolioSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:42:04' overrides: 50615358!
+initializeFor: anAccount 
+	account := anAccount.! !
+!TransferNetSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:42:04' overrides: 50615358!
+initializeFor: anAccount 
+	account := anAccount.! !
+
+!methodRemoval: Report #initializeFor: stamp: 'jul 5/31/2023 23:42:04'!
+initializeFor: anAccount 
+	account := anAccount.!
+!Report methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:42:24'!
+initializeFor: anAccount 
+	self subclassResponsibility ! !
+!PortfolioSummary class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 23:42:47' prior: 50615596!
+for: aPortfolio 
+	^self new initializeFor: aPortfolio ! !
+!PortfolioSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:43:10' prior: 50615618 overrides: 50615631!
+initializeFor: anAccount 
+	(anAccount isKindOf: ReceptiveAccount ) ifTrue: [ self class error onlyPortfoliosAvailable ].
+	account := anAccount.! !
+!PortfolioSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:43:19' prior: 50615643 overrides: 50615631!
+initializeFor: anAccount 
+	(anAccount isKindOf: ReceptiveAccount ) ifTrue: [ self class onlyPortfoliosAvailable ].
+	account := anAccount.! !
+!PortfolioSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 23:44:18' prior: 50615652 overrides: 50615631!
+initializeFor: anAccount 
+	(anAccount isKindOf: ReceptiveAccount ) ifTrue: [ self error: self class onlyPortfoliosAvailable ].
+	account := anAccount.! !
+!PortfolioSummary class methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:44:53'!
+onlyPortfoliosAvailableErrorMessage
+	^'Only Portfolios Available'! !
+!PortfolioSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 23:44:53' prior: 50615660 overrides: 50615631!
+initializeFor: anAccount 
+	(anAccount isKindOf: ReceptiveAccount ) ifTrue: [ self error: self class onlyPortfoliosAvailableErrorMessage ].
+	account := anAccount.! !
+
+!methodRemoval: PortfolioSummary class #onlyPortfoliosAvailable stamp: 'jul 5/31/2023 23:44:53'!
+onlyPortfoliosAvailable
+	^'Only Portfolios Available'!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:45:05'!
+ERROR!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:45:05'!
+ERROR!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:45:26' prior: 50615580!
+test04PortfolioReportNotAllowedForReceptiveAccount
+	self should: [ PortfolioSummary for: (ReceptiveAccount named: 'Cuenta Mia')]
+		raise: Error
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText equals: PortfolioSummary onlyPortfoliosAvailableErrorMessage ]
+		! !
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:45:28'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 23:45:28'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 23:45:28'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 5/31/2023 23:45:28'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 5/31/2023 23:45:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test08AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test09AccountSummaryInPortfoliosRecognizeNestedAccounts stamp: 'jul 5/31/2023 23:45:34'!
+PASSED!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:46:33'!
+test05PortfolioReportPrintsTransactions! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:54:44' prior: 50615764!
+test05PortfolioReportPrintsTransactions
+	| reportExpected |
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:56:58' prior: 50615769!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 5/31/2023 23:59:35' prior: 50615808!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:01:22' prior: 50615852!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:02:10' prior: 50615908!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:02:14'!
+ERROR!
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:04:46' overrides: 50615000!
+reportDeposit: aDeposit with: reportTemplate
+	^self addLineOn: reportTemplate with:  [ 'Depósito por ' , aDeposit value asString ].! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:05:09'!
+ERROR!
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:05:59' overrides: 50615401!
+reportWithdraw: aWithdraw with: reportTemplate
+	^self addLineOn: reportTemplate with:  [ 'Extracción por ' , aWithdraw value asString ].! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:06:09'!
+ERROR!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:06:09'!
+ERROR!
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:06:46' overrides: 50615406!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	^self addLineOn: reportTemplate with:  [ 'Salida por transferencia de ' , aWithdrawTransfer value asString ].! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:06:51'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:06:51'!
+FAILURE!
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:08:51' overrides: 50615386!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	^self addLineOn: reportTemplate with:  [ 'Entrada por transferencia de' , aDepositTransfer value asString ].! !
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:11:12' prior: 50615109 overrides: 50615391!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	^self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] ;
+	addLinesOn: reportTemplate with: [ aPortfolio generateAccountReport: self with: reportTemplate ];
+	addBalanceOn: reportTemplate with: aPortfolio .
+! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:13:23'!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	reportTemplate at:1 put: reportFormat.
+	^reportTemplate .! !
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:14:09' prior: 50615119 overrides: 50615396!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^self addLineOn: reportTemplate with: [ aReceptiveAccount receptiveAccountName ] ;
+	addLinesOn: reportTemplate with: [ aReceptiveAccount generateTransactionsReport: self with: reportTemplate ];
+	addBalanceOn: reportTemplate with: aReceptiveAccount .
+! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:14:15'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:14:15'!
+FAILURE!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:14:31' prior: 50615971!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+	self halt.
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:15:50' prior: 50616103!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , String tab , prefix , 'Balance = ', anAccount balance asString . 
+	reportTemplate at:1 put: reportFormat.
+	^reportTemplate .! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:20:32' prior: 50616202!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix lvlTmp|
+	reportFormat := reportTemplate at:1.
+	lvlTmp := reportTemplate at:2.
+	reportTemplate at:2 put: lvlTmp +1.
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	reportTemplate at:1 put: reportFormat.
+	reportTemplate at:2 put: lvlTmp .
+	^reportTemplate .! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:20:50' prior: 50616136!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:20:53'!
+FAILURE!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:21:09' prior: 50616231!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+	self halt.
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:22:06' prior: 50616300!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+	self halt.
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:22:21' prior: 50616066 overrides: 50615406!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	^self addLineOn: reportTemplate with:  [ 'Salida por extracción de ' , aWithdrawTransfer value asString ].! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:22:31' prior: 50616366!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			String tab , String tab, 'Balance = -10' , String newLineString ,
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString ,
+					String tab ,String tab , String tab, 'Balance = -50' , String newLineString ,
+ 			String tab , String tab , 'Balance = -40' , String newLineString ,
+		String tab , 'Balance = -50'.
+	
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:22:32'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:22:32'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:22:32'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:22:32'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:22:32'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:22:32'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:22:43'!
+FAILURE!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:33:24' prior: 50616441!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			"String tab , String tab, 'Balance = -10' , String newLineString ,"
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				"String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,"
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString .
+					"String tab ,String tab , String tab, 'Balance = -50' , String newLineString "
+ 	"		String tab , String tab , 'Balance = -40' , String newLineString ,"
+		"String tab , 'Balance = -50'."
+	
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:34:08' prior: 50616091 overrides: 50615391!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	^self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] ;
+	addLinesOn: reportTemplate with: [ aPortfolio generateAccountReport: self with: reportTemplate ].";
+	addBalanceOn: reportTemplate with: aPortfolio ."
+! !
+!PortfolioSummary methodsFor: 'report' stamp: 'jul 6/1/2023 00:34:16' prior: 50616116 overrides: 50615396!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^self addLineOn: reportTemplate with: [ aReceptiveAccount receptiveAccountName ] ;
+	addLinesOn: reportTemplate with: [ aReceptiveAccount generateTransactionsReport: self with: reportTemplate ].";
+	addBalanceOn: reportTemplate with: aReceptiveAccount ."
+! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:34:27'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:34:50'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:34:50'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:34:50'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:34:50'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:34:50'!
+FAILURE!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:34:50'!
+FAILURE!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:35:07' prior: 50616533!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			"String tab , String tab, 'Balance = -10' , String newLineString ,"
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				"String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,"
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50' , String newLineString .
+					"String tab ,String tab , String tab, 'Balance = -50' , String newLineString "
+ 	"		String tab , String tab , 'Balance = -40' , String newLineString ,"
+		"String tab , 'Balance = -50'."
+	self halt.
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:36:02' prior: 50616650!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			"String tab , String tab, 'Balance = -10' , String newLineString ,"
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				"String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,"
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50'." , String newLineString ."
+					"String tab ,String tab , String tab, 'Balance = -50' , String newLineString "
+ 	"		String tab , String tab , 'Balance = -40' , String newLineString ,"
+		"String tab , 'Balance = -50'."
+	self halt.
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:36:14' prior: 50616716!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			"String tab , String tab, 'Balance = -10' , String newLineString ,"
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				"String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,"
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50'." , String newLineString ."
+					"String tab ,String tab , String tab, 'Balance = -50' , String newLineString "
+ 	"		String tab , String tab , 'Balance = -40' , String newLineString ,"
+		"String tab , 'Balance = -50'."
+	"self halt."
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:36:14'!
+PASSED!
+!PortfolioSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:36:23' prior: 50616782!
+test05PortfolioReportPrintsTransactions
+	| reportExpected portfolioFamilia portfolioHijos accountMia accountJuan accountAngeles externalAccount|
+	
+	accountMia := ReceptiveAccount named: 'Cuenta Mia'.
+	Deposit register: 10 on: accountMia .
+	Withdraw register: 20 on: accountMia .
+	
+	accountJuan := ReceptiveAccount named: 'Cuenta de Juan'.
+	Deposit register: 30 on: accountJuan .
+	Withdraw register: 20 on: accountJuan .
+	
+	accountAngeles := ReceptiveAccount named: 'Cuenta de Angeles'.
+	externalAccount := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from:accountAngeles to: externalAccount .
+	
+	portfolioHijos := Portfolio named: 'Portfolio de hijos' with: accountJuan with: accountAngeles .
+	portfolioFamilia := 	Portfolio named: 'Portfolio de la familia' with: accountMia with: portfolioHijos .
+	
+	reportExpected := 'Portfolio de la familia' , String newLineString , 
+		String tab , 'Cuenta Mia' , String newLineString , 
+			String tab , String tab, 'Depósito por 10' , String newLineString ,
+			String tab , String tab, 'Extracción por 20' , String newLineString ,
+			"String tab , String tab, 'Balance = -10' , String newLineString ,"
+		String tab , 'Portfolio de hijos' , String newLineString ,
+			String tab , String tab , 'Cuenta de Juan' , String newLineString , 
+				String tab ,String tab , String tab, 'Depósito por 30' , String newLineString ,
+				String tab ,String tab , String tab, 'Extracción por 20' , String newLineString ,
+				"String tab ,String tab , String tab, 'Balance = 10' , String newLineString ,"
+			String tab , String tab , 'Cuenta de Angeles' , String newLineString , 
+					String tab ,String tab , String tab, 'Salida por extracción de 50'." , String newLineString ."
+					"String tab ,String tab , String tab, 'Balance = -50' , String newLineString "
+ 	"		String tab , String tab , 'Balance = -40' , String newLineString ,"
+		"String tab , 'Balance = -50'."
+
+	self assert: reportExpected equals: (PortfolioSummary for: portfolioFamilia) report.! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:37:19' prior: 50616215!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix level|
+	reportFormat := reportTemplate at:1.
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	reportTemplate at:1 put: reportFormat.
+	reportTemplate at:2 put: level .
+	^reportTemplate .! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:38:05' prior: 50615142!
+addLinesOn: reportTemplate with: aBlock
+	| level |
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.
+	aBlock value.
+	level := reportTemplate at: 2.
+	reportTemplate at:2 put: level - 1.
+	^reportTemplate ! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:43:46' prior: 50616936!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix level|
+	reportFormat := reportTemplate at:1.
+	
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.
+	
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	
+	reportTemplate at:1 put: reportFormat.
+	reportTemplate at:2 put: level .
+	
+	^reportTemplate .! !
+
+----SNAPSHOT----(1 June 2023 00:44:13) CuisUniversity-5706.image priorSource: 9084136!
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:44:50' prior: 50616962!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix level|
+	reportFormat := reportTemplate at:1.
+	
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.
+	
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	
+	reportTemplate at:1 put: reportFormat; at:2 put: level .
+	
+	^reportTemplate .! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:45:36' prior: 50615152!
+generatePrefixFor: reportTemplate
+	|level res |
+	level := reportTemplate at:2.
+	(level = 0) ifTrue: [ ^'' ].
+	res := ''.
+	level timesRepeat: [ res := res , String tab ].
+	^String newLineString , res. ! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:46:57' prior: 50616952!
+addLinesOn: reportTemplate with: aBlock
+	| level |
+	self incrementLevel: reportTemplate.
+	
+	aBlock value.
+	level := reportTemplate at: 2.
+	reportTemplate at:2 put: level - 1.
+	^reportTemplate ! !
+!PortfolioSummary methodsFor: 'nil' stamp: 'jul 6/1/2023 00:47:24'!
+incrementLevel: reportTemplate
+	|level|
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.! !
+!PortfolioSummary methodsFor: 'as yet unclassified' stamp: 'jul 6/1/2023 00:47:34' prior: 50617016!
+incrementLevel: reportTemplate
+	|level|
+	level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1.
+	^reportTemplate ! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:48:15' prior: 50617007!
+addLinesOn: reportTemplate with: aBlock
+	
+	self incrementLevel: reportTemplate.
+	
+	aBlock value.
+	
+	self decrementLevel: reportTemplate.
+
+	^reportTemplate ! !
+!PortfolioSummary methodsFor: 'as yet unclassified' stamp: 'jul 6/1/2023 00:48:55'!
+decrementLevel: reportTemplate
+	|level|
+	level := reportTemplate at: 2.
+	reportTemplate at:2 put: level - 1.
+	^reportTemplate .! !
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:49:04'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:49:04'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:49:04'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:49:04'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:49:04'!
+PASSED!
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:50:58' prior: 50616981!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	
+	self incrementLevel: reportTemplate .
+	"level := reportTemplate at:2.
+	reportTemplate at:2 put: level +1."
+	
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	self decrementLevel: reportTemplate .
+	reportTemplate at:1 put: reportFormat. "; at:2 put: level ."
+	
+	^reportTemplate .! !
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:51:07'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:51:07'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:51:07'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:51:07'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:51:07'!
+PASSED!
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:51:29' prior: 50617065!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	
+	self incrementLevel: reportTemplate .
+
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	self decrementLevel: reportTemplate .
+	reportTemplate at:1 put: reportFormat. 
+	
+	^reportTemplate .! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:52:19' prior: 50617031!
+addLinesOn: reportTemplate with: aBlock
+	self incrementLevel: reportTemplate.
+	aBlock value.
+	self decrementLevel: reportTemplate.
+	^reportTemplate ! !
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:53:12' prior: 50617102!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	self incrementLevel: reportTemplate .
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	self decrementLevel: reportTemplate .
+	^reportTemplate at:1 put: reportFormat. 
+	"^reportTemplate ."! !
+
+!testRun: #PortfolioSummaryTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 6/1/2023 00:53:17'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 6/1/2023 00:53:17'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test03PortfolioReportPrintNestedPortfolios stamp: 'jul 6/1/2023 00:53:17'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test04PortfolioReportNotAllowedForReceptiveAccount stamp: 'jul 6/1/2023 00:53:17'!
+PASSED!
+
+!testRun: #PortfolioSummaryTest #test05PortfolioReportPrintsTransactions stamp: 'jul 6/1/2023 00:53:17'!
+PASSED!
+!PortfolioSummary methodsFor: 'report - private' stamp: 'jul 6/1/2023 00:53:28' prior: 50617126!
+addBalanceOn: reportTemplate with: anAccount
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	self incrementLevel: reportTemplate .
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , 'Balance = ', anAccount balance asString . 
+	self decrementLevel: reportTemplate .
+	^reportTemplate at:1 put: reportFormat. 
+! !
+
+----SNAPSHOT----(1 June 2023 00:53:58) CuisUniversity-5706.image priorSource: 9130466!
+
+----SNAPSHOT----(1 June 2023 00:54:14) CuisUniversity-5706.image priorSource: 9136750!
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:54:37' prior: 50613888!
+test01AccountWithoutTransactionsPrintBalanceZero
+	|account summary | 
+	account := ReceptiveAccount new.
+	summary := AccountSummary for: account.
+	self assert: 'Balance = 0'equals: summary report.! !
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:54:47' prior: 50613898!
+test02AccountWithDepositPrintDepositAndBalance
+	|account summary expectedReport|
+	account := ReceptiveAccount new.
+	Deposit register: 50 on: account. 
+	summary := AccountSummary for: account.
+
+	expectedReport:=  'Depósito por 50' , String  newLineString , 'Balance = 50'.
+	self assert: expectedReport equals: summary report.! !
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:54:52' prior: 50613912!
+test03AccountWithWithdrawPrintWithdrawAndBalance
+	|account summary expectedReport|
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account. 
+	summary := AccountSummary for: account.
+
+	expectedReport:= 'Extracción por 50' , String  newLineString ,  'Balance = -50'.
+	self assert: expectedReport equals: summary report.! !
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:54:57' prior: 50613926!
+test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance
+	|accountSender accountReceiver reportForReceiver reportForSender summaryReceiver summarySender |
+	accountSender := ReceptiveAccount new.
+	accountReceiver := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from: accountSender to: accountReceiver .
+	
+	summarySender := AccountSummary for: accountSender .
+	summaryReceiver := AccountSummary for: accountReceiver .
+	
+	reportForSender :=  'Salida por transferencia de 50' , String  newLineString ,  'Balance = -50'.
+	reportForReceiver := 'Entrada por transferencia de 50' , String  newLineString ,  'Balance = 50'.
+	
+	self assert: reportForSender equals: summarySender report.
+	self assert: reportForReceiver equals: summaryReceiver report.! !
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:55:03' prior: 50613953!
+test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem
+	|accountSender accountReceiver reportForReceiver reportForSender summaryReceiver summarySender |
+	accountSender := ReceptiveAccount new.
+	accountReceiver := ReceptiveAccount new.
+	
+	Deposit register: 30 on: accountSender .
+	Transfer transferAmount: 50 from: accountSender to: accountReceiver .
+	Withdraw register: 10 on: accountSender .
+	Transfer transferAmount: 40 from: accountReceiver  to: accountSender .
+	Withdraw register: 15 on: accountSender.
+	
+	summarySender := AccountSummary for: accountSender .
+	summaryReceiver := AccountSummary for: accountReceiver .
+	
+	reportForSender :=  'Depósito por 30', String  newLineString , 
+		'Salida por transferencia de 50' , String  newLineString , 
+		'Extracción por 10' , String  newLineString , 
+		'Entrada por transferencia de 40' , String  newLineString , 
+		'Extracción por 15' , String  newLineString , 
+		'Balance = -5'.
+	
+	reportForReceiver := 'Entrada por transferencia de 50' , String  newLineString ,  'Salida por transferencia de 40' , String  newLineString ,  'Balance = 10'.
+	
+	self assert: reportForSender equals: summarySender report.
+	self assert: reportForReceiver equals: summaryReceiver report.! !
+!AccountSummaryTest methodsFor: 'test' stamp: 'jul 6/1/2023 00:55:09' prior: 50613995!
+test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero
+	|account summary | 
+	account := Portfolio new.
+	summary := AccountSummary for: account.
+	self assert: 'Balance = 0'equals: summary report.! !
+
+----SNAPSHOT----(1 June 2023 00:55:32) CuisUniversity-5706.image priorSource: 9136838!
