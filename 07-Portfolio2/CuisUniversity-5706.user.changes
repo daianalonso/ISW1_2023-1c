@@ -2197,3 +2197,1803 @@ Report subclass: #TransferNetSummary
 	category: 'Portfolio-Solucion'!
 
 ----SNAPSHOT----(28 May 2023 16:31:59) CuisUniversity-5706.image priorSource: 8902316!
+
+----QUIT----(28 May 2023 22:33:03) CuisUniversity-5706.image priorSource: 8922415!
+
+----STARTUP---- (29 May 2023 17:23:06) as /home/julian/Escritorio/linux64/CuisUniversity-5706.image!
+
+
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:11:11'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw transferValue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:11:42'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw transferValue'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Transfer methodsFor: 'nil' stamp: 'jul 5/30/2023 18:12:01' overrides: 16902254!
+value
+	^transferValue ! !
+!Transfer methodsFor: 'instance creation' stamp: 'jul 5/30/2023 18:13:14' prior: 50605719!
+initializeTransferAmount: aValue from: anAccountSender to: anAccountReceiver
+	(anAccountSender = anAccountReceiver ) ifTrue: [ self error: self class transferErrorSameAccount].
+	( aValue < 0 ) ifTrue: [ self error: self class cannotTransferNegativeValue ].
+	transferValue := aValue.
+	deposit := DepositTransfer register: aValue on: anAccountReceiver in: self.
+	withdraw := WithdrawTransfer register: aValue on: anAccountSender in: self.! !
+
+----SNAPSHOT----(30 May 2023 18:14:25) CuisUniversity-5706.image priorSource: 8922503!
+!DepositTransfer methodsFor: 'test' stamp: 'jul 5/30/2023 18:16:20' prior: 50605325!
+isRegistered: aTransfer 
+	^realizedTransfer = aTransfer. ! !
+
+!classDefinition: #DepositTransfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:16:37'!
+TransferTransaction subclass: #DepositTransfer
+	instanceVariableNames: 'value transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!DepositTransfer methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:16:37' prior: 50610535!
+isRegistered: aTransfer 
+	^transfer = aTransfer. ! !
+!DepositTransfer methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:16:37' prior: 50605370!
+initializeFor: aValue with: aTransfer
+	transfer := aTransfer.
+	value := aValue ! !
+!WithdrawTransfer methodsFor: 'test' stamp: 'jul 5/30/2023 18:16:52' prior: 50605338!
+isRegistered: aTransfer 
+	^realizedTransfer = aTransfer. ! !
+
+!classDefinition: #WithdrawTransfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:17:32'!
+TransferTransaction subclass: #WithdrawTransfer
+	instanceVariableNames: 'value transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!WithdrawTransfer methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:17:32' prior: 50610560!
+isRegistered: aTransfer 
+	^transfer = aTransfer. ! !
+!WithdrawTransfer methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:17:32' prior: 50605382!
+initializeFor: aValue with: aTransfer
+	transfer := aTransfer.
+	value := aValue ! !
+
+AccountTransaction subclass: #TransferTransaction
+	instanceVariableNames: 'transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+TransferTransaction subclass: #WithdrawTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #WithdrawTransfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:18:56'!
+TransferTransaction subclass: #WithdrawTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+TransferTransaction subclass: #DepositTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #DepositTransfer category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:19:02'!
+TransferTransaction subclass: #DepositTransfer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+AccountTransaction subclass: #TransferTransaction
+	instanceVariableNames: 'transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferTransaction category: 'Portfolio-Solucion' stamp: 'jul 5/30/2023 18:19:08'!
+AccountTransaction subclass: #TransferTransaction
+	instanceVariableNames: 'transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!TransferTransaction methodsFor: 'test' stamp: 'jul 5/30/2023 18:19:17'!
+isRegistered: aTransfer 
+	^transfer = aTransfer. ! !
+
+!methodRemoval: WithdrawTransfer #isRegistered: stamp: 'jul 5/30/2023 18:19:17'!
+isRegistered: aTransfer 
+	^transfer = aTransfer. !
+
+!methodRemoval: WithdrawTransfer #value stamp: 'jul 5/30/2023 18:19:29'!
+value
+
+	^ value!
+
+!methodRemoval: DepositTransfer #value stamp: 'jul 5/30/2023 18:19:38'!
+value
+
+	^ value!
+
+!methodRemoval: DepositTransfer #isRegistered: stamp: 'jul 5/30/2023 18:19:49'!
+isRegistered: aTransfer 
+	^transfer = aTransfer. !
+
+!methodRemoval: DepositTransfer #initializeFor: stamp: 'jul 5/30/2023 18:20:02'!
+initializeFor: aValue
+
+	value := aValue !
+
+!methodRemoval: DepositTransfer #initializeFor:with: stamp: 'jul 5/30/2023 18:20:19'!
+initializeFor: aValue with: aTransfer
+	transfer := aTransfer.
+	value := aValue !
+
+!methodRemoval: WithdrawTransfer #initializeFor:with: stamp: 'jul 5/30/2023 18:20:28'!
+initializeFor: aValue with: aTransfer
+	transfer := aTransfer.
+	value := aValue !
+
+!methodRemoval: WithdrawTransfer #initializeFor: stamp: 'jul 5/30/2023 18:20:31'!
+initializeFor: aValue
+
+	value := aValue !
+
+!methodRemoval: DepositTransfer class #for: stamp: 'jul 5/30/2023 18:21:29'!
+for: aValue
+
+	^ self new initializeFor: aValue !
+
+!methodRemoval: WithdrawTransfer class #for: stamp: 'jul 5/30/2023 18:21:33'!
+for: aValue
+
+	^ self new initializeFor: aValue !
+
+!methodRemoval: DepositTransfer class #for:with: stamp: 'jul 5/30/2023 18:22:55'!
+for: aValue with: aTransfer
+
+	^ self new initializeFor: aValue with: aTransfer.!
+
+!methodRemoval: WithdrawTransfer class #for:with: stamp: 'jul 5/30/2023 18:24:02'!
+for: aValue with: aTransfer
+
+	^ self new initializeFor: aValue with: aTransfer.!
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:24:53'!
+ERROR!
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:24:53'!
+ERROR!
+!TransferTransaction class methodsFor: 'no messages' stamp: 'jul 5/30/2023 18:27:52'!
+for: aTransfer
+	self intializeFor: aTransfer.! !
+!TransferTransaction class methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:28:22' prior: 50610690!
+for: aTransfer
+	^self new intializeFor: aTransfer.! !
+!TransferTransaction methodsFor: 'nil' stamp: 'jul 5/30/2023 18:28:41'!
+intializeFor: aTransfer
+	transfer := aTransfer! !
+!DepositTransfer methodsFor: 'balance' stamp: 'jul 5/30/2023 18:30:03' prior: 50605215 overrides: 50604559!
+affectBalance: aBalance
+
+	^aBalance + transfer value! !
+!WithdrawTransfer methodsFor: 'balance' stamp: 'jul 5/30/2023 18:30:20' prior: 50605266 overrides: 50604559!
+affectBalance: aBalance
+
+	^aBalance - (transfer value)! !
+!DepositTransfer methodsFor: 'balance' stamp: 'jul 5/30/2023 18:30:29' prior: 50610704 overrides: 50604559!
+affectBalance: aBalance
+
+	^aBalance + (transfer value)! !
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:31:16'!
+ERROR!
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:31:16'!
+ERROR!
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'jul 5/30/2023 18:33:14' prior: 50605392!
+register: aValue on: account in: aTransfer
+
+	| transaction |
+	
+	transaction := self for: aTransfer.
+	account register: transaction.
+		
+	^ transaction! !
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+
+!testRun: #TransferTest #test01TransferAffectBalance stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferRegisterTransaction stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferInSameAccountRaiseErro stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+
+!testRun: #TransferTest #test04AnAccountNavigatesThrowTransfers stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferMustBePositive stamp: 'jul 5/30/2023 18:33:34'!
+PASSED!
+!AccountSummary methodsFor: 'nil' stamp: 'jul 5/30/2023 18:45:27'!
+reportReceptiveAccount: anAccount with: aReportTemplate
+	^anAccount report: aReportTemplate me: self.! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 18:46:35' prior: 50610754!
+reportReceptiveAccount: anAccount with: aReportTemplate
+	^anAccount report: aReportTemplate to: self.! !
+!ReceptiveAccount methodsFor: 'nil' stamp: 'jul 5/30/2023 18:49:56'!
+generateReport: aReport with: reportTemplate
+	^aReport reportReceptiveAccount: self with: reportTemplate! !
+!AccountSummary methodsFor: 'category-name' stamp: 'jul 5/30/2023 18:57:58' prior: 50609033!
+report
+	|report|
+	report := OrderedCollection new.
+	account generateReport: self with: report.
+	report add: 'Balance = ', account balance printString.
+	^ report.! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:00:23' prior: 50610761!
+reportReceptiveAccount: anAccount with: aReportTemplate
+	^anAccount generateTransactionsReport: self with: aReportTemplate.! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:02:04'!
+generateTransactionsReport: aReport with: reportTemplate
+	transactions do: [ :transaction |
+			(transaction isKindOf: Deposit)  ifTrue: [  transaction addLine: reportTemplate ].
+			(transaction isKindOf: Withdraw) ifTrue: [ transaction addLine: reportTemplate ].
+			(transaction isKindOf: DepositTransfer ) ifTrue: [ transaction addLine: reportTemplate ].
+			(transaction isKindOf: WithdrawTransfer ) ifTrue: [ transaction addLine: reportTemplate ].
+		]! !
+
+!methodRemoval: ReceptiveAccount #imprimirDepositos: stamp: 'jul 5/30/2023 19:02:14'!
+imprimirDepositos: report 
+	transactions do: [ :transaction |
+			(transaction isKindOf: Deposit)  ifTrue: [  transaction addLine: report ].
+			(transaction isKindOf: Withdraw) ifTrue: [ transaction addLine: report].
+			(transaction isKindOf: DepositTransfer ) ifTrue: [ transaction addLine: report].
+			(transaction isKindOf: WithdrawTransfer ) ifTrue: [ transaction addLine: report].
+		]!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:02:25'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:02:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:02:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:02:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:02:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:02:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:02:42'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:02:42'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:02:54'!
+FAILURE!
+!WithdrawTransfer methodsFor: 'report' stamp: 'jul 5/30/2023 19:04:44' prior: 50609316!
+addLine: report 
+	report add: 'Salida por transferencia de ', transfer value printString.! !
+!DepositTransfer methodsFor: 'report' stamp: 'jul 5/30/2023 19:04:50' prior: 50609338!
+addLine: report 
+	report add: 'Entrada por transferencia de ', transfer value printString.! !
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:04:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:05:00'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/30/2023 19:15:12'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/30/2023 19:15:12'!
+ERROR!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/30/2023 19:15:12'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/30/2023 19:15:12'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/30/2023 19:15:12'!
+ERROR!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:20:22' prior: 50610790!
+generateTransactionsReport: aReport with: reportTemplate
+	transactions do: [ :transaction | transaction report: aReport with: reportTemplate ]! !
+!Deposit methodsFor: 'nil' stamp: 'jul 5/30/2023 19:21:20'!
+report: aReport with: reportTemplate
+	^aReport reportDeposit: self with: reportTemplate.! !
+!Withdraw methodsFor: 'nil' stamp: 'jul 5/30/2023 19:21:37'!
+report: aReport with: reportTemplate
+	^aReport reportWithdraw: self with: reportTemplate.! !
+!DepositTransfer methodsFor: 'nil' stamp: 'jul 5/30/2023 19:21:48'!
+report: aReport with: reportTemplate
+	^aReport reportDepositTransfer: self with: reportTemplate.! !
+!WithdrawTransfer methodsFor: 'nil' stamp: 'jul 5/30/2023 19:22:05'!
+report: aReport with: reportTemplate
+	^aReport reportWithdrawTransfer: self with: reportTemplate.! !
+!AccountSummary methodsFor: 'nil' stamp: 'jul 5/30/2023 19:23:56'!
+reportDeposit: aDeposit with: reportTemplate
+	reportTemplate add: 'Depósito por ', aDeposit value! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:24:12' prior: 50610930!
+reportDeposit: aDeposit with: reportTemplate
+	reportTemplate add: 'Depósito por ', aDeposit value, String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:24:51'!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	reportTemplate add: 'Entrada por transferencia de ', aDepositTransfer value, String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:28:59'!
+reportWithdraw: aWithdraw with: reportTemplate
+	reportTemplate add: 'Extracción por ', aWithdraw value, String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:29:34'!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	reportTemplate add: 'Salida por transferencia de ', aWithdrawTransfer value, String newLineString ! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:29:53'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:29:53'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:29:53'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:29:53'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:29:53'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:29:57'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:30:36' prior: 50610937!
+reportDeposit: aDeposit with: reportTemplate
+	reportTemplate add: 'Depósito por ', aDeposit value printString , String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:30:42' prior: 50610944!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	reportTemplate add: 'Entrada por transferencia de ', aDepositTransfer value printString , String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:30:50' prior: 50610952!
+reportWithdraw: aWithdraw with: reportTemplate
+	reportTemplate add: 'Extracción por ', aWithdraw value printString , String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:30:55' prior: 50610959!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	reportTemplate add: 'Salida por transferencia de ', aWithdrawTransfer value printString , String newLineString ! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:31:00'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:31:04'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:31:04'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:31:04'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:31:04'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:31:04'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:31:06'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:32:13'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:32:17'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:32:17'!
+FAILURE!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:34:13' prior: 50610992!
+reportDeposit: aDeposit with: reportTemplate
+	reportTemplate add: 'Depósito por ', aDeposit value printString! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:34:18' prior: 50611000!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	reportTemplate add: 'Entrada por transferencia de ', aDepositTransfer value printString! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:34:24' prior: 50611009!
+reportWithdraw: aWithdraw with: reportTemplate
+	reportTemplate add: 'Extracción por ', aWithdraw value printString! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:34:31' prior: 50611017!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	reportTemplate add: 'Salida por transferencia de ', aWithdrawTransfer value printString! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:34:35'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:34:35'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:34:35'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:34:35'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:34:35'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:34:45'!
+ERROR!
+!TransferTransaction methodsFor: 'nil' stamp: 'jul 5/30/2023 19:35:53' overrides: 50604555!
+value
+	^transfer value! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:36:17'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:36:17'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:36:17'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:36:17'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:36:17'!
+PASSED!
+
+----SNAPSHOT----(30 May 2023 19:36:32) CuisUniversity-5706.image priorSource: 8924183!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:36:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:36:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:36:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:36:42'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:36:42'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/30/2023 19:36:48'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/30/2023 19:36:48'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/30/2023 19:36:48'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/30/2023 19:36:48'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/30/2023 19:36:48'!
+PASSED!
+!TransferNetSummary methodsFor: 'report' stamp: 'jul 5/30/2023 19:38:40' prior: 50609969!
+report
+	^account generateReport: self with: 0.! !
+
+!methodRemoval: ReceptiveAccount #transferNet stamp: 'jul 5/30/2023 19:41:05'!
+transferNet
+	| totalTransfer |
+	totalTransfer := 0.
+	
+	transactions do: [  :aTransaction |
+		( aTransaction isKindOf: DepositTransfer  ) ifTrue: [ totalTransfer := totalTransfer + (aTransaction value).].
+	
+		( aTransaction isKindOf: WithdrawTransfer  ) ifTrue: [totalTransfer := totalTransfer - (aTransaction value)  .].		
+		].
+
+	^totalTransfer.!
+!TransferNetSummary methodsFor: 'nil' stamp: 'jul 5/30/2023 19:42:18'!
+reportReceptiveAccount: anAccount with: aReportTemplate
+	^anAccount generateTransactionsReport: self with: aReportTemplate.! !
+!TransferNetSummary methodsFor: 'nil' stamp: 'jul 5/30/2023 19:43:33'!
+reportDepositTransfer: aDepositTransfer with: aBalance
+	^aBalance + aDepositTransfer value! !
+!TransferNetSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:44:13'!
+reportWithdrawTransfer: aWithdrawTransfer with: aBalance
+	^aBalance - aWithdrawTransfer value! !
+!TransferNetSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:44:33'!
+reportWithdraw: aWithdraw with: aBalance
+	^aBalance! !
+!TransferNetSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:44:52'!
+reportDeposit: aDeposit with: aBalance
+	^aBalance! !
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/30/2023 19:44:57'!
+FAILURE!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/30/2023 19:44:57'!
+FAILURE!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/30/2023 19:44:57'!
+FAILURE!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/30/2023 19:44:57'!
+FAILURE!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/30/2023 19:44:57'!
+FAILURE!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/30/2023 19:45:00'!
+FAILURE!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:48:22' prior: 50610900!
+generateTransactionsReport: aReport with: reportTemplate
+	^transactions inject: reportTemplate into: [ :template :transaction | transaction report: aReport with: template ]! !
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/30/2023 19:48:34'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/30/2023 19:48:34'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/30/2023 19:48:34'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/30/2023 19:48:34'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/30/2023 19:48:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:48:45'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:48:45'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:48:45'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:48:45'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:48:45'!
+ERROR!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:48:45'!
+ERROR!
+!AccountSummary methodsFor: 'category-name' stamp: 'jul 5/30/2023 19:51:01' prior: 50610774!
+report
+	^ (account generateReport: self with: ''), 'Balance = ', (account balance printString)! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:51:53' prior: 50611065!
+reportDeposit: aDeposit with: reportTemplate
+	^reportTemplate , 'Depósito por ', aDeposit value printString, String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:52:16' prior: 50611072!
+reportDepositTransfer: aDepositTransfer with: reportTemplate
+	^reportTemplate , 'Entrada por transferencia de ', aDepositTransfer value printString , String newLineString .! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:52:38' prior: 50611080!
+reportWithdraw: aWithdraw with: reportTemplate
+	^reportTemplate , 'Extracción por ', aWithdraw value printString, String newLineString ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:52:59' prior: 50611087!
+reportWithdrawTransfer: aWithdrawTransfer with: reportTemplate
+	^reportTemplate , 'Salida por transferencia de ', aWithdrawTransfer value printString , String newLineString .! !
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:53:31' prior: 50609409!
+test01AccountWithoutTransactionsPrintBalanceZero
+	|account summary | "zero"
+	account := ReceptiveAccount new.
+	summary := AccountSummary for: account.
+	self assert: 'Balance = 0'equals: summary report.! !
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:53:34'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:54:07' prior: 50609420!
+test02AccountWithDepositPrintDepositAndBalance
+	|account summary expectedReport| "only"
+	account := ReceptiveAccount new.
+	Deposit register: 50 on: account. 
+	summary := AccountSummary for: account.
+
+	expectedReport:=  'Depósito por 50' , String  newLineString , 'Balance = 50'.
+	self assert: expectedReport equals: summary report.! !
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:54:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:54:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:54:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:54:09'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:54:09'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:54:09'!
+FAILURE!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:54:27' prior: 50609434!
+test03AccountWithWithdrawPrintWithdrawAndBalance
+	|account summary expectedReport| "only"
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account. 
+	summary := AccountSummary for: account.
+
+	expectedReport:= 'Extracción por 50' , String  newLineString ,  'Balance = -50'.
+	self assert: expectedReport equals: summary report.! !
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:54:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:54:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:54:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:54:28'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:54:28'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:54:28'!
+FAILURE!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:54:55' prior: 50609449!
+test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance
+	|accountSender accountReceiver reportForReceiver reportForSender summaryReceiver summarySender | "only"
+	accountSender := ReceptiveAccount new.
+	accountReceiver := ReceptiveAccount new.
+	
+	Transfer transferAmount: 50 from: accountSender to: accountReceiver .
+	
+	summarySender := AccountSummary for: accountSender .
+	summaryReceiver := AccountSummary for: accountReceiver .
+	
+	reportForSender :=  'Salida por transferencia de 50' , String  newLineString ,  'Balance = -50'.
+	reportForReceiver := 'Entrada por transferencia de 50' , String  newLineString ,  'Balance = 50'.
+	
+	self assert: reportForSender equals: summarySender report.
+	self assert: reportForReceiver equals: summaryReceiver report.! !
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:54:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:54:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:54:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:54:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:54:56'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:54:56'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:54:56'!
+FAILURE!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:55:14'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 19:57:00' prior: 50609780!
+test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem
+	|accountSender accountReceiver reportForReceiver reportForSender summaryReceiver summarySender | "many"
+	accountSender := ReceptiveAccount new.
+	accountReceiver := ReceptiveAccount new.
+	
+	Deposit register: 30 on: accountSender .
+	Transfer transferAmount: 50 from: accountSender to: accountReceiver .
+	Withdraw register: 10 on: accountSender .
+	Transfer transferAmount: 40 from: accountReceiver  to: accountSender .
+	Withdraw register: 15 on: accountSender.
+	
+	summarySender := AccountSummary for: accountSender .
+	summaryReceiver := AccountSummary for: accountReceiver .
+	
+	reportForSender :=  'Depósito por 30', String  newLineString , 
+		'Salida por transferencia de 50' , String  newLineString , 
+		'Extracción por 10' , String  newLineString , 
+		'Entrada por transferencia de 40' , String  newLineString , 
+		'Extracción por 15' , String  newLineString , 
+		'Balance = -5'.
+	
+	reportForReceiver := 'Entrada por transferencia de 50' , String  newLineString ,  'Salida por transferencia de 40' , String  newLineString ,  'Balance = 10'.
+	
+	self assert: reportForSender equals: summarySender report.
+	self assert: reportForReceiver equals: summaryReceiver report.! !
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:57:03'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 19:57:30'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/30/2023 19:57:30'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/30/2023 19:57:30'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/30/2023 19:57:30'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/30/2023 19:57:30'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 20:00:24'!
+test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero
+	|account summary | "zero"
+	account := Portfolio new.
+	summary := AccountSummary for: account.
+	self assert: 'Balance = 0'equals: summary report.! !
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 20:00:26'!
+ERROR!
+!Portfolio methodsFor: 'report' stamp: 'jul 5/30/2023 20:00:51'!
+generateReport: anAccountSummary with: aRenameMe1 
+	self shouldBeImplemented.! !
+!Portfolio methodsFor: 'report' stamp: 'jul 5/30/2023 20:02:51' prior: 50611607!
+generateReport: aReport with: reportTemplate
+	^ aReport reportPortfolio: self with: reportTemplate.! !
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 20:02:55'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 20:03:06'!
+reportPortfolio: aPortfolio with: reportTemplate 
+	self shouldBeImplemented.! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'jul 5/30/2023 20:03:32' prior: 50611624!
+reportPortfolio: aPortfolio with: reportTemplate 
+	^aPortfolio generateAccountReport: self with: reportTemplate .! !
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/30/2023 20:04:42'!
+ERROR!
+!Portfolio methodsFor: 'report' stamp: 'jul 5/30/2023 20:04:49'!
+generateAccountReport: anAccountSummary with: reportTemplate 
+	self shouldBeImplemented.! !
+!Portfolio methodsFor: 'report' stamp: 'jul 5/30/2023 20:07:40' prior: 50611641!
+generateAccountReport: aReport with: reportTemplate 
+	
+	^ accounts inject: reportTemplate into: [ :template :anAccount |
+		anAccount generateReport: aReport with: template.
+	]! !
+
+----QUIT----(30 May 2023 20:08:04) CuisUniversity-5706.image priorSource: 8943775!
+
+----STARTUP---- (31 May 2023 18:34:46) as /home/julian/Escritorio/linux64/CuisUniversity-5706.image!
+
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:35:34'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:40:24'!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions
+	| portfolio recepAccount | 
+	! !
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:44:17' prior: 50611691!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions
+	| portfolio recepAccount  expectedReport | 
+	recepAccount := ReceptiveAccount new. 
+	Deposit register: 10 on: recepAccount .
+	Withdraw register: 5 on: recepAccount .
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	expectedReport := 'Extracción por 5' , String newLineString , 'Depósito por 10' , String newLineString , 'Balance = 5'.
+	
+	self assert: expectedReport equals: portfolio report.! !
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:44:49' prior: 50611698!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions
+	| portfolio recepAccount  expectedReport | 
+	recepAccount := ReceptiveAccount new. 
+	Deposit register: 10 on: recepAccount .
+	Withdraw register: 5 on: recepAccount .
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	expectedReport := 'Extracción por 5' , String newLineString , 'Depósito por 10' , String newLineString , 'Balance = 5'.
+	
+	self assert: expectedReport equals: (AccountSummary for: portfolio) report.! !
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 18:44:51'!
+FAILURE!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:45:21' prior: 50611716!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions
+	| portfolio recepAccount  expectedReport | 
+	recepAccount := ReceptiveAccount new. 
+	Deposit register: 10 on: recepAccount .
+	Withdraw register: 5 on: recepAccount .
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	expectedReport := 'Depósito por 10' , String newLineString , 'Extracción por 5' , String newLineString , 'Balance = 5'.
+	
+	self assert: expectedReport equals: (AccountSummary for: portfolio) report.! !
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 18:45:22'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:51:32'!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions
+	| portfolioA portfolioB recepAccountSender recepAccountReceiver expectedReport | 
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolioA := Portfolio with: recepAccountSender .
+	portfolioB := Portfolio with: recepAccountReceiver .
+	
+	Transfer transferAmount: 50 from: portfolioA to: portfolioB .
+	
+	self assert: true.! !
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 18:51:34'!
+ERROR!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:55:21' prior: 50611792!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions
+	| portfolioA portfolioB recepAccountSender recepAccountReceiver portfolioAReport portfolioBReport | 
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolioA := Portfolio with: recepAccountSender .
+	portfolioB := Portfolio with: recepAccountReceiver .
+	
+	Transfer transferAmount: 50 from: recepAccountSender to: recepAccountReceiver .
+	
+	portfolioAReport := 'Salida por transferencia de 50' , String newLineString , 'Balance = -50'.
+	portfolioBReport := 'Entrada por transferencia de 50' , String newLineString , 'Balance = 50'.
+	
+	self assert: portfolioAReport equals: (AccountSummary for: portfolioA ) report. 
+	self assert: portfolioBReport equals: (AccountSummary for: portfolioB ) report. ! !
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 18:55:22'!
+PASSED!
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 18:56:40'!
+test08AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions
+	| portfolioA portfolioB recepAccountSender recepAccountReceiver portfolioAReport portfolioBReport | 
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolioA := Portfolio with: recepAccountSender .
+	portfolioB := Portfolio with: recepAccountReceiver .
+	
+	Transfer transferAmount: 50 from: recepAccountSender to: recepAccountReceiver .
+	
+	portfolioAReport := 'Salida por transferencia de 50' , String newLineString , 'Balance = -50'.
+	portfolioBReport := 'Entrada por transferencia de 50' , String newLineString , 'Balance = 50'.
+	
+	self assert: portfolioAReport equals: (AccountSummary for: portfolioA ) report. 
+	self assert: portfolioBReport equals: (AccountSummary for: portfolioB ) report. ! !
+
+!methodRemoval: AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 18:56:40'!
+test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions
+	| portfolioA portfolioB recepAccountSender recepAccountReceiver portfolioAReport portfolioBReport | 
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolioA := Portfolio with: recepAccountSender .
+	portfolioB := Portfolio with: recepAccountReceiver .
+	
+	Transfer transferAmount: 50 from: recepAccountSender to: recepAccountReceiver .
+	
+	portfolioAReport := 'Salida por transferencia de 50' , String newLineString , 'Balance = -50'.
+	portfolioBReport := 'Entrada por transferencia de 50' , String newLineString , 'Balance = 50'.
+	
+	self assert: portfolioAReport equals: (AccountSummary for: portfolioA ) report. 
+	self assert: portfolioBReport equals: (AccountSummary for: portfolioB ) report. !
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:03:08'!
+test09AccountSummaryInPortfoliosRecognizeNestedAccounts
+	| portfolio recepAccount portfolioReport | 
+	recepAccount := ReceptiveAccount new. 
+	Deposit register: 10 on: recepAccount .	
+
+	portfolio := Portfolio with: (Portfolio with: recepAccount ).
+	
+	portfolioReport := 'Depósito por 10' , String newLineString , 'Balance = 10'.
+
+	self assert: portfolioReport equals: (AccountSummary for: portfolio ) report. ! !
+
+!testRun: #AccountSummaryTest #test09AccountSummaryInPortfoliosRecognizeNestedAccounts stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDepositPrintDepositAndBalance stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdrawPrintWithdrawAndBalance stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04ReportOfTwoAccountWithTransferBetweenThemPrintDiferentBalance stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05ReportOfAnAccountWithDifferentMovementsHasOneLineForOneOfThem stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountSummaryOfPortfolioWithoutTransactionsPrintBalanceZero stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test07AccountSummaryInPortfolioWithReceptiveAccountRegisterTransactions stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test08AccountSummaryInPortfolioWithReceptiveAccountRegisterTransferTransactions stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test09AccountSummaryInPortfoliosRecognizeNestedAccounts stamp: 'jul 5/31/2023 19:03:09'!
+PASSED!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:06:27'!
+test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero
+	| portfolio  |
+	portfolio := Portfolio new. 
+	self assert: 0 equals: (TransferNetSummary for: portfolio )report.! !
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:06:32'!
+ERROR!
+!TransferNetSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 19:06:47'!
+reportPortfolio: aPortfolio with: reportTemplate 
+	self shouldBeImplemented.! !
+!TransferNetSummary methodsFor: 'initialize' stamp: 'jul 5/31/2023 19:07:41' prior: 50612014!
+reportPortfolio: aPortfolio with: reportTemplate 
+	^aPortfolio generateAccountReport: self with: reportTemplate 
+	! !
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:07:43'!
+PASSED!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:12:57'!
+test06TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	Deposit register: 50 on: recepAccountSender.
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: 30 equals: (TransferNetSummary for: portfolio )report.! !
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:13:16'!
+test07TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	Deposit register: 50 on: recepAccountSender.
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: 30 equals: (TransferNetSummary for: portfolio )report.! !
+
+!methodRemoval: TransferNetTest #test06TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance stamp: 'jul 5/31/2023 19:13:16'!
+test06TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	Deposit register: 50 on: recepAccountSender.
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: 30 equals: (TransferNetSummary for: portfolio )report.!
+
+!testRun: #TransferNetTest #test07TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance stamp: 'jul 5/31/2023 19:13:18'!
+FAILURE!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:19:17'!
+test07TransferNetReportOnPortfolioWithTransferReportWithdrawFromSender
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: -20 equals: (TransferNetSummary for: portfolio )report.! !
+
+!methodRemoval: TransferNetTest #test07TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance stamp: 'jul 5/31/2023 19:19:24'!
+test07TransferNetReportOnPortfolioWithTransferenceReportBalanceSenderBalance
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	Deposit register: 50 on: recepAccountSender.
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: 30 equals: (TransferNetSummary for: portfolio )report.!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:22:11'!
+test08TransferNetReportOnPortfolioWithTransferReportDepositFromSender
+	| portfolio  recepAccount otherRecepAccount  |
+	otherRecepAccount := ReceptiveAccount new. 
+	recepAccount := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	Transfer transferAmount: 20 from:  otherRecepAccount to: recepAccount .
+	
+	self assert: 20 equals: (TransferNetSummary for: portfolio )report.! !
+
+!testRun: #TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDepositFromSender stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test07TransferNetReportOnPortfolioWithTransferReportWithdrawFromSender stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+
+!testRun: #TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDepositFromSender stamp: 'jul 5/31/2023 19:22:14'!
+PASSED!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:23:02'!
+test08TransferNetReportOnPortfolioWithTransferReportDeposit
+	| portfolio  recepAccount otherRecepAccount  |
+	otherRecepAccount := ReceptiveAccount new. 
+	recepAccount := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	Transfer transferAmount: 20 from:  otherRecepAccount to: recepAccount .
+	
+	self assert: 20 equals: (TransferNetSummary for: portfolio )report.! !
+
+!methodRemoval: TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDepositFromSender stamp: 'jul 5/31/2023 19:23:02'!
+test08TransferNetReportOnPortfolioWithTransferReportDepositFromSender
+	| portfolio  recepAccount otherRecepAccount  |
+	otherRecepAccount := ReceptiveAccount new. 
+	recepAccount := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccount .
+	
+	Transfer transferAmount: 20 from:  otherRecepAccount to: recepAccount .
+	
+	self assert: 20 equals: (TransferNetSummary for: portfolio )report.!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:23:09'!
+test07TransferNetReportOnPortfolioWithTransferReportWithdraw
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: -20 equals: (TransferNetSummary for: portfolio )report.! !
+
+!methodRemoval: TransferNetTest #test07TransferNetReportOnPortfolioWithTransferReportWithdrawFromSender stamp: 'jul 5/31/2023 19:23:09'!
+test07TransferNetReportOnPortfolioWithTransferReportWithdrawFromSender
+	| portfolio  recepAccountSender recepAccountReceiver  |
+	recepAccountSender := ReceptiveAccount new. 
+	recepAccountReceiver := ReceptiveAccount new. 
+	
+	portfolio := Portfolio with: recepAccountSender .
+	
+	Transfer transferAmount: 20 from: recepAccountSender to: recepAccountReceiver .
+	
+	self assert: -20 equals: (TransferNetSummary for: portfolio )report.!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:28:11'!
+test09TransferNetReportOnPortfolioNotRegisterRegularTransactions
+	| portfolio  recepAccount  |
+	recepAccount := ReceptiveAccount new. 
+	
+	Deposit register: 10 on: recepAccount .
+	Withdraw register: 15 on: recepAccount .
+	
+	portfolio := Portfolio with: recepAccount.
+	
+	self deny: ( ((TransferNetSummary for: portfolio ) report) equals: -5).! !
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:29:16' prior: 50612272!
+test09TransferNetReportOnPortfolioNotRegisterRegularTransactions
+	| portfolio  recepAccount  |
+	recepAccount := ReceptiveAccount new. 
+	
+	Deposit register: 10 on: recepAccount .
+	Withdraw register: 15 on: recepAccount .
+	
+	portfolio := Portfolio with: recepAccount.
+	
+	
+	self assert: 0 equals: ( TransferNetSummary for: portfolio )report.! !
+
+!testRun: #TransferNetTest #test09TransferNetReportOnPortfolioNotRegisterRegularTransactions stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test07TransferNetReportOnPortfolioWithTransferReportWithdraw stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDeposit stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+
+!testRun: #TransferNetTest #test09TransferNetReportOnPortfolioNotRegisterRegularTransactions stamp: 'jul 5/31/2023 19:29:17'!
+PASSED!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:32:04'!
+test10TransferNetReportOfNestedPorfolioRegisterInsideTranference
+	| portfolio  accountSender accountReceiver  |
+	accountSender := ReceptiveAccount new.
+	accountReceiver  := ReceptiveAccount new. 
+	
+	Transfer transferAmount: 10 from: accountSender to: accountReceiver .
+	
+	portfolio := Portfolio with: (Portfolio with: accountSender ).
+	
+	
+	self assert: -10 equals: ( TransferNetSummary for: portfolio )report.! !
+
+!testRun: #TransferNetTest #test10TransferNetReportOfNestedPorfolioRegisterInsideTranference stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test01TransferReportOfAccountWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test02TransferNetReportsOnReceptiveAccountWithTransferRegisterValue stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test03TransferNetReportsOnReceptiveAccountNotReportDeposit stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test04TransferNetReportsOnReceptiveAccountNotReportWithdraw stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test05TransferReportOfAccountWithManyTransferencesReturnSumOfAll stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test06TransferNetReportOnPortfolioWithoutTransactionsReturnZero stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test07TransferNetReportOnPortfolioWithTransferReportWithdraw stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test08TransferNetReportOnPortfolioWithTransferReportDeposit stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test09TransferNetReportOnPortfolioNotRegisterRegularTransactions stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+!testRun: #TransferNetTest #test10TransferNetReportOfNestedPorfolioRegisterInsideTranference stamp: 'jul 5/31/2023 19:32:05'!
+PASSED!
+
+ReportTest subclass: #PortfolioReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioReportTest category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:33:35'!
+ReportTest subclass: #PortfolioReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioReport category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:38:25'!
+Object subclass: #PortfolioReport
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioReportTest methodsFor: 'nil' stamp: 'jul 5/31/2023 19:38:06'!
+test01PortfolioReportOfEmptyPortfolioPrintTheirName
+	| portfolio |
+	portfolio := Portfolio named: 'Portfolio de la familia'.
+	
+	self assert: 'Portfolio de la familia' equals: (PortfolioReport for: portfolio ) report. ! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:38:31'!
+ERROR!
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:38:42'!
+named: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeNamed: aString ! !
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:39:04' prior: 50612436!
+named: aName 
+	^self new initializeNamed: aName ! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:39:06'!
+ERROR!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:39:14'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:39:14'!
+initializeNamed: aName 
+	self shouldBeImplemented.
+	name := aName.! !
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:40:06' prior: 50612460!
+initializeNamed: aName 
+	name := aName.! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:40:08'!
+ERROR!
+!PortfolioReport class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:40:22'!
+for: aPortfolio 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeFor: aPortfolio ! !
+!PortfolioReport class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:40:40' prior: 50612473!
+for: aPortfolio 
+	^self new initializeFor: aPortfolio ! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:40:43'!
+ERROR!
+
+!classDefinition: #PortfolioReport category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:41:04'!
+Object subclass: #PortfolioReport
+	instanceVariableNames: 'portfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!PortfolioReport methodsFor: 'initialize' stamp: 'jul 5/31/2023 19:41:04'!
+initializeFor: aPortfolio 
+	self shouldBeImplemented.
+	portfolio := aPortfolio.! !
+!PortfolioReport methodsFor: 'initialize' stamp: 'jul 5/31/2023 19:41:09' prior: 50612498!
+initializeFor: aPortfolio 
+	portfolio := aPortfolio.! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:41:12'!
+ERROR!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 19:41:21'!
+report
+	self shouldBeImplemented.! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 19:41:50' prior: 50612512!
+report
+	^portfolio name.! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:41:56'!
+FAILURE!
+
+----SNAPSHOT----(31 May 2023 19:43:49) CuisUniversity-5706.image priorSource: 8960146!
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:47:28'!
+FAILURE!
+
+Report subclass: #PortfolioReport
+	instanceVariableNames: 'portfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #PortfolioReport category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:47:57'!
+Report subclass: #PortfolioReport
+	instanceVariableNames: 'portfolio'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:50:23'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:50:23' prior: 50612465!
+initializeNamed: aName 
+	portfolioName := aName.! !
+!Portfolio methodsFor: 'nil' stamp: 'jul 5/31/2023 19:50:40'!
+portfolioName
+	^portfolioName! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 19:51:03' prior: 50612516!
+report
+	^portfolio portfolioName.! !
+
+!testRun: #PortfolioReportTest #test01PortfolioReportOfEmptyPortfolioPrintTheirName stamp: 'jul 5/31/2023 19:51:07'!
+PASSED!
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 19:54:22'!
+test02PortfolioReportPrintNameOfAccount
+	| portfolio account reportFamily|
+	
+	account := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	portfolio := Portfolio named: 'Portfolio de la familia' with: account .
+
+	reportFamily := 'Portfolio de la familia' , String newLineString ,	 String tab , 'Cuenta Mia'.
+	
+	self assert: reportFamily equals: (PortfolioReport for: portfolio ) report. ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 19:54:24'!
+ERROR!
+!ReceptiveAccount class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:54:34'!
+named: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeNamed: aString ! !
+!ReceptiveAccount class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:54:52' prior: 50612587!
+named: aName
+	^self new initializeNamed: aName! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 19:54:53'!
+ERROR!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:55:00'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:55:00'!
+initializeNamed: aName 
+	self shouldBeImplemented.
+	name := aName.! !
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:55:28' prior: 50612612!
+initializeNamed: aName 
+	name := aName.! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 19:55:41'!
+ERROR!
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:55:51'!
+named: aString with: aReceptiveAccount 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeNamed: aString with: aReceptiveAccount ! !
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:55:59' prior: 50612626!
+named: aString with: aReceptiveAccount 
+	^self new initializeNamed: aString with: aReceptiveAccount ! !
+!Portfolio class methodsFor: 'instance creation' stamp: 'jul 5/31/2023 19:56:30' prior: 50612636!
+named: aName with: anAccount
+	^self new initializeNamed: aName with: anAccount! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 19:56:34'!
+ERROR!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:56:43'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName name'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 19:56:43'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName name account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:56:43'!
+initializeNamed: aName with: anAccount 
+	self shouldBeImplemented.
+	name := aName.
+	account := anAccount.! !
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 19:57:39' prior: 50612669!
+initializeNamed: aName with: anAccount 
+	name := aName.
+	accounts add: anAccount.! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 19:57:43'!
+FAILURE!
+!Portfolio methodsFor: 'initialization' stamp: 'jul 5/31/2023 20:02:28' prior: 50612676!
+initializeNamed: aName with: anAccount 
+	portfolioName := aName.
+	accounts add: anAccount.! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:02:40'!
+FAILURE!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:03:57' prior: 50612560!
+report
+	^portfolio generateReport: self with: ''. ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:04:11'!
+ERROR!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:04:20'!
+reportPortfolio: aPortfolio with: reportTemplate 
+	self shouldBeImplemented.! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:08:37' prior: 50612704!
+reportPortfolio: aPortfolio with: reportTemplate 
+	| res |
+	res := reportTemplate , aPortfolio  portfolioName , String newLineString .
+	^ aPortfolio generateAccountReport: self with: res.! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:08:41'!
+ERROR!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:08:52'!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	self shouldBeImplemented.! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:10:36' prior: 50612722!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^reportTemplate , aReceptiveAccount receptiveAccountName, String newLineString .
+	! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:10:40'!
+ERROR!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:10:50'!
+receptiveAccountName
+	self shouldBeImplemented.! !
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 20:12:06'!
+Account subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions receptiveAccountName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:12:06' prior: 50612618!
+initializeNamed: aName 
+	receptiveAccountName := aName.! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:12:18' prior: 50612739!
+receptiveAccountName
+	^receptiveAccountName ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:12:21'!
+FAILURE!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:13:25' prior: 50612758!
+receptiveAccountName
+	^String tab , receptiveAccountName ! !
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:13:50' prior: 50612767!
+receptiveAccountName
+	^receptiveAccountName ! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:14:24' prior: 50612728!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^reportTemplate, String tab  , aReceptiveAccount receptiveAccountName, String newLineString .
+	! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:14:34'!
+FAILURE!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:14:34'!
+FAILURE!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:15:25' prior: 50612778!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^reportTemplate, String tab  , aReceptiveAccount receptiveAccountName.
+	! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:15:30'!
+PASSED!
+!PortfolioReportTest methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 20:18:02' prior: 50612568!
+test02PortfolioReportPrintNameOfAccount
+	| portfolio otherPortfolio account reportFamily|
+	
+	account := ReceptiveAccount named: 'Cuenta Mia'.
+	
+	portfolio := Portfolio named: 'Portfolio de la familia' with: account .
+	
+	otherPortfolio := Portfolio named: 'Portfolio de hijos'.
+	
+	portfolio add: otherPortfolio.
+	
+	reportFamily := 'Portfolio de la familia' , String newLineString ,	 String tab , 'Cuenta Mia', String newLineString , String tab, 'Portfolio de hijos'.
+	
+	self assert: reportFamily equals: (PortfolioReport for: portfolio ) report. ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:18:17'!
+FAILURE!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 20:18:17'!
+FAILURE!
+
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Solucion' stamp: 'jul 5/31/2023 20:26:53'!
+Account subclass: #Portfolio
+	instanceVariableNames: 'accounts parents portfolioName account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+root := ''.
+leaf := '' , String tab. 
+leafOfLeaf := String tab.
+
+root , String newLineString , leaf , String newLineString , leafOfLeaf,  String newLineString.!
+
+root := ''.
+leaf := '' , String tab. 
+leafOfLeaf := String tab.
+
+root , String newLineString , leaf , String newLineString , leafOfLeaf,  String newLineString.!
+
+root := 'a'.
+leaf := 'b' , String tab. 
+leafOfLeaf := 'c', String tab.
+
+root , String newLineString , leaf , String newLineString , leafOfLeaf,  String newLineString. !
+
+----SNAPSHOT----(31 May 2023 20:38:53) CuisUniversity-5706.image priorSource: 8987930!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:54:29' prior: 50612696!
+report
+	^portfolio generateReport: self with: (Array with: '' with: 0). ! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 20:58:09' prior: 50612710!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] .
+	
+	"res := reportTemplate , aPortfolio  portfolioName , String newLineString .
+	^ aPortfolio generateAccountReport: self with: res."! !
+!PortfolioReport methodsFor: 'nil' stamp: 'jul 5/31/2023 21:01:47'!
+addLineOn: reportTemplate with: aBlock
+	|reportFormat prefix |
+	reportFormat := reportTemplate at:1.
+	prefix := self generatePrefixFor: reportTemplate.
+	reportFormat := reportFormat , prefix , aBlock value. 
+	reportTemplate at:1 put: reportFormat.
+	^reportTemplate .! !
+!PortfolioReport methodsFor: 'nil' stamp: 'jul 5/31/2023 21:04:21'!
+generatePrefixFor: reportTemplate
+	|lvl res |
+	lvl := reportTemplate at:2.
+	(lvl = 0) ifTrue: [ ^'' ].
+	res := ''.
+	lvl timesRepeat: [ res := res , String tab ]
+	^String newLineString , res. ! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 21:06:03' prior: 50612872!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] .
+	
+	self addLinesOn: reportTemplate with: [ aPortfolio generateAccountReport: self with: reportTemplate ].
+	
+	"res := reportTemplate , aPortfolio  portfolioName , String newLineString .
+	^ aPortfolio generateAccountReport: self with: res."! !
+!PortfolioReport methodsFor: 'nil' stamp: 'jul 5/31/2023 21:08:54'!
+addLinesOn: reportTemplate with: aBlock
+	| lvl |
+	lvl := reportTemplate at:2.
+	reportTemplate at:2 put: lvl +1.
+	aBlock value.
+	reportTemplate at:2 put: lvl - 1! !
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:09:45' prior: 50612917!
+addLinesOn: reportTemplate with: aBlock
+	| lvl |
+	lvl := reportTemplate at:2.
+	"reportTemplate at:2 put: lvl +1."
+	aBlock value.
+	reportTemplate at:2 put: lvl - 1.
+	^reportTemplate ! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 21:10:54' prior: 50612903!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	^self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] ;
+	addLinesOn: reportTemplate with: [ aPortfolio generateAccountReport: self with: reportTemplate ].
+	
+	"res := reportTemplate , aPortfolio  portfolioName , String newLineString .
+	^ aPortfolio generateAccountReport: self with: res."! !
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 21:10:59' prior: 50612935!
+reportPortfolio: aPortfolio with: reportTemplate 
+	
+	^self addLineOn: reportTemplate with: [ aPortfolio portfolioName ] ;
+	addLinesOn: reportTemplate with: [ aPortfolio generateAccountReport: self with: reportTemplate ].
+! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:11:07'!
+FAILURE!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:11:07'!
+FAILURE!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 21:12:28' prior: 50612794!
+reportReceptiveAccount: aReceptiveAccount with: reportTemplate 
+	^self addLineOn: reportTemplate with: [ aReceptiveAccount receptiveAccountName ] ;
+	addLinesOn: reportTemplate with: [ aReceptiveAccount generateTransactionsReport: self with: reportTemplate ].
+! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:12:36'!
+ERROR!
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:13:01' prior: 50612894!
+generatePrefixFor: reportTemplate
+	|lvl res |
+	lvl := reportTemplate at:2.
+	(lvl = 0) ifTrue: [ ^'' ].
+	res := ''.
+	lvl timesRepeat: [ res := res , String tab ].
+	^String newLineString , res. ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:13:04'!
+FAILURE!
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:17:32' prior: 50612926!
+addLinesOn: reportTemplate with: aBlock
+	| lvl |
+	lvl := reportTemplate at:2.
+	reportTemplate at:2 put: lvl +1.
+	aBlock value.
+	reportTemplate at:2 put: lvl - 1.
+	^reportTemplate ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:17:36'!
+FAILURE!
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:18:16' prior: 50612994!
+addLinesOn: reportTemplate with: aBlock
+	| lvl |
+	lvl := reportTemplate at:2.
+	reportTemplate at:2 put: lvl +1.
+	aBlock value.
+	lvl := reportTemplate at: 2.
+	reportTemplate at:2 put: lvl - 1.
+	^reportTemplate ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:18:25'!
+FAILURE!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:18:25'!
+FAILURE!
+!PortfolioReport methodsFor: 'report' stamp: 'jul 5/31/2023 21:19:20' prior: 50612866!
+report
+	|res|
+	res := portfolio generateReport: self with: (Array with: '' with: 0). 
+	^res at: 1.! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:19:25'!
+PASSED!
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:20:18' prior: 50613007!
+addLinesOn: reportTemplate with: aBlock
+	"| lvl |"
+	"lvl := reportTemplate at:2."
+	"reportTemplate at:2 put: lvl +1."
+	aBlock value.
+	"lvl := reportTemplate at: 2."
+	"reportTemplate at:2 put: lvl - 1."
+	^reportTemplate ! !
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:20:26'!
+FAILURE!
+
+!testRun: #PortfolioReportTest #test02PortfolioReportPrintNameOfAccount stamp: 'jul 5/31/2023 21:20:26'!
+FAILURE!
+!PortfolioReport methodsFor: 'as yet unclassified' stamp: 'jul 5/31/2023 21:21:51' prior: 50613034!
+addLinesOn: reportTemplate with: aBlock
+	| lvl |
+	lvl := reportTemplate at:2.
+	reportTemplate at:2 put: lvl +1.
+	aBlock value.
+	lvl := reportTemplate at: 2.
+	reportTemplate at:2 put: lvl - 1.
+	^reportTemplate ! !
+
+----SNAPSHOT----(31 May 2023 22:19:43) CuisUniversity-5706.image priorSource: 8998769!
