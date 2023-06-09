@@ -1,200 +1,229 @@
 !classDefinition: #CartTest category: 'TusLibros'!
 TestCase subclass: #CartTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'testStoreObjects'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:12:31'!
-bookNotPublished
-	^'A book that is not published'! !
-
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:03:06'!
-bookPublished
-	^'A book that is published'! !
-
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:22:58'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:41:39'!
 test01NewCartStartsEmpty
-	|emptyCatalog|
-	emptyCatalog := Array new.
 	
-	self assert: (Cart with: emptyCatalog) isEmpty! !
+	self assert: (testStoreObjects createCart) isEmpty! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/8/2023 18:21:40'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:49:15'!
 test02CannotAddBookThatNotBelongSite
-	|cart emptyCatalog|
-	emptyCatalog := Array new. 
-	cart := Cart with: emptyCatalog.
+	|cart|
+	cart := testStoreObjects createCart.
 	
 	self 
-		should: [cart addQuantity: 1 ofBook: self bookNotPublished.]
+		should: [cart addQuantity: 1 ofBook: testStoreObjects bookNotPublished.]
 	 	raise: Error
 		withExceptionDo: [:anError | 
 			self assert: anError messageText equals: cart invalidBookErrorMessage.
 			self assert: cart isEmpty. 
 			]! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:31:08'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:43:11'!
 test03AddingBookThatBelongSiteMakesCartNotEmpty
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart|
+	cart := testStoreObjects createCart.
 	
-	cart addQuantity: 1 ofBook: self bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
 	self deny: cart isEmpty.! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:31:14'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:43:47'!
 test04CartCanAddAmountOfSameBook
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart|
+	cart := testStoreObjects createCart.
 	
-	cart addQuantity: 2 ofBook: self bookPublished.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
 	self deny: cart isEmpty.! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:34:45'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:44:15'!
 test05CartCanAddPositiveAmountOfSameBook
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart|
+	cart := testStoreObjects createCart.
 	self 
-		should: [cart addQuantity: -1 ofBook: self bookPublished.]
+		should: [cart addQuantity: -1 ofBook: testStoreObjects bookPublished.]
 		raise: Error
 		withExceptionDo: [:anError|
-			self assert: anError messageText equals: cart onlyCanAddPositiveQuantityErrorMessage.]! !
+			self assert: anError messageText equals: cart onlyCanAddPositiveQuantityErrorMessage.
+			self assert: cart isEmpty]! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:40:16'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:44:52'!
 test06CartCanRememberNumberOfBooksAdded
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart |
+	cart := testStoreObjects createCart.
 	
-	cart addQuantity: 2 ofBook: self bookPublished.
-	self assert: 2 equals: (cart amountAddedOf: self bookPublished). ! !
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished .
+	self assert: 2 equals: (cart amountAddedOf: testStoreObjects bookPublished). ! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/6/2023 20:41:24'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:45:23'!
 test07CartCanCheckIfHasAddedABook
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart|
+	cart := testStoreObjects createCart.
 	
-	cart addQuantity: 2 ofBook: self bookPublished.
-	self assert: (cart contains: self bookPublished ). ! !
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	self assert: (cart contains: testStoreObjects bookPublished). ! !
 
-!CartTest methodsFor: 'tests' stamp: 'DA 6/8/2023 18:27:10'!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:45:51'!
 test08CartCanAddIntegerAmountOfBooks
-	|cart catalog|
-	catalog := Array with: self bookPublished. 
-	cart := Cart with: catalog.
+	|cart| 
+	cart := testStoreObjects createCart.
 	self 
-		should: [cart addQuantity: 1.1 ofBook: self bookPublished.]
+		should: [cart addQuantity: 1.1 ofBook: testStoreObjects bookPublished]
 		raise: Error
 		withExceptionDo: [:anError|
-			self assert: anError messageText equals: cart onlyCanAddIntegerQuantityErrorMessage.]! !
+			self assert: anError messageText equals: cart onlyCanAddIntegerQuantityErrorMessage.
+			self assert: cart isEmpty]! !
+
+
+!CartTest methodsFor: 'setUp' stamp: 'DA 6/9/2023 16:41:21'!
+setUp
+	testStoreObjects := StoreTestObjects new! !
 
 
 !classDefinition: #CashierTest category: 'TusLibros'!
 TestCase subclass: #CashierTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'testStoreObjects debitBehavior'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 19:44:08'!
-aValidCreditCard
-	^ 'a valid credit card'! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 20:22:11'!
-anInvalidCreditCard
-	^ 'an invalid credit card'! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 19:43:32'!
-bookPublished
-	^ 'a valid book'! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 19:43:50'!
-otherBookPublished
-	^ 'an Other valid book'! !
-
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 20:47:11'!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 18:02:39'!
 test01CannotCheckoutAnEmptyCart
-	"salesBook registrando las ventas, un cajero por cada venta
-	asercion de mensaje de error con chequeo de invariante"
-	|cart cashier|
+	|cart salesBook|
 	
-	cart := Cart with: Array new. 
-	cashier := Cashier new.
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
 	
 	self 
-		should: [cashier checkout: cart withCard: self aValidCreditCard]  
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
 		raise: Error
 		withExceptionDo: [:anError|
-			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: anError messageText equals: Cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
 			]
 	! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 21:12:25'!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 18:02:46'!
 test02SuccesfullCheckoutCartWithOneProduct
-	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
-	|cart cashier priceList|
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
 	
-	priceList := Dictionary new.
-	priceList add: self bookPublished -> 10.
+	cashier := Cashier checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					through: self
+					on: testStoreObjects today
+					registerIn: salesBook.
 	
-	cart := Cart with: priceList.
-	cart addQuantity: 1 ofBook: self bookPublished.
-	
-	cashier := Cashier new.
-	
-	self assert: (cashier checkout: cart withCard: self aValidCreditCard) = 10.  
-	! !
+	self assert: cashier checkout = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = cashier checkout.! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 20:13:17'!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 17:38:39'!
 test03SuccesfullCheckoutCartWithProducts
-	|cart cashier priceList|
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
 	
-	priceList := Dictionary new.
-	priceList add: self bookPublished -> 10.
-	priceList add: self otherBookPublished -> 20.
+	salesBook := OrderedCollection new.
 	
-	cart := Cart with: priceList.
-	cart addQuantity: 2 ofBook: self bookPublished.
-	cart addQuantity: 1 ofBook: self otherBookPublished.
+	cashier := Cashier checkout: cart 
+						charging: testStoreObjects notExpiredCreditCard 
+						through: self
+						on: testStoreObjects today
+						registerIn: salesBook.
 	
-	cashier := Cashier new.
-	
-	self assert: (cashier checkout: cart withCard: self aValidCreditCard) = 40.  ! !
+	self assert: cashier checkout = 40.  
+	self assert: salesBook first = cashier checkout. ! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 20:43:39'!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 17:40:16'!
 test04CheckoutFailWhenCreditCardIsExpired
-	"se le deberia proveer el aniomes al cajero para poder saber si la tarjeta expiró."
-	|cart cashier priceList|
+	|cart salesBook|
 	
-	priceList := Dictionary new.
-	priceList add: self bookPublished -> 10.
-	
-	cart := Cart with: priceList.
-	cart addQuantity: 2 ofBook: self bookPublished.
-	
-	cashier := Cashier new.
-	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+
 	self 
-		should: [cashier checkout: cart withCard: self anInvalidCreditCard]
+		should: [Cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]
 		raise: Error
 		withExceptionDo: [:anError|
-			self assert: anError messageText equals: cashier invalidCreditCardErrorMessage.]! !
+			self assert: anError messageText equals: Cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 21:05:02'!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 17:48:01'!
 test05CheckoutFailWhenCreditCardWithEmptyBalance 
+	
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard | self error: Cashier creditCardWithoutBalanceErrorMessage].
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier creditCardWithoutBalanceErrorMessage.
+			self assert: salesBook isEmpty
+			]
 	! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 21:04:41'!
-test06CheckoutFailWhenCreditCardFraud
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/9/2023 18:02:22'!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard total creditCard |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	creditCard :=  testStoreObjects notExpiredCreditCard.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: creditCard
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+	
+	total := cashier checkout.
+				
+	self assert: debitedCreditCard equals: creditCard.
+	self assert: debitedAmount = total.
 	! !
 
-!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/8/2023 21:08:02'!
-test07SucessfullSaleIfEverythingIsOk
-	! !
+
+!CashierTest methodsFor: 'setUp' stamp: 'DA 6/9/2023 17:30:16'!
+setUp
+	testStoreObjects := StoreTestObjects new. 
+	debitBehavior := [:anAmount :aCreditCard].! !
+
+
+!CashierTest methodsFor: 'merchant processor test' stamp: 'DA 6/9/2023 17:29:48'!
+debit: anAmount from: aCreditCard
+	^ debitBehavior value: anAmount value: aCreditCard. ! !
 
 
 !classDefinition: #Cart category: 'TusLibros'!
@@ -230,6 +259,10 @@ onlyCanAddPositiveQuantityErrorMessage
 	^'Cant add zero or negative amount of books'! !
 
 
+!Cart methodsFor: 'adding' stamp: 'DA 6/9/2023 15:48:01'!
+add: aBook
+	self addQuantity: 1 ofBook: aBook. ! !
+
 !Cart methodsFor: 'adding' stamp: 'DA 6/8/2023 18:36:39'!
 addQuantity: anAmount ofBook: aBook 
 	self assertValidQuantity: anAmount.
@@ -242,10 +275,10 @@ assertValidBook: aBook
 	(catalog includesKey: aBook) ifFalse: [self error: self invalidBookErrorMessage].
 	! !
 
-!Cart methodsFor: 'assertions' stamp: 'DA 6/8/2023 18:36:46'!
+!Cart methodsFor: 'assertions' stamp: 'DA 6/9/2023 15:46:58'!
 assertValidQuantity: anAmount
-	(anAmount isKindOf: Integer) ifFalse: [self error: self onlyCanAddIntegerQuantityErrorMessage].
-	(anAmount < 1) ifTrue: [self error: self onlyCanAddPositiveQuantityErrorMessage].
+	(anAmount isInteger) ifFalse: [self error: self onlyCanAddIntegerQuantityErrorMessage].
+	(anAmount strictlyPositive ) ifFalse: [self error: self onlyCanAddPositiveQuantityErrorMessage].
 	! !
 
 
@@ -255,13 +288,9 @@ initializeWith: aCatalog
 	items := Bag new. ! !
 
 
-!Cart methodsFor: 'accessing' stamp: 'DA 6/8/2023 20:06:27'!
-priceList
-	^ catalog ! !
-
-!Cart methodsFor: 'accessing' stamp: 'DA 6/8/2023 20:08:52'!
-shoppingList
-	^items asOrderedCollection ! !
+!Cart methodsFor: 'checkout' stamp: 'DA 6/9/2023 15:43:07'!
+total
+	^ items sum: [:anItem | catalog at: anItem].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -276,26 +305,129 @@ with: aCatalog
 
 !classDefinition: #Cashier category: 'TusLibros'!
 Object subclass: #Cashier
-	instanceVariableNames: ''
+	instanceVariableNames: 'cart creditCard merchantProcessor salesBook'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!Cashier methodsFor: 'category-name' stamp: 'DA 6/8/2023 20:23:19'!
-checkout: aCart withCard: aCreditCard
-	|priceList shoppingList|
-	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
-	(aCreditCard = 'an invalid credit card') ifTrue: [self error: self invalidCreditCardErrorMessage].
-	priceList := aCart priceList.
-	shoppingList := aCart shoppingList.
-	^ shoppingList inject: 0 into: [:total :anItem | total + priceList at: anItem].  
+!Cashier methodsFor: 'initialize' stamp: 'DA 6/9/2023 17:36:23'!
+initializeCheckout: aCart charging: aCreditCard through: aMerchantProcessor registerIn: aSalesBook 
+	cart := aCart.
+	creditCard := aCreditCard.
+	merchantProcessor := aMerchantProcessor.
+	salesBook := aSalesBook.! !
+
+
+!Cashier methodsFor: 'checkout' stamp: 'DA 6/9/2023 17:34:45'!
+checkout
+	| total |
+	total := cart total.
+	merchantProcessor debit: total from: creditCard. 
+	salesBook add: total.
+	^ total
 	! !
 
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!Cashier methodsFor: 'error handling' stamp: 'DA 6/8/2023 19:49:18'!
+!classDefinition: 'Cashier class' category: 'TusLibros'!
+Cashier class
+	instanceVariableNames: ''!
+
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:35:51'!
+checkout: aCart charging: aCreditCard through: aMerchantProcessor on: aDate registerIn: aSalesBook 
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard through: aMerchantProcessor registerIn: aSalesBook ! !
+
+
+!Cashier class methodsFor: 'error messages' stamp: 'DA 6/9/2023 17:49:54'!
+creditCardFraudErrorMessage
+	^ 'Credit card fraud'! !
+
+!Cashier class methodsFor: 'error messages' stamp: 'DA 6/9/2023 17:45:57'!
+creditCardWithoutBalanceErrorMessage
+	^ 'Credit card has no credit available'! !
+
+!Cashier class methodsFor: 'error messages' stamp: 'DA 6/9/2023 17:34:34'!
 emptyCartErrorMessage
 	^ 'Cannot checkout an empty cart'! !
 
-!Cashier methodsFor: 'error handling' stamp: 'DA 6/8/2023 20:20:15'!
-invalidCreditCardErrorMessage
+!Cashier class methodsFor: 'error messages' stamp: 'DA 6/9/2023 17:34:26'!
+expiredCreditCardErrorMessage
 	^ 'Invalid credit card'! !
+
+
+!classDefinition: #CreditCard category: 'TusLibros'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 16:04:45'!
+initializeExpiringOn: aMonthOfYear 
+	expiration := aMonthOfYear.! !
+
+
+!CreditCard methodsFor: 'comparing' stamp: 'DA 6/9/2023 17:01:39'!
+isExpiredOn: aDate
+	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CreditCard class' category: 'TusLibros'!
+CreditCard class
+	instanceVariableNames: ''!
+
+!CreditCard class methodsFor: 'class initialization' stamp: 'DA 6/9/2023 16:17:32'!
+expiringOn: aMonthOfYear
+	^self new initializeExpiringOn: aMonthOfYear! !
+
+
+!classDefinition: #StoreTestObjects category: 'TusLibros'!
+Object subclass: #StoreTestObjects
+	instanceVariableNames: 'today'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!StoreTestObjects methodsFor: 'credit card generator' stamp: 'DA 6/9/2023 17:01:48'!
+expiredCreditCard
+	^ CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+
+!StoreTestObjects methodsFor: 'credit card generator' stamp: 'DA 6/9/2023 17:02:19'!
+notExpiredCreditCard
+	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+
+
+!StoreTestObjects methodsFor: 'initialize' stamp: 'DA 6/9/2023 16:28:50'!
+initialize 
+	today := DateAndTime now.! !
+
+
+!StoreTestObjects methodsFor: 'cart generator' stamp: 'DA 6/9/2023 16:35:22'!
+createCart
+	^ Cart with: self defaultCatalog ! !
+
+
+!StoreTestObjects methodsFor: 'catalog generator' stamp: 'DA 6/9/2023 16:48:24'!
+defaultCatalog
+	^ Dictionary with: self bookPublished -> 10 with: self otherBookPublished ->20.! !
+
+
+!StoreTestObjects methodsFor: 'date' stamp: 'DA 6/9/2023 16:29:00'!
+today
+	^ today! !
+
+
+!StoreTestObjects methodsFor: 'book generator' stamp: 'DA 6/9/2023 16:22:49'!
+bookNotPublished
+	^'A book that is not published'! !
+
+!StoreTestObjects methodsFor: 'book generator' stamp: 'DA 6/9/2023 16:23:13'!
+bookPublished
+	^'A book that is published'! !
+
+!StoreTestObjects methodsFor: 'book generator' stamp: 'DA 6/9/2023 16:26:52'!
+otherBookPublished
+	^'Other book that is published'! !

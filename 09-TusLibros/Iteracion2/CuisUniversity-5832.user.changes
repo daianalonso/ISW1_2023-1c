@@ -6080,3 +6080,4403 @@ test02SuccesfullCheckoutCartWithOneProduct
 ----SNAPSHOT----(8 June 2023 21:15:55) CuisUniversity-5832.image priorSource: 9732338!
 
 ----QUIT----(8 June 2023 21:16:56) CuisUniversity-5832.image priorSource: 9733659!
+
+----STARTUP---- (9 June 2023 15:40:08) as D:\ISW1\windows64\CuisUniversity-5832.image!
+
+!Cart methodsFor: 'accessing' stamp: 'DA 6/9/2023 15:43:07'!
+total
+	^ items sum: [:anItem | catalog at: anItem].! !
+
+!methodRemoval: Cart #priceList stamp: 'DA 6/9/2023 15:43:13'!
+priceList
+	^ catalog !
+
+!methodRemoval: Cart #shoppingList stamp: 'DA 6/9/2023 15:43:16'!
+shoppingList
+	^items asOrderedCollection !
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 15:43:34' prior: 50635639!
+checkout: aCart withCard: aCreditCard
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard = 'an invalid credit card') ifTrue: [self error: self invalidCreditCardErrorMessage].
+	^ aCart total
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 15:43:49' prior: 50635738!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier|
+	
+	cart := Cart with: Array new. 
+	cashier := Cashier new.
+	
+	self 
+		should: [cashier checkout: cart withCard: self aValidCreditCard]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 15:43:50'!
+PASSED!
+!Cart methodsFor: 'assertions' stamp: 'DA 6/9/2023 15:46:58' prior: 50635055!
+assertValidQuantity: anAmount
+	(anAmount isInteger) ifFalse: [self error: self onlyCanAddIntegerQuantityErrorMessage].
+	(anAmount strictlyPositive ) ifFalse: [self error: self onlyCanAddPositiveQuantityErrorMessage].
+	! !
+!Cart methodsFor: 'adding' stamp: 'DA 6/9/2023 15:48:01'!
+add: aBook
+	self addQuantity: 1 ofBook: aBook. ! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 15:49:05' prior: 50631691!
+test05CartCanAddPositiveAmountOfSameBook
+	|cart catalog|
+	catalog := Array with: self bookPublished. 
+	cart := Cart with: catalog.
+	self 
+		should: [cart addQuantity: -1 ofBook: self bookPublished.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cart onlyCanAddPositiveQuantityErrorMessage.
+			self assert: cart isEmpty]! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 15:49:27' prior: 50634960!
+test08CartCanAddIntegerAmountOfBooks
+	|cart catalog|
+	catalog := Array with: self bookPublished. 
+	cart := Cart with: catalog.
+	self 
+		should: [cart addQuantity: 1.1 ofBook: self bookPublished.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cart onlyCanAddIntegerQuantityErrorMessage.
+			self assert: cart isEmpty]! !
+
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'DA 6/9/2023 15:54:56'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:02:01' prior: 50635856!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier creditCard |
+	
+	cart := Cart with: Array new. 
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self 
+		should: [cashier checkout: cart withCard: self aValidCreditCard on: Date today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:02:05'!
+ERROR!
+!CreditCard class methodsFor: 'class initialization' stamp: 'DA 6/9/2023 16:02:14'!
+expiringOn: aRenameMe1 
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'class initialization' stamp: 'DA 6/9/2023 16:03:20' prior: 50635977!
+expiringOn: aMonthOfYear
+	self new initializeExpiringOn: aMonthOfYear! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:03:22'!
+ERROR!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:03:46'!
+ERROR!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:03:46'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:03:46'!
+ERROR!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'DA 6/9/2023 16:03:59'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration monthOfYear'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 16:03:59'!
+initializeExpiringOn: aMonthOfYear 
+	self shouldBeImplemented.
+	monthOfYear := aMonthOfYear.! !
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 16:04:45' prior: 50636023!
+initializeExpiringOn: aMonthOfYear 
+	expiration := aMonthOfYear.! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:04:46'!
+FAILURE!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 16:05:43'!
+checkout: aCart withCard: aCreditCard on: aDate
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self invalidCreditCardErrorMessage].
+	^ aCart total
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:05:46'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:06:50' prior: 50635811!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 1 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart withCard: self aValidCreditCard) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:07:20' prior: 50636070!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 1 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart withCard: self aValidCreditCard on: Date today) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:07:28' prior: 50636091!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 1 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart withCard: creditCard on: Date today) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:07:47' prior: 50635487!
+test03SuccesfullCheckoutCartWithProducts
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	priceList add: self otherBookPublished -> 20.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 2 ofBook: self bookPublished.
+	cart addQuantity: 1 ofBook: self otherBookPublished.
+	
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart withCard: creditCard on: Date today) = 40.  ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:08:29' prior: 50635689!
+test04CheckoutFailWhenCreditCardIsExpired
+	"se le deberia proveer el aniomes al cajero para poder saber si la tarjeta expiró."
+	|cart cashier priceList creditCardExpired|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 2 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCardExpired := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber - 1) .
+	
+	self 
+		should: [cashier checkout: cart withCard: creditCardExpired on: Date today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier invalidCreditCardErrorMessage.]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:08:37'!
+FAILURE!
+
+!methodRemoval: Cashier #checkout:withCard: stamp: 'DA 6/9/2023 16:08:51'!
+checkout: aCart withCard: aCreditCard
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard = 'an invalid credit card') ifTrue: [self error: self invalidCreditCardErrorMessage].
+	^ aCart total
+	!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:08:55'!
+ERROR!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:08:55'!
+ERROR!
+!CreditCard class methodsFor: 'category-name' stamp: 'DA 6/9/2023 16:09:06'!
+isExpiredOn: aDate 
+	self shouldBeImplemented.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:10:19'!
+ERROR!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 16:10:40'!
+checkout: aCart charging: aCreditCard on: aDate
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self invalidCreditCardErrorMessage].
+	^ aCart total
+	! !
+
+!methodRemoval: Cashier #checkout:withCard:on: stamp: 'DA 6/9/2023 16:10:46'!
+checkout: aCart withCard: aCreditCard on: aDate
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self invalidCreditCardErrorMessage].
+	^ aCart total
+	!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:10:53' prior: 50635952!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier creditCard |
+	
+	cart := Cart with: Array new. 
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self 
+		should: [cashier checkout: cart charging: self aValidCreditCard on: Date today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:11:03' prior: 50636225!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier creditCard |
+	
+	cart := Cart with: Array new. 
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self 
+		should: [cashier checkout: cart charging: creditCard on: Date today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:11:11' prior: 50636112!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 1 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart charging: creditCard on: Date today) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:11:17' prior: 50636133!
+test03SuccesfullCheckoutCartWithProducts
+	|cart cashier priceList creditCard|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	priceList add: self otherBookPublished -> 20.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 2 ofBook: self bookPublished.
+	cart addQuantity: 1 ofBook: self otherBookPublished.
+	
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart charging: creditCard on: Date today) = 40.  ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:11:23' prior: 50636154!
+test04CheckoutFailWhenCreditCardIsExpired
+	"se le deberia proveer el aniomes al cajero para poder saber si la tarjeta expiró."
+	|cart cashier priceList creditCardExpired|
+	
+	priceList := Dictionary new.
+	priceList add: self bookPublished -> 10.
+	
+	cart := Cart with: priceList.
+	cart addQuantity: 2 ofBook: self bookPublished.
+	
+	cashier := Cashier new.
+	
+	creditCardExpired := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber - 1) .
+	
+	self 
+		should: [cashier checkout: cart charging: creditCardExpired on: Date today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier invalidCreditCardErrorMessage.]! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:11:30'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:11:30'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:11:30'!
+ERROR!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:11:30'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:11:30'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:11:30'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:11:30'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:11:30'!
+PASSED!
+
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'DA 6/9/2023 16:11:49'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 16:13:13'!
+isExpiredOn: aDate
+	^expiration < Month month: aDate monthIndex year: aDate yearNumber! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:13:15'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:13:15'!
+ERROR!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:13:15'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:13:15'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:13:15'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:13:15'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:13:15'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:14:33'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:14:33'!
+ERROR!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:14:33'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:14:33'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:14:33'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:14:33'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:14:33'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:14:34'!
+ERROR!
+
+!methodRemoval: CreditCard class #isExpiredOn: stamp: 'DA 6/9/2023 16:14:53'!
+isExpiredOn: aDate 
+	self shouldBeImplemented.!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:14:59'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:14:59'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:14:59'!
+ERROR!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:14:59'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:14:59'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:14:59'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:14:59'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:14:59'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:15:01'!
+ERROR!
+!CreditCard class methodsFor: 'class initialization' stamp: 'DA 6/9/2023 16:17:32' prior: 50635982!
+expiringOn: aMonthOfYear
+	^self new initializeExpiringOn: aMonthOfYear! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:17:41'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:17:41'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:17:41'!
+ERROR!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:17:41'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:17:41'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:17:41'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:17:41'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:17:42'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:17:43'!
+ERROR!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:17:56'!
+ERROR!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:18:00'!
+ERROR!
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 16:20:54' prior: 50636372!
+isExpiredOn: aDate
+	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:20:55'!
+PASSED!
+
+Object subclass: #StoreTestObjects
+	instanceVariableNames: 'today'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #StoreTestObjects category: 'TusLibros' stamp: 'DA 6/9/2023 16:21:56'!
+Object subclass: #StoreTestObjects
+	instanceVariableNames: 'today'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!StoreTestObjects methodsFor: 'no messages' stamp: 'DA 6/9/2023 16:22:35'!
+bookNotPublished
+	^'A book that is not published'! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:22:49' prior: 50636541!
+bookNotPublished
+	^'A book that is not published'! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:23:13'!
+bookPublished
+	^'A book that is published'! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:23:28'!
+defaultCatalog! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:23:42'!
+creditCardValid! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:24:09'!
+expiredCreditCard! !
+
+!methodRemoval: StoreTestObjects #creditCardValid stamp: 'DA 6/9/2023 16:24:09'!
+creditCardValid!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:24:16'!
+notExpiredCreditCard! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:24:57'!
+createCart
+	^ Cart with: self defaultCatalog ! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:26:42' prior: 50636556!
+defaultCatalog
+	^ Dictionary with:  self bookPublished -> 10 with: self otherBookPublished -> 20.! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:26:52'!
+otherBookPublished
+	^'Other book that is published'! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:27:33' prior: 50636571!
+notExpiredCreditCard
+	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber)! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:28:00' prior: 50636564!
+expiredCreditCard
+	^ CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:28:50' overrides: 16920235!
+initialize 
+	today := DateAndTime now.! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:29:00'!
+today
+	^ today! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:31:09' prior: 50631497!
+test01NewCartStartsEmpty
+	
+	self assert: StoreTestObjects createCart isEmpty! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:31:27' prior: 50636612!
+test01NewCartStartsEmpty
+	
+	self assert: (StoreTestObjects createCart) isEmpty! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:31:28'!
+ERROR!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:32:23' prior: 50636575!
+createCart
+	^ Cart initializeWith: self defaultCatalog ! !
+
+!methodRemoval: CartTest #bookNotPublished stamp: 'DA 6/9/2023 16:32:30'!
+bookNotPublished
+	^'A book that is not published'!
+
+!methodRemoval: CartTest #bookPublished stamp: 'DA 6/9/2023 16:32:36'!
+bookPublished
+	^'A book that is published'!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:32:40'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:33:51' prior: 50636617!
+test01NewCartStartsEmpty
+	
+	self assert: (StoreTestObjects new createCart) isEmpty! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:33:52'!
+ERROR!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:34:45' prior: 50636626!
+createCart
+	^ Cart initializeWith: self defaultCatalog ! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:34:46'!
+FAILURE!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:34:46'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:34:57'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:34:57'!
+ERROR!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:35:22' prior: 50636650!
+createCart
+	^ Cart with: self defaultCatalog ! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:35:28'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:35:48' prior: 50634851!
+test02CannotAddBookThatNotBelongSite
+	|cart emptyCatalog|
+	emptyCatalog := Array new. 
+	cart := Cart with: emptyCatalog.
+	
+	self 
+		should: [cart addQuantity: 1 ofBook: StoreTestObjects bookPublished.]
+	 	raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: cart invalidBookErrorMessage.
+			self assert: cart isEmpty. 
+			]! !
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:36:32'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:37:30' prior: 50636641!
+test01NewCartStartsEmpty
+	
+	self assert: (StoreTestObjects createCart) isEmpty! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:38:13'!
+FAILURE!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:38:13'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:38:15'!
+ERROR!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:39:28' prior: 50636580!
+defaultCatalog
+	^ Dictionary new
+		at: self bookPublished put: 10; at: self otherBookPublished put: 20.! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:39:29'!
+ERROR!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:39:29'!
+FAILURE!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:39:29'!
+ERROR!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:39:29'!
+ERROR!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:39:29'!
+ERROR!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:39:29'!
+ERROR!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:39:30'!
+ERROR!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:39:30'!
+ERROR!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:39:37' prior: 50636742!
+defaultCatalog
+	^ Dictionary new
+		at: self bookPublished put: 10;
+		at: self otherBookPublished put: 20.! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:40:22'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:40:22'!
+ERROR!
+
+!classDefinition: #CartTest category: 'TusLibros' stamp: 'DA 6/9/2023 16:41:23'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'testStoreObjects'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartTest methodsFor: 'nil' stamp: 'DA 6/9/2023 16:41:21' overrides: 16961394!
+setUp
+	testStoreObjects := StoreTestObjects new! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:41:39' prior: 50636709!
+test01NewCartStartsEmpty
+	
+	self assert: (testStoreObjects createCart) isEmpty! !
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:41:40'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:41:40'!
+PASSED!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:41:40'!
+FAILURE!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:41:40'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:41:43'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:42:37' prior: 50636692!
+test02CannotAddBookThatNotBelongSite
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	self 
+		should: [cart addQuantity: 1 ofBook: testStoreObjects bookPublished.]
+	 	raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: cart invalidBookErrorMessage.
+			self assert: cart isEmpty. 
+			]! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:43:11' prior: 50631579!
+test03AddingBookThatBelongSiteMakesCartNotEmpty
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:43:46' prior: 50631589!
+test04CartCanAddAmountOfSameBook
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished .
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:43:47' prior: 50636853!
+test04CartCanAddAmountOfSameBook
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	self deny: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:44:15' prior: 50635912!
+test05CartCanAddPositiveAmountOfSameBook
+	|cart|
+	cart := testStoreObjects createCart.
+	self 
+		should: [cart addQuantity: -1 ofBook: testStoreObjects bookPublished.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cart onlyCanAddPositiveQuantityErrorMessage.
+			self assert: cart isEmpty]! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:44:52' prior: 50634690!
+test06CartCanRememberNumberOfBooksAdded
+	|cart |
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished .
+	self assert: 2 equals: (cart amountAddedOf: testStoreObjects bookPublished). ! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:45:23' prior: 50634732!
+test07CartCanCheckIfHasAddedABook
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	self assert: (cart contains: testStoreObjects bookPublished). ! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:45:51' prior: 50635926!
+test08CartCanAddIntegerAmountOfBooks
+	|cart| 
+	cart := testStoreObjects createCart.
+	self 
+		should: [cart addQuantity: 1.1 ofBook: testStoreObjects bookPublished]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cart onlyCanAddIntegerQuantityErrorMessage.
+			self assert: cart isEmpty]! !
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:45:53'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:45:53'!
+PASSED!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:45:53'!
+FAILURE!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:45:53'!
+ERROR!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:45:53'!
+ERROR!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:45:53'!
+PASSED!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:45:53'!
+ERROR!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:45:53'!
+ERROR!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:45:53'!
+PASSED!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:45:56'!
+FAILURE!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:46:13'!
+FAILURE!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:46:13'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:47:00'!
+PASSED!
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:48:24' prior: 50636773!
+defaultCatalog
+	^ Dictionary with: self bookPublished -> 10 with: self otherBookPublished ->20.! !
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:48:29'!
+FAILURE!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:48:29'!
+FAILURE!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:48:48'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:49:05' prior: 50636831!
+test02CannotAddBookThatNotBelongSite
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	
+	self 
+		should: [cart addQuantity: 1 ofBook: testStoreObjects bookPublished.]
+	 	raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: cart invalidBookErrorMessage.
+			self assert: cart isEmpty. 
+			]! !
+!CartTest methodsFor: 'tests' stamp: 'DA 6/9/2023 16:49:15' prior: 50636969!
+test02CannotAddBookThatNotBelongSite
+	|cart|
+	cart := testStoreObjects createCart.
+	
+	self 
+		should: [cart addQuantity: 1 ofBook: testStoreObjects bookNotPublished.]
+	 	raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: cart invalidBookErrorMessage.
+			self assert: cart isEmpty. 
+			]! !
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:49:17'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartStartsEmpty stamp: 'DA 6/9/2023 16:49:17'!
+PASSED!
+
+!testRun: #CartTest #test02CannotAddBookThatNotBelongSite stamp: 'DA 6/9/2023 16:49:17'!
+PASSED!
+
+!testRun: #CartTest #test03AddingBookThatBelongSiteMakesCartNotEmpty stamp: 'DA 6/9/2023 16:49:17'!
+PASSED!
+
+!testRun: #CartTest #test04CartCanAddAmountOfSameBook stamp: 'DA 6/9/2023 16:49:17'!
+PASSED!
+
+!testRun: #CartTest #test05CartCanAddPositiveAmountOfSameBook stamp: 'DA 6/9/2023 16:49:18'!
+PASSED!
+
+!testRun: #CartTest #test06CartCanRememberNumberOfBooksAdded stamp: 'DA 6/9/2023 16:49:18'!
+PASSED!
+
+!testRun: #CartTest #test07CartCanCheckIfHasAddedABook stamp: 'DA 6/9/2023 16:49:18'!
+PASSED!
+
+!testRun: #CartTest #test08CartCanAddIntegerAmountOfBooks stamp: 'DA 6/9/2023 16:49:18'!
+PASSED!
+
+!methodRemoval: CashierTest #aValidCreditCard stamp: 'DA 6/9/2023 16:49:33'!
+aValidCreditCard
+	^ 'a valid credit card'!
+
+!methodRemoval: CashierTest #anInvalidCreditCard stamp: 'DA 6/9/2023 16:49:34'!
+anInvalidCreditCard
+	^ 'an invalid credit card'!
+
+!methodRemoval: CashierTest #bookPublished stamp: 'DA 6/9/2023 16:49:36'!
+bookPublished
+	^ 'a valid book'!
+
+!methodRemoval: CashierTest #otherBookPublished stamp: 'DA 6/9/2023 16:49:38'!
+otherBookPublished
+	^ 'an Other valid book'!
+
+!classDefinition: #CashierTest category: 'TusLibros' stamp: 'DA 6/9/2023 16:50:10'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'testStoreObjects'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'nil' stamp: 'DA 6/9/2023 16:50:09' overrides: 16961394!
+setUp
+	testStoreObjects := StoreTestObjects new. ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:52:24' prior: 50636247!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier|
+	
+	cart := testStoreObjects createCart.
+	cashier := Cashier new.
+	
+	self 
+		should: [
+			cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:52:27'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:53:38' prior: 50636269!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	
+	self assert: (Cashier checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 10.  
+	! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:53:44'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:53:49' prior: 50637075!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	
+	self assert: (Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 10.  
+	! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:53:50'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:53:50'!
+ERROR!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:53:50'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:53:55'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:54:10' prior: 50637052!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier|
+	
+	cart := testStoreObjects createCart.
+	
+	self 
+		should: [
+			Cashier new checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: cart isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:54:41' prior: 50636290!
+test03SuccesfullCheckoutCartWithProducts
+	|cart cashier creditCard|
+	
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: self bookPublished.
+	cart addQuantity: 1 ofBook: self otherBookPublished.
+	
+	cashier := Cashier new.
+	creditCard := CreditCard expiringOn: (Month month: Date today monthIndex year: Date today yearNumber) .
+	
+	self assert: (cashier checkout: cart charging: creditCard on: Date today) = 40.  ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:55:26' prior: 50637158!
+test03SuccesfullCheckoutCartWithProducts
+	|cart |
+	
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	self assert: (Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 40.  ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:56:30' prior: 50636311!
+test04CheckoutFailWhenCreditCardIsExpired
+	"se le deberia proveer el aniomes al cajero para poder saber si la tarjeta expiró."
+	|cart cashier |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+	
+	self 
+		should: [cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier invalidCreditCardErrorMessage.]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:56:41' prior: 50637189!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+	
+	self 
+		should: [cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier invalidCreditCardErrorMessage.]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:56:48' prior: 50637175!
+test03SuccesfullCheckoutCartWithProducts
+	|cart |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	self assert: (Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 40.  ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:56:52' prior: 50637094!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	
+	self assert: (Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:57:02' prior: 50637139!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier|
+	
+	cart := testStoreObjects createCart.
+	
+	self 
+		should: [
+			Cashier new checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:57:21' prior: 50637256!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier|
+	
+	cart := testStoreObjects createCart.
+	cashier := Cashier new.
+	
+	self 
+		should: [
+			cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:57:23'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:57:26'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 16:57:26'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:57:26'!
+FAILURE!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 16:57:44'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 16:57:47'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:57:52'!
+FAILURE!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:57:52'!
+FAILURE!
+!Cashier methodsFor: 'error handling' stamp: 'DA 6/9/2023 16:58:37'!
+expiredCreditCardErrorMessage
+	^ 'Invalid credit card'! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:58:37' prior: 50636205!
+checkout: aCart charging: aCreditCard on: aDate
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^ aCart total
+	! !
+
+!methodRemoval: Cashier #invalidCreditCardErrorMessage stamp: 'DA 6/9/2023 16:58:37'!
+invalidCreditCardErrorMessage
+	^ 'Invalid credit card'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:58:49' prior: 50637209!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+	
+	self 
+		should: [cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:58:50'!
+FAILURE!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 16:59:03'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 16:59:14' prior: 50637358!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+	
+	cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today.
+	self 
+		should: [cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.]! !
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 17:00:19' prior: 50636501!
+isExpiredOn: aDate
+	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber)! !
+!CreditCard methodsFor: 'initialization' stamp: 'DA 6/9/2023 17:01:39' prior: 50637402!
+isExpiredOn: aDate
+	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:01:48' prior: 50636598!
+expiredCreditCard
+	^ CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+!StoreTestObjects methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:02:19' prior: 50636591!
+notExpiredCreditCard
+	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+!Behavior method!
+add: aBook
+	#_coverageTracker4948412_ markAsExecuted.
+	[ | receiver1 |
+	receiver1 _ #_coverageTracker4948412_
+		coverAll:
+			{13 to: 16}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948412_
+		coverAll:
+			{18 to: 29. 33 to: 39}
+		evaluating: [
+			receiver1
+				addQuantity:
+					(#_coverageTracker4948412_
+						coverAll:
+							{31 to: 31}
+						byLiteralOrPseudoVariable: 1)
+				ofBook:
+					(#_coverageTracker4948412_
+						cover: (41 to: 45)
+						declaredAt: (6 to: 10)
+						by: aBook) ]
+		thatSends: #addQuantity:ofBook:
+		to: receiver1 ] value.! !
+!Behavior method!
+with: aCatalog
+	#_coverageTracker4948464_ markAsExecuted.
+	^ [ | receiver2 |
+	receiver2 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4948464_
+		coverAll:
+			{18 to: 21}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948464_
+		coverAll:
+			{23 to: 25}
+		evaluating: [ receiver1 new ]
+		thatSends: #new
+		to: receiver1 ] value.
+	#_coverageTracker4948464_
+		coverAll:
+			{27 to: 41}
+		evaluating: [
+			receiver2 initializeWith:
+				(#_coverageTracker4948464_
+					cover: (43 to: 50)
+					declaredAt: (7 to: 14)
+					by: aCatalog) ]
+		thatSends: #initializeWith:
+		to: receiver2 ] value.! !
+!Behavior method!
+test05CartCanAddPositiveAmountOfSameBook
+	| cart |
+	#_coverageTracker4948495_ markAsExecuted.
+	#_coverageTracker4948495_
+		cover: (51 to: 54)
+		declaredAt: (44 to: 47)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4948495_
+				cover: (59 to: 74)
+				declaredAt: (59 to: 74)
+				by: testStoreObjects.
+			#_coverageTracker4948495_
+				coverAll:
+					{76 to: 85}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver9 |
+	receiver9 _ #_coverageTracker4948495_
+		coverAll:
+			{89 to: 92}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948495_
+		coverAll:
+			{97 to: 103. 170 to: 175. 185 to: 200}
+		evaluating: [
+			receiver9
+				should: [
+					[ | receiver3 |
+					receiver3 _ #_coverageTracker4948495_
+						cover: (106 to: 109)
+						declaredAt: (44 to: 47)
+						by: cart.
+					#_coverageTracker4948495_
+						coverAll:
+							{111 to: 122. 127 to: 133}
+						evaluating: [
+							receiver3
+								addQuantity:
+									(#_coverageTracker4948495_
+										coverAll:
+											{124 to: 125}
+										byLiteralOrPseudoVariable: -1)
+								ofBook:
+									[ | receiver2 |
+									receiver2 _ #_coverageTracker4948495_
+										cover: (135 to: 150)
+										declaredAt: (59 to: 74)
+										by: testStoreObjects.
+									#_coverageTracker4948495_
+										coverAll:
+											{152 to: 164}
+										evaluating: [ receiver2 bookPublished ]
+										thatSends: #bookPublished
+										to: receiver2 ] value ]
+						thatSends: #addQuantity:ofBook:
+						to: receiver3 ] value ]
+				raise:
+					(#_coverageTracker4948495_
+						coverAll:
+							{177 to: 181}
+						by: Error)
+				withExceptionDo: [ :anError |
+					[ | receiver6 |
+					receiver6 _ #_coverageTracker4948495_
+						coverAll:
+							{216 to: 219}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948495_
+						coverAll:
+							{221 to: 227. 249 to: 255}
+						evaluating: [
+							receiver6
+								assert:
+									[ | receiver4 |
+									receiver4 _ #_coverageTracker4948495_
+										cover: (229 to: 235)
+										declaredAt: (204 to: 210)
+										by: anError.
+									#_coverageTracker4948495_
+										coverAll:
+											{237 to: 247}
+										evaluating: [ receiver4 messageText ]
+										thatSends: #messageText
+										to: receiver4 ] value
+								equals:
+									[ | receiver5 |
+									receiver5 _ #_coverageTracker4948495_
+										cover: (257 to: 260)
+										declaredAt: (44 to: 47)
+										by: cart.
+									#_coverageTracker4948495_
+										coverAll:
+											{262 to: 299}
+										evaluating: [ receiver5 onlyCanAddPositiveQuantityErrorMessage ]
+										thatSends: #onlyCanAddPositiveQuantityErrorMessage
+										to: receiver5 ] value ]
+						thatSends: #assert:equals:
+						to: receiver6 ] value.
+					[ | receiver8 |
+					receiver8 _ #_coverageTracker4948495_
+						coverAll:
+							{305 to: 308}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948495_
+						coverAll:
+							{310 to: 316}
+						evaluating: [
+							receiver8 assert:
+								[ | receiver7 |
+								receiver7 _ #_coverageTracker4948495_
+									cover: (318 to: 321)
+									declaredAt: (44 to: 47)
+									by: cart.
+								#_coverageTracker4948495_
+									coverAll:
+										{323 to: 329}
+									evaluating: [ receiver7 isEmpty ]
+									thatSends: #isEmpty
+									to: receiver7 ] value ]
+						thatSends: #assert:
+						to: receiver8 ] value ]]
+		thatSends: #should:raise:withExceptionDo:
+		to: receiver9 ] value.! !
+!Behavior method!
+amountAddedOf: aBook
+	#_coverageTracker4948557_ markAsExecuted.
+	^ [ | receiver1 |
+	receiver1 _ #_coverageTracker4948557_
+		cover: (25 to: 29)
+		declaredAt: (25 to: 29)
+		by: items.
+	#_coverageTracker4948557_
+		coverAll:
+			{31 to: 44}
+		evaluating: [
+			receiver1 occurrencesOf:
+				(#_coverageTracker4948557_
+					cover: (46 to: 50)
+					declaredAt: (16 to: 20)
+					by: aBook) ]
+		thatSends: #occurrencesOf:
+		to: receiver1 ] value.! !
+!Behavior method!
+bookNotPublished
+	#_coverageTracker4948584_ markAsExecuted.
+	^ #_coverageTracker4948584_
+		coverAll:
+			{20 to: 49}
+		byLiteralOrPseudoVariable: 'A book that is not published'.! !
+!Behavior method!
+contains: aBook
+	#_coverageTracker4948610_ markAsExecuted.
+	^ [ | receiver1 |
+	receiver1 _ #_coverageTracker4948610_
+		cover: (20 to: 24)
+		declaredAt: (20 to: 24)
+		by: items.
+	#_coverageTracker4948610_
+		coverAll:
+			{26 to: 34}
+		evaluating: [
+			receiver1 includes:
+				(#_coverageTracker4948610_
+					cover: (36 to: 40)
+					declaredAt: (11 to: 15)
+					by: aBook) ]
+		thatSends: #includes:
+		to: receiver1 ] value.! !
+!Behavior method!
+expiringOn: aMonthOfYear
+	#_coverageTracker4948637_ markAsExecuted.
+	^ [ | receiver2 |
+	receiver2 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4948637_
+		coverAll:
+			{28 to: 31}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948637_
+		coverAll:
+			{33 to: 35}
+		evaluating: [ receiver1 new ]
+		thatSends: #new
+		to: receiver1 ] value.
+	#_coverageTracker4948637_
+		coverAll:
+			{37 to: 57}
+		evaluating: [
+			receiver2 initializeExpiringOn:
+				(#_coverageTracker4948637_
+					cover: (59 to: 70)
+					declaredAt: (13 to: 24)
+					by: aMonthOfYear) ]
+		thatSends: #initializeExpiringOn:
+		to: receiver2 ] value.! !
+!Behavior method!
+test01NewCartStartsEmpty
+	#_coverageTracker4948658_ markAsExecuted.
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4948658_
+		coverAll:
+			{29 to: 32}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948658_
+		coverAll:
+			{34 to: 40}
+		evaluating: [
+			receiver3 assert:
+				[ | receiver2 |
+				receiver2 _ [ | receiver1 |
+				receiver1 _ #_coverageTracker4948658_
+					cover: (43 to: 58)
+					declaredAt: (43 to: 58)
+					by: testStoreObjects.
+				#_coverageTracker4948658_
+					coverAll:
+						{60 to: 69}
+					evaluating: [ receiver1 createCart ]
+					thatSends: #createCart
+					to: receiver1 ] value.
+				#_coverageTracker4948658_
+					coverAll:
+						{72 to: 78}
+					evaluating: [ receiver2 isEmpty ]
+					thatSends: #isEmpty
+					to: receiver2 ] value ]
+		thatSends: #assert:
+		to: receiver3 ] value.! !
+!Behavior method!
+initializeWith: aCatalog
+	#_coverageTracker4948683_ markAsExecuted.
+	#_coverageTracker4948683_
+		cover: (28 to: 34)
+		declaredAt: (28 to: 34)
+		by:
+			(catalog _ #_coverageTracker4948683_
+				cover: (39 to: 46)
+				declaredAt: (17 to: 24)
+				by: aCatalog).
+	#_coverageTracker4948683_
+		cover: (50 to: 54)
+		declaredAt: (50 to: 54)
+		by:
+			(items _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4948683_
+				coverAll:
+					{59 to: 61}
+				by: Bag.
+			#_coverageTracker4948683_
+				coverAll:
+					{63 to: 65}
+				evaluating: [ receiver1 new ]
+				thatSends: #new
+				to: receiver1 ] value).! !
+!Behavior method!
+test03AddingBookThatBelongSiteMakesCartNotEmpty
+	| cart |
+	#_coverageTracker4948798_ markAsExecuted.
+	#_coverageTracker4948798_
+		cover: (58 to: 61)
+		declaredAt: (51 to: 54)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4948798_
+				cover: (66 to: 81)
+				declaredAt: (66 to: 81)
+				by: testStoreObjects.
+			#_coverageTracker4948798_
+				coverAll:
+					{83 to: 92}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4948798_
+		cover: (98 to: 101)
+		declaredAt: (51 to: 54)
+		by: cart.
+	#_coverageTracker4948798_
+		coverAll:
+			{103 to: 114. 118 to: 124}
+		evaluating: [
+			receiver3
+				addQuantity:
+					(#_coverageTracker4948798_
+						coverAll:
+							{116 to: 116}
+						byLiteralOrPseudoVariable: 1)
+				ofBook:
+					[ | receiver2 |
+					receiver2 _ #_coverageTracker4948798_
+						cover: (126 to: 141)
+						declaredAt: (66 to: 81)
+						by: testStoreObjects.
+					#_coverageTracker4948798_
+						coverAll:
+							{143 to: 155}
+						evaluating: [ receiver2 bookPublished ]
+						thatSends: #bookPublished
+						to: receiver2 ] value ]
+		thatSends: #addQuantity:ofBook:
+		to: receiver3 ] value.
+	[ | receiver5 |
+	receiver5 _ #_coverageTracker4948798_
+		coverAll:
+			{159 to: 162}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948798_
+		coverAll:
+			{164 to: 168}
+		evaluating: [
+			receiver5 deny:
+				[ | receiver4 |
+				receiver4 _ #_coverageTracker4948798_
+					cover: (170 to: 173)
+					declaredAt: (51 to: 54)
+					by: cart.
+				#_coverageTracker4948798_
+					coverAll:
+						{175 to: 181}
+					evaluating: [ receiver4 isEmpty ]
+					thatSends: #isEmpty
+					to: receiver4 ] value ]
+		thatSends: #deny:
+		to: receiver5 ] value.! !
+!Behavior method!
+today
+	#_coverageTracker4948843_ markAsExecuted.
+	^ #_coverageTracker4948843_
+		cover: (10 to: 14)
+		declaredAt: (10 to: 14)
+		by: today.! !
+!Behavior method!
+test06CartCanRememberNumberOfBooksAdded
+	| cart |
+	#_coverageTracker4948868_ markAsExecuted.
+	#_coverageTracker4948868_
+		cover: (51 to: 54)
+		declaredAt: (43 to: 46)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4948868_
+				cover: (59 to: 74)
+				declaredAt: (59 to: 74)
+				by: testStoreObjects.
+			#_coverageTracker4948868_
+				coverAll:
+					{76 to: 85}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4948868_
+		cover: (91 to: 94)
+		declaredAt: (43 to: 46)
+		by: cart.
+	#_coverageTracker4948868_
+		coverAll:
+			{96 to: 107. 111 to: 117}
+		evaluating: [
+			receiver3
+				addQuantity:
+					(#_coverageTracker4948868_
+						coverAll:
+							{109 to: 109}
+						byLiteralOrPseudoVariable: 2)
+				ofBook:
+					[ | receiver2 |
+					receiver2 _ #_coverageTracker4948868_
+						cover: (119 to: 134)
+						declaredAt: (59 to: 74)
+						by: testStoreObjects.
+					#_coverageTracker4948868_
+						coverAll:
+							{136 to: 148}
+						evaluating: [ receiver2 bookPublished ]
+						thatSends: #bookPublished
+						to: receiver2 ] value ]
+		thatSends: #addQuantity:ofBook:
+		to: receiver3 ] value.
+	[ | receiver6 |
+	receiver6 _ #_coverageTracker4948868_
+		coverAll:
+			{153 to: 156}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948868_
+		coverAll:
+			{158 to: 164. 168 to: 174}
+		evaluating: [
+			receiver6
+				assert:
+					(#_coverageTracker4948868_
+						coverAll:
+							{166 to: 166}
+						byLiteralOrPseudoVariable: 2)
+				equals:
+					[ | receiver5 |
+					receiver5 _ #_coverageTracker4948868_
+						cover: (177 to: 180)
+						declaredAt: (43 to: 46)
+						by: cart.
+					#_coverageTracker4948868_
+						coverAll:
+							{182 to: 195}
+						evaluating: [
+							receiver5 amountAddedOf:
+								[ | receiver4 |
+								receiver4 _ #_coverageTracker4948868_
+									cover: (197 to: 212)
+									declaredAt: (59 to: 74)
+									by: testStoreObjects.
+								#_coverageTracker4948868_
+									coverAll:
+										{214 to: 226}
+									evaluating: [ receiver4 bookPublished ]
+									thatSends: #bookPublished
+									to: receiver4 ] value ]
+						thatSends: #amountAddedOf:
+						to: receiver5 ] value ]
+		thatSends: #assert:equals:
+		to: receiver6 ] value.! !
+!Behavior method!
+defaultCatalog
+	#_coverageTracker4948906_ markAsExecuted.
+	^ [ | receiver5 |
+	receiver5 _ #_coverageTracker4948906_
+		coverAll:
+			{19 to: 28}
+		by: Dictionary.
+	#_coverageTracker4948906_
+		coverAll:
+			{30 to: 34. 61 to: 65}
+		evaluating: [
+			receiver5
+				with:
+					[ | receiver2 |
+					receiver2 _ [ | receiver1 |
+					receiver1 _ #_coverageTracker4948906_
+						coverAll:
+							{36 to: 39}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948906_
+						coverAll:
+							{41 to: 53}
+						evaluating: [ receiver1 bookPublished ]
+						thatSends: #bookPublished
+						to: receiver1 ] value.
+					#_coverageTracker4948906_
+						coverAll:
+							{55 to: 56}
+						evaluating: [
+							receiver2 ->
+								(#_coverageTracker4948906_
+									coverAll:
+										{58 to: 59}
+									byLiteralOrPseudoVariable: 10) ]
+						thatSends: #->
+						to: receiver2 ] value
+				with:
+					[ | receiver4 |
+					receiver4 _ [ | receiver3 |
+					receiver3 _ #_coverageTracker4948906_
+						coverAll:
+							{67 to: 70}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948906_
+						coverAll:
+							{72 to: 89}
+						evaluating: [ receiver3 otherBookPublished ]
+						thatSends: #otherBookPublished
+						to: receiver3 ] value.
+					#_coverageTracker4948906_
+						coverAll:
+							{91 to: 92}
+						evaluating: [
+							receiver4 ->
+								(#_coverageTracker4948906_
+									coverAll:
+										{93 to: 94}
+									byLiteralOrPseudoVariable: 20) ]
+						thatSends: #->
+						to: receiver4 ] value ]
+		thatSends: #with:with:
+		to: receiver5 ] value.! !
+!Behavior method!
+test08CartCanAddIntegerAmountOfBooks
+	| cart |
+	#_coverageTracker4948953_ markAsExecuted.
+	#_coverageTracker4948953_
+		cover: (48 to: 51)
+		declaredAt: (40 to: 43)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4948953_
+				cover: (56 to: 71)
+				declaredAt: (56 to: 71)
+				by: testStoreObjects.
+			#_coverageTracker4948953_
+				coverAll:
+					{73 to: 82}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver9 |
+	receiver9 _ #_coverageTracker4948953_
+		coverAll:
+			{86 to: 89}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4948953_
+		coverAll:
+			{94 to: 100. 167 to: 172. 182 to: 197}
+		evaluating: [
+			receiver9
+				should: [
+					[ | receiver3 |
+					receiver3 _ #_coverageTracker4948953_
+						cover: (103 to: 106)
+						declaredAt: (40 to: 43)
+						by: cart.
+					#_coverageTracker4948953_
+						coverAll:
+							{108 to: 119. 125 to: 131}
+						evaluating: [
+							receiver3
+								addQuantity:
+									(#_coverageTracker4948953_
+										coverAll:
+											{121 to: 123}
+										byLiteralOrPseudoVariable: 1.1)
+								ofBook:
+									[ | receiver2 |
+									receiver2 _ #_coverageTracker4948953_
+										cover: (133 to: 148)
+										declaredAt: (56 to: 71)
+										by: testStoreObjects.
+									#_coverageTracker4948953_
+										coverAll:
+											{150 to: 162}
+										evaluating: [ receiver2 bookPublished ]
+										thatSends: #bookPublished
+										to: receiver2 ] value ]
+						thatSends: #addQuantity:ofBook:
+						to: receiver3 ] value ]
+				raise:
+					(#_coverageTracker4948953_
+						coverAll:
+							{174 to: 178}
+						by: Error)
+				withExceptionDo: [ :anError |
+					[ | receiver6 |
+					receiver6 _ #_coverageTracker4948953_
+						coverAll:
+							{213 to: 216}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948953_
+						coverAll:
+							{218 to: 224. 246 to: 252}
+						evaluating: [
+							receiver6
+								assert:
+									[ | receiver4 |
+									receiver4 _ #_coverageTracker4948953_
+										cover: (226 to: 232)
+										declaredAt: (201 to: 207)
+										by: anError.
+									#_coverageTracker4948953_
+										coverAll:
+											{234 to: 244}
+										evaluating: [ receiver4 messageText ]
+										thatSends: #messageText
+										to: receiver4 ] value
+								equals:
+									[ | receiver5 |
+									receiver5 _ #_coverageTracker4948953_
+										cover: (254 to: 257)
+										declaredAt: (40 to: 43)
+										by: cart.
+									#_coverageTracker4948953_
+										coverAll:
+											{259 to: 295}
+										evaluating: [ receiver5 onlyCanAddIntegerQuantityErrorMessage ]
+										thatSends: #onlyCanAddIntegerQuantityErrorMessage
+										to: receiver5 ] value ]
+						thatSends: #assert:equals:
+						to: receiver6 ] value.
+					[ | receiver8 |
+					receiver8 _ #_coverageTracker4948953_
+						coverAll:
+							{301 to: 304}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4948953_
+						coverAll:
+							{306 to: 312}
+						evaluating: [
+							receiver8 assert:
+								[ | receiver7 |
+								receiver7 _ #_coverageTracker4948953_
+									cover: (314 to: 317)
+									declaredAt: (40 to: 43)
+									by: cart.
+								#_coverageTracker4948953_
+									coverAll:
+										{319 to: 325}
+									evaluating: [ receiver7 isEmpty ]
+									thatSends: #isEmpty
+									to: receiver7 ] value ]
+						thatSends: #assert:
+						to: receiver8 ] value ]]
+		thatSends: #should:raise:withExceptionDo:
+		to: receiver9 ] value.! !
+!Behavior method!
+expiredCreditCardErrorMessage
+	#_coverageTracker4949006_ markAsExecuted.
+	^ #_coverageTracker4949006_
+		coverAll:
+			{34 to: 54}
+		byLiteralOrPseudoVariable: 'Invalid credit card'.! !
+!Behavior method!
+test07CartCanCheckIfHasAddedABook
+	| cart |
+	#_coverageTracker4949029_ markAsExecuted.
+	#_coverageTracker4949029_
+		cover: (44 to: 47)
+		declaredAt: (37 to: 40)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4949029_
+				cover: (52 to: 67)
+				declaredAt: (52 to: 67)
+				by: testStoreObjects.
+			#_coverageTracker4949029_
+				coverAll:
+					{69 to: 78}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4949029_
+		cover: (84 to: 87)
+		declaredAt: (37 to: 40)
+		by: cart.
+	#_coverageTracker4949029_
+		coverAll:
+			{89 to: 100. 104 to: 110}
+		evaluating: [
+			receiver3
+				addQuantity:
+					(#_coverageTracker4949029_
+						coverAll:
+							{102 to: 102}
+						byLiteralOrPseudoVariable: 2)
+				ofBook:
+					[ | receiver2 |
+					receiver2 _ #_coverageTracker4949029_
+						cover: (112 to: 127)
+						declaredAt: (52 to: 67)
+						by: testStoreObjects.
+					#_coverageTracker4949029_
+						coverAll:
+							{129 to: 141}
+						evaluating: [ receiver2 bookPublished ]
+						thatSends: #bookPublished
+						to: receiver2 ] value ]
+		thatSends: #addQuantity:ofBook:
+		to: receiver3 ] value.
+	[ | receiver6 |
+	receiver6 _ #_coverageTracker4949029_
+		coverAll:
+			{145 to: 148}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4949029_
+		coverAll:
+			{150 to: 156}
+		evaluating: [
+			receiver6 assert:
+				[ | receiver5 |
+				receiver5 _ #_coverageTracker4949029_
+					cover: (159 to: 162)
+					declaredAt: (37 to: 40)
+					by: cart.
+				#_coverageTracker4949029_
+					coverAll:
+						{164 to: 172}
+					evaluating: [
+						receiver5 contains:
+							[ | receiver4 |
+							receiver4 _ #_coverageTracker4949029_
+								cover: (174 to: 189)
+								declaredAt: (52 to: 67)
+								by: testStoreObjects.
+							#_coverageTracker4949029_
+								coverAll:
+									{191 to: 203}
+								evaluating: [ receiver4 bookPublished ]
+								thatSends: #bookPublished
+								to: receiver4 ] value ]
+					thatSends: #contains:
+					to: receiver5 ] value ]
+		thatSends: #assert:
+		to: receiver6 ] value.! !
+!Behavior method!
+createCart
+	#_coverageTracker4949059_ markAsExecuted.
+	^ [ | receiver2 |
+	receiver2 _ #_coverageTracker4949059_
+		coverAll:
+			{15 to: 18}
+		by: Cart.
+	#_coverageTracker4949059_
+		coverAll:
+			{20 to: 24}
+		evaluating: [
+			receiver2 with:
+				[ | receiver1 |
+				receiver1 _ #_coverageTracker4949059_
+					coverAll:
+						{26 to: 29}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949059_
+					coverAll:
+						{31 to: 44}
+					evaluating: [ receiver1 defaultCatalog ]
+					thatSends: #defaultCatalog
+					to: receiver1 ] value ]
+		thatSends: #with:
+		to: receiver2 ] value.! !
+!Behavior method!
+invalidBookErrorMessage
+	#_coverageTracker4949086_ markAsExecuted.
+	^ #_coverageTracker4949086_
+		coverAll:
+			{28 to: 53}
+		byLiteralOrPseudoVariable: 'Book not belongs to site'.! !
+!Behavior method!
+test02CannotAddBookThatNotBelongSite
+	| cart |
+	#_coverageTracker4949117_ markAsExecuted.
+	#_coverageTracker4949117_
+		cover: (47 to: 50)
+		declaredAt: (40 to: 43)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4949117_
+				cover: (55 to: 70)
+				declaredAt: (55 to: 70)
+				by: testStoreObjects.
+			#_coverageTracker4949117_
+				coverAll:
+					{72 to: 81}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver9 |
+	receiver9 _ #_coverageTracker4949117_
+		coverAll:
+			{87 to: 90}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4949117_
+		coverAll:
+			{95 to: 101. 171 to: 176. 186 to: 201}
+		evaluating: [
+			receiver9
+				should: [
+					[ | receiver3 |
+					receiver3 _ #_coverageTracker4949117_
+						cover: (104 to: 107)
+						declaredAt: (40 to: 43)
+						by: cart.
+					#_coverageTracker4949117_
+						coverAll:
+							{109 to: 120. 124 to: 130}
+						evaluating: [
+							receiver3
+								addQuantity:
+									(#_coverageTracker4949117_
+										coverAll:
+											{122 to: 122}
+										byLiteralOrPseudoVariable: 1)
+								ofBook:
+									[ | receiver2 |
+									receiver2 _ #_coverageTracker4949117_
+										cover: (132 to: 147)
+										declaredAt: (55 to: 70)
+										by: testStoreObjects.
+									#_coverageTracker4949117_
+										coverAll:
+											{149 to: 164}
+										evaluating: [ receiver2 bookNotPublished ]
+										thatSends: #bookNotPublished
+										to: receiver2 ] value ]
+						thatSends: #addQuantity:ofBook:
+						to: receiver3 ] value ]
+				raise:
+					(#_coverageTracker4949117_
+						coverAll:
+							{178 to: 182}
+						by: Error)
+				withExceptionDo: [ :anError |
+					[ | receiver6 |
+					receiver6 _ #_coverageTracker4949117_
+						coverAll:
+							{219 to: 222}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4949117_
+						coverAll:
+							{224 to: 230. 252 to: 258}
+						evaluating: [
+							receiver6
+								assert:
+									[ | receiver4 |
+									receiver4 _ #_coverageTracker4949117_
+										cover: (232 to: 238)
+										declaredAt: (205 to: 211)
+										by: anError.
+									#_coverageTracker4949117_
+										coverAll:
+											{240 to: 250}
+										evaluating: [ receiver4 messageText ]
+										thatSends: #messageText
+										to: receiver4 ] value
+								equals:
+									[ | receiver5 |
+									receiver5 _ #_coverageTracker4949117_
+										cover: (260 to: 263)
+										declaredAt: (40 to: 43)
+										by: cart.
+									#_coverageTracker4949117_
+										coverAll:
+											{265 to: 287}
+										evaluating: [ receiver5 invalidBookErrorMessage ]
+										thatSends: #invalidBookErrorMessage
+										to: receiver5 ] value ]
+						thatSends: #assert:equals:
+						to: receiver6 ] value.
+					[ | receiver8 |
+					receiver8 _ #_coverageTracker4949117_
+						coverAll:
+							{293 to: 296}
+						byLiteralOrPseudoVariable: self.
+					#_coverageTracker4949117_
+						coverAll:
+							{298 to: 304}
+						evaluating: [
+							receiver8 assert:
+								[ | receiver7 |
+								receiver7 _ #_coverageTracker4949117_
+									cover: (306 to: 309)
+									declaredAt: (40 to: 43)
+									by: cart.
+								#_coverageTracker4949117_
+									coverAll:
+										{311 to: 317}
+									evaluating: [ receiver7 isEmpty ]
+									thatSends: #isEmpty
+									to: receiver7 ] value ]
+						thatSends: #assert:
+						to: receiver8 ] value ]]
+		thatSends: #should:raise:withExceptionDo:
+		to: receiver9 ] value.! !
+!Behavior method!
+initializeExpiringOn: aMonthOfYear
+	#_coverageTracker4949167_ markAsExecuted.
+	#_coverageTracker4949167_
+		cover: (38 to: 47)
+		declaredAt: (38 to: 47)
+		by:
+			(expiration _ #_coverageTracker4949167_
+				cover: (52 to: 63)
+				declaredAt: (23 to: 34)
+				by: aMonthOfYear).! !
+!Behavior method!
+initialize
+	#_coverageTracker4949191_ markAsExecuted.
+	#_coverageTracker4949191_
+		cover: (14 to: 18)
+		declaredAt: (14 to: 18)
+		by:
+			(today _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4949191_
+				coverAll:
+					{23 to: 33}
+				by: DateAndTime.
+			#_coverageTracker4949191_
+				coverAll:
+					{35 to: 37}
+				evaluating: [ receiver1 now ]
+				thatSends: #now
+				to: receiver1 ] value).! !
+!Behavior method!
+test04CartCanAddAmountOfSameBook
+	| cart |
+	#_coverageTracker4949217_ markAsExecuted.
+	#_coverageTracker4949217_
+		cover: (43 to: 46)
+		declaredAt: (36 to: 39)
+		by:
+			(cart _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4949217_
+				cover: (51 to: 66)
+				declaredAt: (51 to: 66)
+				by: testStoreObjects.
+			#_coverageTracker4949217_
+				coverAll:
+					{68 to: 77}
+				evaluating: [ receiver1 createCart ]
+				thatSends: #createCart
+				to: receiver1 ] value).
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4949217_
+		cover: (83 to: 86)
+		declaredAt: (36 to: 39)
+		by: cart.
+	#_coverageTracker4949217_
+		coverAll:
+			{88 to: 99. 103 to: 109}
+		evaluating: [
+			receiver3
+				addQuantity:
+					(#_coverageTracker4949217_
+						coverAll:
+							{101 to: 101}
+						byLiteralOrPseudoVariable: 2)
+				ofBook:
+					[ | receiver2 |
+					receiver2 _ #_coverageTracker4949217_
+						cover: (111 to: 126)
+						declaredAt: (51 to: 66)
+						by: testStoreObjects.
+					#_coverageTracker4949217_
+						coverAll:
+							{128 to: 140}
+						evaluating: [ receiver2 bookPublished ]
+						thatSends: #bookPublished
+						to: receiver2 ] value ]
+		thatSends: #addQuantity:ofBook:
+		to: receiver3 ] value.
+	[ | receiver5 |
+	receiver5 _ #_coverageTracker4949217_
+		coverAll:
+			{144 to: 147}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4949217_
+		coverAll:
+			{149 to: 153}
+		evaluating: [
+			receiver5 deny:
+				[ | receiver4 |
+				receiver4 _ #_coverageTracker4949217_
+					cover: (155 to: 158)
+					declaredAt: (36 to: 39)
+					by: cart.
+				#_coverageTracker4949217_
+					coverAll:
+						{160 to: 166}
+					evaluating: [ receiver4 isEmpty ]
+					thatSends: #isEmpty
+					to: receiver4 ] value ]
+		thatSends: #deny:
+		to: receiver5 ] value.! !
+!Behavior method!
+assertValidQuantity: anAmount
+	#_coverageTracker4949255_ markAsExecuted.
+	[ | receiver4 |
+	receiver4 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4949255_
+		cover: (33 to: 40)
+		declaredAt: (22 to: 29)
+		by: anAmount.
+	#_coverageTracker4949255_
+		coverAll:
+			{42 to: 50}
+		evaluating: [ receiver1 isInteger ]
+		thatSends: #isInteger
+		to: receiver1 ] value.
+	#_coverageTracker4949255_
+		coverAll:
+			{53 to: 60}
+		evaluating: [
+			receiver4 ifFalse: [
+				[ | receiver3 |
+				receiver3 _ #_coverageTracker4949255_
+					coverAll:
+						{63 to: 66}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949255_
+					coverAll:
+						{68 to: 73}
+					evaluating: [
+						receiver3 error:
+							[ | receiver2 |
+							receiver2 _ #_coverageTracker4949255_
+								coverAll:
+									{75 to: 78}
+								byLiteralOrPseudoVariable: self.
+							#_coverageTracker4949255_
+								coverAll:
+									{80 to: 116}
+								evaluating: [ receiver2 onlyCanAddIntegerQuantityErrorMessage ]
+								thatSends: #onlyCanAddIntegerQuantityErrorMessage
+								to: receiver2 ] value ]
+					thatSends: #error:
+					to: receiver3 ] value ]]
+		thatSends: #ifFalse:
+		to: receiver4 ] value.
+	[ | receiver8 |
+	receiver8 _ [ | receiver5 |
+	receiver5 _ #_coverageTracker4949255_
+		cover: (122 to: 129)
+		declaredAt: (22 to: 29)
+		by: anAmount.
+	#_coverageTracker4949255_
+		coverAll:
+			{131 to: 146}
+		evaluating: [ receiver5 strictlyPositive ]
+		thatSends: #strictlyPositive
+		to: receiver5 ] value.
+	#_coverageTracker4949255_
+		coverAll:
+			{150 to: 157}
+		evaluating: [
+			receiver8 ifFalse: [
+				[ | receiver7 |
+				receiver7 _ #_coverageTracker4949255_
+					coverAll:
+						{160 to: 163}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949255_
+					coverAll:
+						{165 to: 170}
+					evaluating: [
+						receiver7 error:
+							[ | receiver6 |
+							receiver6 _ #_coverageTracker4949255_
+								coverAll:
+									{172 to: 175}
+								byLiteralOrPseudoVariable: self.
+							#_coverageTracker4949255_
+								coverAll:
+									{177 to: 214}
+								evaluating: [ receiver6 onlyCanAddPositiveQuantityErrorMessage ]
+								thatSends: #onlyCanAddPositiveQuantityErrorMessage
+								to: receiver6 ] value ]
+					thatSends: #error:
+					to: receiver7 ] value ]]
+		thatSends: #ifFalse:
+		to: receiver8 ] value.! !
+!Behavior method!
+onlyCanAddIntegerQuantityErrorMessage
+	#_coverageTracker4949288_ markAsExecuted.
+	^ #_coverageTracker4949288_
+		coverAll:
+			{41 to: 70}
+		byLiteralOrPseudoVariable: 'Amount only can be a integer'.! !
+!Behavior method!
+isExpiredOn: aDate
+	#_coverageTracker4949310_ markAsExecuted.
+	^ [ | receiver6 |
+	receiver6 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4949310_
+		cover: (22 to: 31)
+		declaredAt: (22 to: 31)
+		by: expiration.
+	#_coverageTracker4949310_
+		coverAll:
+			{33 to: 37}
+		evaluating: [ receiver1 start ]
+		thatSends: #start
+		to: receiver1 ] value.
+	#_coverageTracker4949310_
+		coverAll:
+			{39 to: 39}
+		evaluating: [
+			receiver6 <
+				[ | receiver5 |
+				receiver5 _ [ | receiver4 |
+				receiver4 _ #_coverageTracker4949310_
+					coverAll:
+						{42 to: 46}
+					by: Month.
+				#_coverageTracker4949310_
+					coverAll:
+						{48 to: 53. 72 to: 76}
+					evaluating: [
+						receiver4
+							month:
+								[ | receiver2 |
+								receiver2 _ #_coverageTracker4949310_
+									cover: (55 to: 59)
+									declaredAt: (14 to: 18)
+									by: aDate.
+								#_coverageTracker4949310_
+									coverAll:
+										{61 to: 70}
+									evaluating: [ receiver2 monthIndex ]
+									thatSends: #monthIndex
+									to: receiver2 ] value
+							year:
+								[ | receiver3 |
+								receiver3 _ #_coverageTracker4949310_
+									cover: (78 to: 82)
+									declaredAt: (14 to: 18)
+									by: aDate.
+								#_coverageTracker4949310_
+									coverAll:
+										{84 to: 93}
+									evaluating: [ receiver3 yearNumber ]
+									thatSends: #yearNumber
+									to: receiver3 ] value ]
+					thatSends: #month:year:
+					to: receiver4 ] value.
+				#_coverageTracker4949310_
+					coverAll:
+						{96 to: 100}
+					evaluating: [ receiver5 start ]
+					thatSends: #start
+					to: receiver5 ] value ]
+		thatSends: #<
+		to: receiver6 ] value.! !
+!Behavior method!
+addQuantity: anAmount ofBook: aBook
+	#_coverageTracker4949357_ markAsExecuted.
+	[ | receiver1 |
+	receiver1 _ #_coverageTracker4949357_
+		coverAll:
+			{39 to: 42}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4949357_
+		coverAll:
+			{44 to: 63}
+		evaluating: [
+			receiver1 assertValidQuantity:
+				(#_coverageTracker4949357_
+					cover: (65 to: 72)
+					declaredAt: (14 to: 21)
+					by: anAmount) ]
+		thatSends: #assertValidQuantity:
+		to: receiver1 ] value.
+	[ | receiver2 |
+	receiver2 _ #_coverageTracker4949357_
+		coverAll:
+			{76 to: 79}
+		byLiteralOrPseudoVariable: self.
+	#_coverageTracker4949357_
+		coverAll:
+			{81 to: 96}
+		evaluating: [
+			receiver2 assertValidBook:
+				(#_coverageTracker4949357_
+					cover: (98 to: 102)
+					declaredAt: (31 to: 35)
+					by: aBook) ]
+		thatSends: #assertValidBook:
+		to: receiver2 ] value.
+	[ | receiver3 |
+	receiver3 _ #_coverageTracker4949357_
+		cover: (107 to: 111)
+		declaredAt: (107 to: 111)
+		by: items.
+	#_coverageTracker4949357_
+		coverAll:
+			{113 to: 116. 124 to: 139}
+		evaluating: [
+			receiver3
+				add:
+					(#_coverageTracker4949357_
+						cover: (118 to: 122)
+						declaredAt: (31 to: 35)
+						by: aBook)
+				withOccurrences:
+					(#_coverageTracker4949357_
+						cover: (141 to: 148)
+						declaredAt: (14 to: 21)
+						by: anAmount) ]
+		thatSends: #add:withOccurrences:
+		to: receiver3 ] value.! !
+!Behavior method!
+bookPublished
+	#_coverageTracker4949384_ markAsExecuted.
+	^ #_coverageTracker4949384_
+		coverAll:
+			{17 to: 42}
+		byLiteralOrPseudoVariable: 'A book that is published'.! !
+!Behavior method!
+onlyCanAddPositiveQuantityErrorMessage
+	#_coverageTracker4949399_ markAsExecuted.
+	^ #_coverageTracker4949399_
+		coverAll:
+			{42 to: 84}
+		byLiteralOrPseudoVariable: 'Cant add zero or negative amount of books'.! !
+!Behavior method!
+checkout: aCart charging: aCreditCard on: aDate
+	#_coverageTracker4949423_ markAsExecuted.
+	[ | receiver4 |
+	receiver4 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4949423_
+		cover: (51 to: 55)
+		declaredAt: (11 to: 15)
+		by: aCart.
+	#_coverageTracker4949423_
+		coverAll:
+			{57 to: 63}
+		evaluating: [ receiver1 isEmpty ]
+		thatSends: #isEmpty
+		to: receiver1 ] value.
+	#_coverageTracker4949423_
+		coverAll:
+			{66 to: 72}
+		evaluating: [
+			receiver4 ifTrue: [
+				[ | receiver3 |
+				receiver3 _ #_coverageTracker4949423_
+					coverAll:
+						{75 to: 78}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949423_
+					coverAll:
+						{80 to: 85}
+					evaluating: [
+						receiver3 error:
+							[ | receiver2 |
+							receiver2 _ #_coverageTracker4949423_
+								coverAll:
+									{87 to: 90}
+								byLiteralOrPseudoVariable: self.
+							#_coverageTracker4949423_
+								coverAll:
+									{92 to: 112}
+								evaluating: [ receiver2 emptyCartErrorMessage ]
+								thatSends: #emptyCartErrorMessage
+								to: receiver2 ] value ]
+					thatSends: #error:
+					to: receiver3 ] value ]]
+		thatSends: #ifTrue:
+		to: receiver4 ] value.
+	[ | receiver8 |
+	receiver8 _ [ | receiver5 |
+	receiver5 _ #_coverageTracker4949423_
+		cover: (118 to: 128)
+		declaredAt: (27 to: 37)
+		by: aCreditCard.
+	#_coverageTracker4949423_
+		coverAll:
+			{130 to: 141}
+		evaluating: [
+			receiver5 isExpiredOn:
+				(#_coverageTracker4949423_
+					cover: (143 to: 147)
+					declaredAt: (43 to: 47)
+					by: aDate) ]
+		thatSends: #isExpiredOn:
+		to: receiver5 ] value.
+	#_coverageTracker4949423_
+		coverAll:
+			{150 to: 156}
+		evaluating: [
+			receiver8 ifTrue: [
+				[ | receiver7 |
+				receiver7 _ #_coverageTracker4949423_
+					coverAll:
+						{159 to: 162}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949423_
+					coverAll:
+						{164 to: 169}
+					evaluating: [
+						receiver7 error:
+							[ | receiver6 |
+							receiver6 _ #_coverageTracker4949423_
+								coverAll:
+									{171 to: 174}
+								byLiteralOrPseudoVariable: self.
+							#_coverageTracker4949423_
+								coverAll:
+									{176 to: 204}
+								evaluating: [ receiver6 expiredCreditCardErrorMessage ]
+								thatSends: #expiredCreditCardErrorMessage
+								to: receiver6 ] value ]
+					thatSends: #error:
+					to: receiver7 ] value ]]
+		thatSends: #ifTrue:
+		to: receiver8 ] value.
+	^ [ | receiver9 |
+	receiver9 _ #_coverageTracker4949423_
+		cover: (211 to: 215)
+		declaredAt: (11 to: 15)
+		by: aCart.
+	#_coverageTracker4949423_
+		coverAll:
+			{217 to: 221}
+		evaluating: [ receiver9 total ]
+		thatSends: #total
+		to: receiver9 ] value.! !
+!Behavior method!
+otherBookPublished
+	#_coverageTracker4949465_ markAsExecuted.
+	^ #_coverageTracker4949465_
+		coverAll:
+			{22 to: 51}
+		byLiteralOrPseudoVariable: 'Other book that is published'.! !
+!Behavior method!
+notExpiredCreditCard
+	#_coverageTracker4949491_ markAsExecuted.
+	^ [ | receiver5 |
+	receiver5 _ #_coverageTracker4949491_
+		coverAll:
+			{24 to: 33}
+		by: CreditCard.
+	#_coverageTracker4949491_
+		coverAll:
+			{35 to: 45}
+		evaluating: [
+			receiver5 expiringOn:
+				[ | receiver4 |
+				receiver4 _ #_coverageTracker4949491_
+					coverAll:
+						{48 to: 52}
+					by: Month.
+				#_coverageTracker4949491_
+					coverAll:
+						{54 to: 59. 78 to: 82}
+					evaluating: [
+						receiver4
+							month:
+								[ | receiver1 |
+								receiver1 _ #_coverageTracker4949491_
+									cover: (61 to: 65)
+									declaredAt: (61 to: 65)
+									by: today.
+								#_coverageTracker4949491_
+									coverAll:
+										{67 to: 76}
+									evaluating: [ receiver1 monthIndex ]
+									thatSends: #monthIndex
+									to: receiver1 ] value
+							year:
+								[ | receiver3 |
+								receiver3 _ [ | receiver2 |
+								receiver2 _ #_coverageTracker4949491_
+									cover: (84 to: 88)
+									declaredAt: (61 to: 65)
+									by: today.
+								#_coverageTracker4949491_
+									coverAll:
+										{90 to: 99}
+									evaluating: [ receiver2 yearNumber ]
+									thatSends: #yearNumber
+									to: receiver2 ] value.
+								#_coverageTracker4949491_
+									coverAll:
+										{101 to: 101}
+									evaluating: [
+										receiver3 +
+											(#_coverageTracker4949491_
+												coverAll:
+													{103 to: 103}
+												byLiteralOrPseudoVariable: 1) ]
+									thatSends: #+
+									to: receiver3 ] value ]
+					thatSends: #month:year:
+					to: receiver4 ] value ]
+		thatSends: #expiringOn:
+		to: receiver5 ] value.! !
+!Behavior method!
+expiredCreditCard
+	#_coverageTracker4949521_ markAsExecuted.
+	^ [ | receiver5 |
+	receiver5 _ #_coverageTracker4949521_
+		coverAll:
+			{22 to: 31}
+		by: CreditCard.
+	#_coverageTracker4949521_
+		coverAll:
+			{33 to: 43}
+		evaluating: [
+			receiver5 expiringOn:
+				[ | receiver4 |
+				receiver4 _ #_coverageTracker4949521_
+					coverAll:
+						{46 to: 50}
+					by: Month.
+				#_coverageTracker4949521_
+					coverAll:
+						{52 to: 57. 76 to: 80}
+					evaluating: [
+						receiver4
+							month:
+								[ | receiver1 |
+								receiver1 _ #_coverageTracker4949521_
+									cover: (59 to: 63)
+									declaredAt: (59 to: 63)
+									by: today.
+								#_coverageTracker4949521_
+									coverAll:
+										{65 to: 74}
+									evaluating: [ receiver1 monthIndex ]
+									thatSends: #monthIndex
+									to: receiver1 ] value
+							year:
+								[ | receiver3 |
+								receiver3 _ [ | receiver2 |
+								receiver2 _ #_coverageTracker4949521_
+									cover: (82 to: 86)
+									declaredAt: (59 to: 63)
+									by: today.
+								#_coverageTracker4949521_
+									coverAll:
+										{88 to: 97}
+									evaluating: [ receiver2 yearNumber ]
+									thatSends: #yearNumber
+									to: receiver2 ] value.
+								#_coverageTracker4949521_
+									coverAll:
+										{99 to: 99}
+									evaluating: [
+										receiver3 -
+											(#_coverageTracker4949521_
+												coverAll:
+													{101 to: 101}
+												byLiteralOrPseudoVariable: 1) ]
+									thatSends: #-
+									to: receiver3 ] value ]
+					thatSends: #month:year:
+					to: receiver4 ] value ]
+		thatSends: #expiringOn:
+		to: receiver5 ] value.! !
+!Behavior method!
+total
+	#_coverageTracker4949565_ markAsExecuted.
+	^ [ | receiver2 |
+	receiver2 _ #_coverageTracker4949565_
+		cover: (10 to: 14)
+		declaredAt: (10 to: 14)
+		by: items.
+	#_coverageTracker4949565_
+		coverAll:
+			{16 to: 19}
+		evaluating: [
+			receiver2 sum: [ :anItem |
+				[ | receiver1 |
+				receiver1 _ #_coverageTracker4949565_
+					cover: (32 to: 38)
+					declaredAt: (32 to: 38)
+					by: catalog.
+				#_coverageTracker4949565_
+					coverAll:
+						{40 to: 42}
+					evaluating: [
+						receiver1 at:
+							(#_coverageTracker4949565_
+								cover: (44 to: 49)
+								declaredAt: (23 to: 28)
+								by: anItem) ]
+					thatSends: #at:
+					to: receiver1 ] value ]]
+		thatSends: #sum:
+		to: receiver2 ] value.! !
+!Behavior method!
+assertValidBook: aBook
+	#_coverageTracker4949589_ markAsExecuted.
+	[ | receiver4 |
+	receiver4 _ [ | receiver1 |
+	receiver1 _ #_coverageTracker4949589_
+		cover: (26 to: 32)
+		declaredAt: (26 to: 32)
+		by: catalog.
+	#_coverageTracker4949589_
+		coverAll:
+			{34 to: 45}
+		evaluating: [
+			receiver1 includesKey:
+				(#_coverageTracker4949589_
+					cover: (47 to: 51)
+					declaredAt: (18 to: 22)
+					by: aBook) ]
+		thatSends: #includesKey:
+		to: receiver1 ] value.
+	#_coverageTracker4949589_
+		coverAll:
+			{54 to: 61}
+		evaluating: [
+			receiver4 ifFalse: [
+				[ | receiver3 |
+				receiver3 _ #_coverageTracker4949589_
+					coverAll:
+						{64 to: 67}
+					byLiteralOrPseudoVariable: self.
+				#_coverageTracker4949589_
+					coverAll:
+						{69 to: 74}
+					evaluating: [
+						receiver3 error:
+							[ | receiver2 |
+							receiver2 _ #_coverageTracker4949589_
+								coverAll:
+									{76 to: 79}
+								byLiteralOrPseudoVariable: self.
+							#_coverageTracker4949589_
+								coverAll:
+									{81 to: 103}
+								evaluating: [ receiver2 invalidBookErrorMessage ]
+								thatSends: #invalidBookErrorMessage
+								to: receiver2 ] value ]
+					thatSends: #error:
+					to: receiver3 ] value ]]
+		thatSends: #ifFalse:
+		to: receiver4 ] value.! !
+!Behavior method!
+emptyCartErrorMessage
+	#_coverageTracker4949613_ markAsExecuted.
+	^ #_coverageTracker4949613_
+		coverAll:
+			{26 to: 56}
+		byLiteralOrPseudoVariable: 'Cannot checkout an empty cart'.! !
+!Behavior method!
+setUp
+	#_coverageTracker4949637_ markAsExecuted.
+	#_coverageTracker4949637_
+		cover: (8 to: 23)
+		declaredAt: (8 to: 23)
+		by:
+			(testStoreObjects _ [ | receiver1 |
+			receiver1 _ #_coverageTracker4949637_
+				coverAll:
+					{28 to: 43}
+				by: StoreTestObjects.
+			#_coverageTracker4949637_
+				coverAll:
+					{45 to: 47}
+				evaluating: [ receiver1 new ]
+				thatSends: #new
+				to: receiver1 ] value).! !
+!Behavior method!
+isEmpty
+	#_coverageTracker4949661_ markAsExecuted.
+	^ [ | receiver1 |
+	receiver1 _ #_coverageTracker4949661_
+		cover: (11 to: 15)
+		declaredAt: (11 to: 15)
+		by: items.
+	#_coverageTracker4949661_
+		coverAll:
+			{17 to: 23}
+		evaluating: [ receiver1 isEmpty ]
+		thatSends: #isEmpty
+		to: receiver1 ] value.! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:36'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:36'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:40'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:41'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:02:46' prior: 50637382!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier |
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+
+	self 
+		should: [cashier checkout: cart charging: testStoreObjects expiredCreditCard on: testStoreObjects today]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:02:49'!
+PASSED!
+
+----SNAPSHOT----(9 June 2023 17:02:57) CuisUniversity-5832.image priorSource: 9733747!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:04:26' prior: 50637274!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cashier := Cashier new.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [
+			cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:04:36' prior: 50638805!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cashier := Cashier new.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [
+			cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:04:37'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:04:49' prior: 50637240!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart salesBook|
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	
+	self assert: (Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today) = 10.  
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:07:30' prior: 50638872!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart cashier salesBook|
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today.
+	
+	self assert: 10.  
+	
+	self assert: salesBook size = 1.
+	self assert: salesBook first total.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:08:18' prior: 50638888!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook|
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today.
+	
+	self assert: total = 10.  
+	
+	self assert: salesBook size = 1.
+	self assert: salesBook first total = total.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:08:19'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:08:49' prior: 50638908!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook cashier |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	cashier := Cashier new.
+	
+	total := cashier checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today.
+	
+	self assert: total = 10.  
+	
+	self assert: salesBook size = 1.
+	self assert: salesBook first total = total.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:08:56'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:09:17' prior: 50638932!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today.
+	
+	self assert: total = 10.  
+	
+	self assert: salesBook size = 1.
+	self assert: salesBook first total = total.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:09:22' prior: 50638957!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart charging: testStoreObjects notExpiredCreditCard on: testStoreObjects today.
+	
+	self assert: total = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first total = total.! !
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:10:22'!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	aSalesBook add: aCart total.
+	^ aCart total
+	! !
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:10:55' prior: 50638996!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook
+	| total |
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	total := aCart total.
+	aSalesBook add: total
+	^ total
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:11:19' prior: 50638825!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cashier := Cashier new.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [
+			cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today
+				registerIn: salesBook]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:11:51' prior: 50638977!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: total = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first total = total.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:11:55'!
+FAILURE!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:11:55'!
+FAILURE!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:12:22' prior: 50639008!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook
+	| total |
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	total := aCart total.
+	aSalesBook add: total.
+	^ total
+	! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:12:26'!
+ERROR!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:12:26'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:12:55' prior: 50639043!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: total = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = total.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:12:56'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:12:56'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:12:56'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:12:56'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:12:57'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:12:57'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:12:57'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:12:57'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:14:30' prior: 50637226!
+test03SuccesfullCheckoutCartWithProducts
+	|cart salesBook total |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	salesBook := OrderedCollection new.
+	
+	total := Cashier new checkout: cart 
+						charging: testStoreObjects notExpiredCreditCard 
+						on: testStoreObjects today
+						registerIn: salesBook.
+	
+	self assert: total = 40.  
+	self assert: salesBook first = total. ! !
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:14:35'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:14:35'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:14:35'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:14:35'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:14:36'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:14:36'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:14:36'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:14:36'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:15:49' prior: 50638759!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	
+	cashier := Cashier new.
+	salesBook := OrderedCollection new.
+
+	self 
+		should: [cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				on: testStoreObjects today
+				registerIn: salesBook]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:15:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:15:50'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:15:50'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:15:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:15:51'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:15:51'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:15:51'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:15:51'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:17:04' prior: 50639090!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart total salesBook |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	total := Cashier checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: total = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = total.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:18:05' prior: 50639021!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today
+				registerIn: salesBook.
+
+	
+	self 
+		should: [cashier checkout]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:18:11' prior: 50639250!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				on: testStoreObjects today
+				registerIn: salesBook.
+
+	self 
+		should: [cashier checkout]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:18:49' prior: 50639137!
+test03SuccesfullCheckoutCartWithProducts
+	|cart salesBook total cashier |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+						charging: testStoreObjects notExpiredCreditCard 
+						on: testStoreObjects today
+						registerIn: salesBook.
+	
+	self assert: cashier checkout = 40.  
+	self assert: salesBook first = total. ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:19:09' prior: 50639294!
+test03SuccesfullCheckoutCartWithProducts
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+						charging: testStoreObjects notExpiredCreditCard 
+						on: testStoreObjects today
+						registerIn: salesBook.
+	
+	self assert: cashier checkout = 40.  
+	self assert: salesBook first = cashier checkout. ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:19:36' prior: 50639182!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				on: testStoreObjects today
+				registerIn: salesBook.
+
+	self 
+		should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:19:38' prior: 50639334!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				on: testStoreObjects today
+				registerIn: salesBook.
+	self 
+		should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:19:46'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:19:51'!
+checkout: aCart charging: aCreditCard on: aDateAndTime registerIn: anOrderedCollection 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDateAndTime registerIn: anOrderedCollection ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:20:31' prior: 50639378!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook ! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:20:32'!
+ERROR!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'DA 6/9/2023 17:20:38'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'DA 6/9/2023 17:20:38'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'DA 6/9/2023 17:20:38'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard date'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'DA 6/9/2023 17:20:38'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard date salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:20:38'!
+initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	self shouldBeImplemented.
+	cart := aCart.
+	creditCard := aCreditCard.
+	date := aDate.
+	salesBook := aSalesBook.! !
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:21:13' prior: 50639430!
+initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	cart := aCart.
+	creditCard := aCreditCard.
+	date := aDate.
+	salesBook := aSalesBook.! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:21:14'!
+FAILURE!
+
+!methodRemoval: Cashier #checkout:charging:on: stamp: 'DA 6/9/2023 17:21:26'!
+checkout: aCart charging: aCreditCard on: aDate
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^ aCart total
+	!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:22:02'!
+checkout
+	| total |
+	(cart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(creditCard isExpiredOn: date) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	total := cart total.
+	salesBook add: total.
+	^ total
+	! !
+
+!methodRemoval: Cashier #checkout:charging:on:registerIn: stamp: 'DA 6/9/2023 17:22:11'!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook
+	| total |
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	total := aCart total.
+	aSalesBook add: total.
+	^ total
+	!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:22:17'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:20'!
+FAILURE!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:22:20'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:20'!
+FAILURE!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:27'!
+FAILURE!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:27'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:22:53' prior: 50639229!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: cashier checkout = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = cashier checkout.! !
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:22:57'!
+PASSED!
+
+!classDefinition: #CashierTest category: 'TusLibros' stamp: 'DA 6/9/2023 17:29:49'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'testStoreObjects debitBehavior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:29:48'!
+debit: anAmount from: aCreditCard
+	^ debitBehavior value: anAmount value: aCreditCard. ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:30:16' prior: 50637047 overrides: 16961394!
+setUp
+	testStoreObjects := StoreTestObjects new. 
+	debitBehavior := [:anAmount :aCreditCard].! !
+
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard merchantProcessor salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'DA 6/9/2023 17:31:47'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart creditCard merchantProcessor salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:33:33' prior: 50639460!
+checkout
+	| total |
+	(cart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	total := cart total.
+	merchantProcessor debit: total from: creditCard. 
+	salesBook add: total.
+	^ total
+	! !
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:34:00' prior: 50639391!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:34:09' prior: 50639610!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook ! !
+!Cashier class methodsFor: 'error handling' stamp: 'DA 6/9/2023 17:34:26'!
+expiredCreditCardErrorMessage
+	^ 'Invalid credit card'! !
+
+!methodRemoval: Cashier #expiredCreditCardErrorMessage stamp: 'DA 6/9/2023 17:34:26'!
+expiredCreditCardErrorMessage
+	^ 'Invalid credit card'!
+!Cashier class methodsFor: 'error handling' stamp: 'DA 6/9/2023 17:34:34'!
+emptyCartErrorMessage
+	^ 'Cannot checkout an empty cart'! !
+
+!methodRemoval: Cashier #emptyCartErrorMessage stamp: 'DA 6/9/2023 17:34:34'!
+emptyCartErrorMessage
+	^ 'Cannot checkout an empty cart'!
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:34:45' prior: 50639600!
+checkout
+	| total |
+	total := cart total.
+	merchantProcessor debit: total from: creditCard. 
+	salesBook add: total.
+	^ total
+	! !
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:35:06' prior: 50639622!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'DA 6/9/2023 17:35:51'!
+checkout: aCart charging: aCreditCard through: aMerchantProcessor on: aDate registerIn: aSalesBook 
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard through: aMerchantProcessor registerIn: aSalesBook ! !
+!Cashier methodsFor: 'category-name' stamp: 'DA 6/9/2023 17:36:23'!
+initializeCheckout: aCart charging: aCreditCard through: aMerchantProcessor registerIn: aSalesBook 
+	cart := aCart.
+	creditCard := aCreditCard.
+	merchantProcessor := aMerchantProcessor.
+	salesBook := aSalesBook.! !
+
+!methodRemoval: Cashier #initializeCheckout:charging:on:registerIn: stamp: 'DA 6/9/2023 17:36:31'!
+initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	cart := aCart.
+	creditCard := aCreditCard.
+	date := aDate.
+	salesBook := aSalesBook.!
+
+!methodRemoval: Cashier class #checkout:charging:on:registerIn: stamp: 'DA 6/9/2023 17:36:57'!
+checkout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook 
+	(aCart isEmpty) ifTrue: [self error: self emptyCartErrorMessage].
+	(aCreditCard isExpiredOn: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^self new initializeCheckout: aCart charging: aCreditCard on: aDate registerIn: aSalesBook !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:38:19' prior: 50639272!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.
+
+	self 
+		should: [cashier checkout]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:38:32' prior: 50639519!
+test02SuccesfullCheckoutCartWithOneProduct
+	"checkout: cart charging cc on: date registeringOn: salesbook initializer of cashier, mensaje checkout "
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					through: self
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: cashier checkout = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = cashier checkout.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:38:39' prior: 50639314!
+test03SuccesfullCheckoutCartWithProducts
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.	
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	cart addQuantity: 1 ofBook: testStoreObjects otherBookPublished.
+	
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+						charging: testStoreObjects notExpiredCreditCard 
+						through: self
+						on: testStoreObjects today
+						registerIn: salesBook.
+	
+	self assert: cashier checkout = 40.  
+	self assert: salesBook first = cashier checkout. ! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:38:47' prior: 50639355!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	self 
+		should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:38:57'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:39:09' prior: 50639717!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart cashier salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	cashier := Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.
+
+	self 
+		should: [cashier checkout]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: cashier class emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:39:10'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:39:41' prior: 50639807!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier class emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:39:44'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:39:49' prior: 50639833!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:39:50'!
+ERROR!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:39:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:39:50'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:40:16' prior: 50639783!
+test04CheckoutFailWhenCreditCardIsExpired
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	cart addQuantity: 2 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+
+	self 
+		should: [Cashier checkout: cart 
+				charging: testStoreObjects expiredCreditCard 
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier expiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty]! !
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:40:20'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:43:47' prior: 50635797!
+test05CheckoutFailWhenCreditCardWithEmptyBalance 
+	
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:45:11' prior: 50639955!
+test05CheckoutFailWhenCreditCardWithEmptyBalance 
+	
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText = Cashier creditCardWithoutBalanceErrorMessage.
+			self assert: salesBook isEmpty
+			]
+	! !
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:45:20'!
+FAILURE!
+!Cashier class methodsFor: 'nil' stamp: 'DA 6/9/2023 17:45:57'!
+creditCardWithoutBalanceErrorMessage
+	^ 'Credit card has no credit available'! !
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:46:13'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:47:07' prior: 50639858!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard | self error: Cashier creditCardWithoutBalanceErrorMessage].
+	
+	self 
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:47:08'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:47:08'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:47:08'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:47:22' prior: 50639970!
+test05CheckoutFailWhenCreditCardWithEmptyBalance 
+	
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier creditCardWithoutBalanceErrorMessage.
+			self assert: salesBook isEmpty
+			]
+	! !
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:47:23'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:47:51' prior: 50640004!
+test01CannotCheckoutAnEmptyCart
+	"salesBook registrando las ventas, un cajero por cada venta
+	asercion de mensaje de error con chequeo de invariante"
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:48:01' prior: 50640058!
+test05CheckoutFailWhenCreditCardWithEmptyBalance 
+	
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard | self error: Cashier creditCardWithoutBalanceErrorMessage].
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier creditCardWithoutBalanceErrorMessage.
+			self assert: salesBook isEmpty
+			]
+	! !
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:48:04'!
+PASSED!
+
+!testRun: #CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:48:05'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:49:38' prior: 50635793!
+test06CheckoutFailWhenCreditCardFraud
+		
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard | self error: Cashier creditCardFraudErrorMessage].
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier creditCardFraudErrorMessage.
+			self assert: salesBook isEmpty
+			]
+	! !
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:49:40'!
+ERROR!
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:49:45'!
+creditCardFraudErrorMessage
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:49:54' prior: 50640183!
+creditCardFraudErrorMessage
+	^ 'Credit card fraud'! !
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:49:55'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:50:32'!
+PASSED!
+
+!methodRemoval: CashierTest #test06CheckoutFailWhenCreditCardFraud stamp: 'DA 6/9/2023 17:52:06'!
+test06CheckoutFailWhenCreditCardFraud
+		
+	| cart cashier salesBook |
+	cart := testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard | self error: Cashier creditCardFraudErrorMessage].
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard
+				through: self 
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self should: [cashier checkout]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier creditCardFraudErrorMessage.
+			self assert: salesBook isEmpty
+			]
+	!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:52:18'!
+test06SucessfullSaleIfEverythingIsOk
+	! !
+
+!methodRemoval: CashierTest #test07SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:52:18'!
+test07SucessfullSaleIfEverythingIsOk
+	!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:54:32' prior: 50640223!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard 
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:56:57' prior: 50640232!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard 
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+				
+	self assert: debitedCreditCard = testStoreObjects notExpiredCreditCard.
+	self assert: debitedAmount = cashier checkout.
+	! !
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:56:58'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:57:23' prior: 50640247!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard 
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+				
+	self assert: debitedCreditCard = testStoreObjects notExpiredCreditCard.
+	self assert: debitedAmount = cashier checkout.
+	! !
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:57:24'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 17:59:05' prior: 50640273!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard total |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard 
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+	
+	total := cashier checkout.
+				
+	self assert: debitedCreditCard = testStoreObjects notExpiredCreditCard.
+	self assert: debitedAmount = total.
+	! !
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 17:59:08'!
+FAILURE!
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:00:12'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 18:00:21' prior: 50640299!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard total |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: testStoreObjects notExpiredCreditCard 
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+	
+	total := cashier checkout.
+				
+	self assert: debitedCreditCard equals: testStoreObjects notExpiredCreditCard.
+	self assert: debitedAmount = total.
+	! !
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:00:23'!
+FAILURE!
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:01:40'!
+FAILURE!
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:01:47'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 18:02:22' prior: 50640329!
+test06SucessfullSaleIfEverythingIsOk
+	
+	| cart cashier salesBook debitedAmount debitedCreditCard total creditCard |
+	cart:= testStoreObjects createCart.
+	cart add: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	creditCard :=  testStoreObjects notExpiredCreditCard.
+	
+	cashier := Cashier 
+				checkout: cart  
+				charging: creditCard
+				through:  self
+				on: testStoreObjects today
+				registerIn: salesBook.
+	
+	debitBehavior := [:anAmount :aCreditCard|
+				debitedAmount := anAmount.
+				debitedCreditCard := aCreditCard].
+	
+	total := cashier checkout.
+				
+	self assert: debitedCreditCard equals: creditCard.
+	self assert: debitedAmount = total.
+	! !
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test01CannotCheckoutAnEmptyCart stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test02SuccesfullCheckoutCartWithOneProduct stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test03SuccesfullCheckoutCartWithProducts stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutFailWhenCreditCardIsExpired stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutFailWhenCreditCardWithEmptyBalance stamp: 'DA 6/9/2023 18:02:24'!
+PASSED!
+
+!testRun: #CashierTest #test06SucessfullSaleIfEverythingIsOk stamp: 'DA 6/9/2023 18:02:25'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 18:02:39' prior: 50640083!
+test01CannotCheckoutAnEmptyCart
+	|cart salesBook|
+	
+	cart := testStoreObjects createCart.
+	salesBook := OrderedCollection new.
+	
+	self 
+		should: [Cashier checkout: cart
+				charging: testStoreObjects notExpiredCreditCard
+				through: self
+				on: testStoreObjects today
+				registerIn: salesBook.]  
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: Cashier emptyCartErrorMessage.
+			self assert: salesBook isEmpty.
+			]
+	! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'DA 6/9/2023 18:02:46' prior: 50639740!
+test02SuccesfullCheckoutCartWithOneProduct
+	|cart salesBook cashier |
+	cart := testStoreObjects createCart.
+	cart addQuantity: 1 ofBook: testStoreObjects bookPublished.
+	salesBook := OrderedCollection new.
+	
+	cashier := Cashier checkout: cart 
+					charging: testStoreObjects notExpiredCreditCard 
+					through: self
+					on: testStoreObjects today
+					registerIn: salesBook.
+	
+	self assert: cashier checkout = 10.  
+	self assert: salesBook size = 1.
+	self assert: salesBook first = cashier checkout.! !
+
+----SNAPSHOT----(9 June 2023 18:03:57) CuisUniversity-5832.image priorSource: 9828821!
+
+----QUIT----(9 June 2023 18:11:20) CuisUniversity-5832.image priorSource: 9881464!
