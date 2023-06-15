@@ -1,0 +1,1851 @@
+
+
+----QUIT----(30 May 2023 00:05:32) CuisUniversity-5832.image priorSource: 4928100!
+
+----STARTUP---- (30 May 2023 00:05:33) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-5832.image!
+
+
+----QUIT----(30 May 2023 00:05:33) CuisUniversity-5832.image priorSource: 9366537!
+
+----STARTUP---- (12 June 2023 17:35:14) as D:\windows64\CuisUniversity-5832.image!
+
+
+----End fileIn of C:\Users\daiana\Downloads\iteracion2\TusLibros.iteracion.2.st----!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 17:44:01' prior: 50624728!
+initializeToCheckout: aCart charging: aCreditCard registeringOn: aSalesBook
+	
+	cart := aCart.
+	creditCard := aCreditCard.
+	salesBook := aSalesBook! !
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DA 6/12/2023 18:07:34'!
+PASSED!
+
+!methodRemoval: Cashier #initializeToCheckout:charging:registeringOn: stamp: 'DA 6/12/2023 18:07:42'!
+initializeToCheckout: aCart charging: aCreditCard registeringOn: aSalesBook
+	
+	cart := aCart.
+	creditCard := aCreditCard.
+	salesBook := aSalesBook!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'DA 6/12/2023 18:07:49'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'DA 6/12/2023 18:07:49'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DA 6/12/2023 18:07:49'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'DA 6/12/2023 18:07:50'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'DA 6/12/2023 18:07:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'DA 6/12/2023 18:07:50'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'DA 6/12/2023 18:08:15'!
+test03CanNotCheckoutWithAnExpiredCreditCard
+
+	| cart salesBook |
+
+	cart := testObjectsFactory createCart.
+	cart add: testObjectsFactory itemSellByTheStore.
+	salesBook := OrderedCollection new.
+	debitBehavior := [ :anAmount :aCreditCard | self fail.].
+
+	
+	self
+		should: [ Cashier 
+				toCheckout: cart 
+				charging: testObjectsFactory expiredCreditCard 
+				throught: self
+				on: testObjectsFactory today
+				registeringOn: salesBook ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty ]! !
+
+!methodRemoval: CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'DA 6/12/2023 18:08:15'!
+test03CanNotCheckoutWithAnExpiredCreditCart
+
+	| cart salesBook |
+
+	cart := testObjectsFactory createCart.
+	cart add: testObjectsFactory itemSellByTheStore.
+	salesBook := OrderedCollection new.
+	debitBehavior := [ :anAmount :aCreditCard | self fail.].
+
+	
+	self
+		should: [ Cashier 
+				toCheckout: cart 
+				charging: testObjectsFactory expiredCreditCard 
+				throught: self
+				on: testObjectsFactory today
+				registeringOn: salesBook ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError | 
+			self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.
+			self assert: salesBook isEmpty ]!
+
+Object subclass: #InstanceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InstanceTest category: 'TusLibros' stamp: 'DA 6/12/2023 18:37:37'!
+Object subclass: #InstanceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----STARTUP---- (12 June 2023 19:12:29) as D:\windows64\CuisUniversity-5832.image!
+
+
+----End fileIn of C:\Users\daiana\Downloads\iteracion2\TusLibros.iteracion.2.st----!
+
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'DA 6/12/2023 19:13:31'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'no messages' stamp: 'DA 6/12/2023 19:13:39'!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+! !
+
+----SNAPSHOT----(12 June 2023 19:13:42) CuisUniversity-5832.image priorSource: 9366758!
+
+!classDefinition: #InterfaceTestObjectsFactory category: 'TusLibros' stamp: 'DA 6/12/2023 19:16:42'!
+Object subclass: #InterfaceTestObjectsFactory
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:17:07' prior: 50625587!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+	
+	|cart aUser aPass|
+	aUser := InterfaceTestObjectsFactory validUser.
+	aPass := InterfaceTestObjectsFactory validUserPassword.
+	cart := self createCart: aUser autenticateWith: aPass.
+	self assert: cart isEmpty.! !
+!InterfaceTestObjectsFactory methodsFor: 'no messages' stamp: 'DA 6/12/2023 19:17:51'!
+validUser
+	^true ! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:17:58'!
+validUserPassword
+	^true ! !
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'DA 6/12/2023 19:18:53'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: 'testInterfaceObjects'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:18:50' overrides: 16961394!
+setUp 
+
+	testInterfaceObjects := InterfaceTestObjectsFactory new.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:19:09' prior: 50625603!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+	
+	|cart aUser aPass|
+	aUser := testInterfaceObjects validUser.
+	aPass := testInterfaceObjects validUserPassword.
+	cart := self createCart: aUser autenticateWith: aPass.
+	self assert: cart isEmpty.! !
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:19:13'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:19:18'!
+createCart: aUser autenticateWith: aPass 
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:21:14' prior: 50625652!
+createCart: aUser autenticateWith: aPass 
+	(aUser and: aPass) ifTrue: [].! !
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:21:15'!
+ERROR!
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:21:34'!
+validIdCart! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:21:47' prior: 50625668!
+validIdCart
+	^ 'id valid of cart'.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:22:08' prior: 50625658!
+createCart: aUser autenticateWith: aPass 
+	(aUser and: aPass) ifTrue: [^ testInterfaceObjects validIdCart].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:23:32' prior: 50625637!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+	
+	|cart aUser aPass|
+	aUser := testInterfaceObjects validUser.
+	aPass := testInterfaceObjects validUserPassword.
+	cart := self createCart: aUser autenticateWith: aPass.
+	self assert: cart isValid.! !
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:23:35'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:23:55' prior: 50625684!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+	
+	|cart aUser aPass|
+	aUser := testInterfaceObjects validUser.
+	aPass := testInterfaceObjects validUserPassword.
+	cart := self createCart: aUser autenticateWith: aPass.
+	self assert: (self isValid: cart).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:23:59' prior: 50625700!
+test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart
+	
+	|cart aUser aPass|
+	aUser := testInterfaceObjects validUser.
+	aPass := testInterfaceObjects validUserPassword.
+	cart := self createCart: aUser autenticateWith: aPass.
+	self assert: (self isValid: cart).! !
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:23:59'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:24:05'!
+isValid: cart 
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:24:22' prior: 50625727!
+isValid: cart 
+	^cart = testInterfaceObjects validIdCart.! !
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:24:24'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:24:24'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:28:48'!
+test02NotAuthenticateWithIncorrectUserCredentials
+	
+	|aUser aPass|
+	aUser := testInterfaceObjects invalidUser.
+	aPass := testInterfaceObjects invalidUserPassword.
+	
+	self should: [self createCart: aUser autenticateWith: aPass.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: self invalidCredentialsErrorMessage.
+			].! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:29:07'!
+invalidUser
+	^false! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:29:15'!
+invalidUserPassword
+	^false ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:30:11' prior: 50625677!
+createCart: aUser autenticateWith: aPass 
+	(aUser and: aPass) ifFalse: [self error: self invalidCredentialsErrorMessage].
+	^ testInterfaceObjects validIdCart! !
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:30:17'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:30:21'!
+invalidCredentialsErrorMessage
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:30:31' prior: 50625781!
+invalidCredentialsErrorMessage
+	^'invalid credentials'! !
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:30:32'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:31:25' prior: 50625745!
+test02NotAuthenticateWithIncorrectUserCredentials
+	
+	|aUser aPass|
+	aUser := testInterfaceObjects invalidUser.
+	aPass := testInterfaceObjects invalidUserPassword.
+	
+	self should: [self createCart: aUser autenticateWith: aPass.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: self invalidCredentialsErrorMessage.
+			].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:31:32' prior: 50625769!
+createCart: aUser autenticateWith: aPass 
+	(aUser and: aPass) ifFalse: [self error: self invalidCredentialsErrorMessage].
+	^ testInterfaceObjects validIdCart! !
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:32:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:32:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:32:28'!
+PASSED!
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:35:08'!
+invalidIdCart
+	^ 'id invalid of cart'.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:44:03'!
+test03CannotListAnInvalidWithInvalidCartId
+	
+	|cartId|
+	cartId := testInterfaceObjects invalidIdCart.
+	
+	self should: [self listCart: cartId.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: self invalidCredentialsErrorMessage.
+			].! !
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:44:06'!
+FAILURE!
+!InterfaceTest methodsFor: 'assertions' stamp: 'DA 6/12/2023 19:44:10' overrides: 16961444!
+assert: aRenameMe1 description: aRenameMe2 
+	self shouldBeImplemented.! !
+
+!methodRemoval: InterfaceTest #assert:description: stamp: 'DA 6/12/2023 19:44:24'!
+assert: aRenameMe1 description: aRenameMe2 
+	self shouldBeImplemented.!
+!InterfaceTest methodsFor: 'nil' stamp: 'DA 6/12/2023 19:45:03'!
+listCart: cartId! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:45:14' prior: 50625672!
+validIdCart
+	^ true.! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:45:19' prior: 50625830!
+invalidIdCart
+	^ false.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:46:28' prior: 50625860!
+listCart: cartId
+	cartId ifFalse: [self error: self ]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:46:37' prior: 50625874!
+listCart: cartId
+	cartId ifFalse: [self error: self invalidCredentialsErrorMessage].! !
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:46:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:46:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:46:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:46:41'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:46:54' prior: 50625834!
+test03CannotListAnInvalidWithInvalidCartId
+	
+	|cartId|
+	cartId := testInterfaceObjects invalidIdCart.
+	
+	self should: [self listCart: cartId.]
+		raise: Error
+		withExceptionDo: [:anError|
+			self assert: anError messageText equals: self invalidCartErrorMessage.
+			].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:47:06'!
+invalidCartErrorMessage
+	^'invalid cart id'! !
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:47:10'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:47:21' prior: 50625879!
+listCart: cartId
+	cartId ifFalse: [self error: self invalidCartErrorMessage].! !
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:47:24'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:47:24'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:47:24'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:47:24'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:48:58'!
+test03CanListValidCartId
+	
+	|cartId cartList|
+	cartId := testInterfaceObjects validIdCart.
+	
+	cartList := self listCart: cartId.
+	self assert: cartList isEmpty not. ! !
+
+!testRun: #InterfaceTest #test03CanListValidCartId stamp: 'DA 6/12/2023 19:49:00'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:49:16' prior: 50625939!
+test03CanListValidCartId
+	
+	|cartId cartList|
+	cartId := testInterfaceObjects validIdCart.
+	
+	cartList := self listCart: cartId.
+	self deny: cartList isEmpty. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:49:33' prior: 50625919!
+listCart: cartId
+	cartId ifFalse: [self error: self invalidCartErrorMessage].
+	^ Array with: 'ISBN' with: 'items'.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:49:50'!
+test04CanListValidCartId
+	
+	|cartId cartList|
+	cartId := testInterfaceObjects validIdCart.
+	
+	cartList := self listCart: cartId.
+	self deny: cartList isEmpty. ! !
+
+!methodRemoval: InterfaceTest #test03CanListValidCartId stamp: 'DA 6/12/2023 19:49:50'!
+test03CanListValidCartId
+	
+	|cartId cartList|
+	cartId := testInterfaceObjects validIdCart.
+	
+	cartList := self listCart: cartId.
+	self deny: cartList isEmpty. !
+
+!testRun: #InterfaceTest #test04CanListValidCartId stamp: 'DA 6/12/2023 19:49:53'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:49:53'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:49:54'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:49:54'!
+PASSED!
+
+!testRun: #InterfaceTest #test04CanListValidCartId stamp: 'DA 6/12/2023 19:49:54'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:52:02'!
+test05CannotCheckoutIfCartDontBelongToUser 
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.  
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:52:33'!
+test06CannotCheckoutIfCreditCardIsExpired
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.  
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:53:27'!
+test07CheckoutSuccessfullyIfValidFields
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.  
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:56:10' prior: 50626000!
+test05CannotCheckoutIfCartDontBelongToUser 
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects validCreditCard.
+	aUser := testInterfaceObjects validUserNotOwner.
+	aDate := Date today.
+	
+	self should: [self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.]
+		raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: self cartDontBelongUserErrorMessage.
+			]
+	! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:56:23'!
+validCreditCard
+	^true ! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:56:57'!
+validUserNotOwner
+	^false! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:57:42'!
+cartDontBelongUserErrorMessage
+	^'cart dont belong to user'! !
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:57:47'!
+FAILURE!
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:58:02'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:58:26' prior: 50626030!
+test05CannotCheckoutIfCartDontBelongToUser 
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects validCreditCard.
+	aUser := testInterfaceObjects validUserNotOwner.
+	aDate := Date today.
+	self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.
+	
+	self should: [self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.]
+		raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: self cartDontBelongUserErrorMessage.
+			]
+	! !
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:58:27'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:58:33'!
+checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate 
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:59:06' prior: 50626093!
+checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate 
+	(cartId and: aUser) ifFalse: [self error: self cartDontBelongUserErrorMessage]! !
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:59:07'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 19:59:14' prior: 50626069!
+test05CannotCheckoutIfCartDontBelongToUser 
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects validCreditCard.
+	aUser := testInterfaceObjects validUserNotOwner.
+	aDate := Date today.
+	
+	self should: [self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.]
+		raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: self cartDontBelongUserErrorMessage.
+			]
+	! !
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:59:14'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 19:59:14'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 19:59:15'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 19:59:15'!
+PASSED!
+
+!testRun: #InterfaceTest #test04CanListValidCartId stamp: 'DA 6/12/2023 19:59:15'!
+PASSED!
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 19:59:15'!
+PASSED!
+
+!testRun: #InterfaceTest #test06CannotCheckoutIfCreditCardIsExpired stamp: 'DA 6/12/2023 19:59:15'!
+ERROR!
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 19:59:15'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:00:19' prior: 50626010!
+test06CannotCheckoutIfCreditCardIsExpired
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects invalidCreditCard.
+	aUser := testInterfaceObjects validUser.
+	aDate := Date today - 1.
+	
+	self should: [self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.]
+		raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: self expiredCreditCardErrorMessage.
+			]
+	! !
+!InterfaceTestObjectsFactory methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:00:33'!
+invalidCreditCard
+	^false! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:01:03'!
+expiredCreditCardErrorMessage
+	^'credit card expired'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:03:33' prior: 50626100!
+checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate 
+	(cartId and: aUser) ifFalse: [self error: self cartDontBelongUserErrorMessage].
+	(self checkExpiration: creditCard on: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:04:07'!
+checkExpiration: creditCard on: aDate
+	^ creditCard! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:04:22' prior: 50626196!
+checkExpiration: creditCard on: aDate
+	^ creditCard not! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:04:40' prior: 50626158!
+test06CannotCheckoutIfCreditCardIsExpired
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects invalidCreditCard.
+	aUser := testInterfaceObjects validUser.
+	aDate := Date today.
+	
+	self should: [self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate.]
+		raise: Error
+		withExceptionDo: [:anError | 
+			self assert: anError messageText equals: self expiredCreditCardErrorMessage.
+			]
+	! !
+
+!testRun: #InterfaceTest #test06CannotCheckoutIfCreditCardIsExpired stamp: 'DA 6/12/2023 20:04:40'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 20:04:40'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 20:04:40'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 20:04:40'!
+PASSED!
+
+!testRun: #InterfaceTest #test04CanListValidCartId stamp: 'DA 6/12/2023 20:04:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 20:04:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test06CannotCheckoutIfCreditCardIsExpired stamp: 'DA 6/12/2023 20:04:41'!
+PASSED!
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 20:04:41'!
+ERROR!
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 20:04:41'!
+ERROR!
+
+!testRun: #InterfaceTest #test06CannotCheckoutIfCreditCardIsExpired stamp: 'DA 6/12/2023 20:05:14'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:06:00' prior: 50626020!
+test07CheckoutSuccessfullyIfValidFields
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	
+	self assert: (self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate)  
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:06:31' prior: 50626259!
+test07CheckoutSuccessfullyIfValidFields
+
+	|cartId creditCard aUser aDate|
+	cartId := testInterfaceObjects validIdCart.
+	creditCard := testInterfaceObjects validCreditCard.
+	aUser := testInterfaceObjects validUser.
+	aDate := Date today.
+	
+	self assert: (self checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate)  
+	! !
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 20:06:33'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/12/2023 20:06:45' prior: 50626185!
+checkoutCart: cartId withCC: creditCard ownedBy: aUser expiringOn: aDate 
+	(cartId and: aUser) ifFalse: [self error: self cartDontBelongUserErrorMessage].
+	(self checkExpiration: creditCard on: aDate) ifTrue: [self error: self expiredCreditCardErrorMessage].
+	^true! !
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test01AuthenticateWithCorrectUserCredentialsCreateEmptyCart stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test02NotAuthenticateWithIncorrectUserCredentials stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CannotListAnInvalidWithInvalidCartId stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test04CanListValidCartId stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test05CannotCheckoutIfCartDontBelongToUser stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test06CannotCheckoutIfCreditCardIsExpired stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+!testRun: #InterfaceTest #test07CheckoutSuccessfullyIfValidFields stamp: 'DA 6/12/2023 20:06:49'!
+PASSED!
+
+----SNAPSHOT----(12 June 2023 20:12:50) CuisUniversity-5832.image priorSource: 9406111!
+
+----QUIT----(12 June 2023 20:13:15) CuisUniversity-5832.image priorSource: 9429563!
+
+----STARTUP---- (14 June 2023 20:12:15) as D:\windows64\CuisUniversity-5832.image!
+
+
+!classRemoval: #StoreTestObjectsFactory stamp: 'DA 6/14/2023 20:15:22'!
+Object subclass: #StoreTestObjectsFactory
+	instanceVariableNames: 'today'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #InterfaceTestObjectsFactory stamp: 'DA 6/14/2023 20:15:23'!
+Object subclass: #InterfaceTestObjectsFactory
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CreditCard stamp: 'DA 6/14/2023 20:15:23'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cashier stamp: 'DA 6/14/2023 20:15:24'!
+Object subclass: #Cashier
+	instanceVariableNames: 'cart salesBook merchantProcessor creditCard total'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #Cart stamp: 'DA 6/14/2023 20:15:24'!
+Object subclass: #Cart
+	instanceVariableNames: 'catalog items'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #InterfaceTest stamp: 'DA 6/14/2023 20:15:24'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: 'testInterfaceObjects'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CashierTest stamp: 'DA 6/14/2023 20:15:25'!
+TestCase subclass: #CashierTest
+	instanceVariableNames: 'testObjectsFactory debitBehavior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartTest stamp: 'DA 6/14/2023 20:15:25'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+----End fileIn of C:\Users\daiana\Downloads\Telegram Desktop\TusLibros.iteracion.2.5.st----!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:33:05'!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:37:03' prior: 50627359!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:37:46' prior: 50627378!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 20:37:46'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:37:52'!
+addMinutes: aRenameMe1 
+	self shouldBeImplemented.! !
+
+!classDefinition: #RestInterface category: 'TusLibros' stamp: 'DA 6/14/2023 20:38:50'!
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:38:48' prior: 50627419!
+addMinutes: anAmountOfMinutes
+	clock := clock + Duration anAmountOfMinutes.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:39:20' prior: 50627433!
+addMinutes: anAmountOfMinutes
+	clock := clock + (Duration minutes: anAmountOfMinutes).! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 20:39:22'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:39:42'!
+now
+	
+	^clock! !
+
+!methodRemoval: RestInterface #today stamp: 'DA 6/14/2023 20:39:48'!
+today
+	
+	^DateAndTime now!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 20:40:37' prior: 50627205!
+initializeAuthenticatingWith: anAuthenticationSystem acceptingItemsOf: aCatalog merchantProcessor: anMP
+
+	authenticationSystem := anAuthenticationSystem.
+	catalog := aCatalog.
+	carts := Dictionary new.
+	lastId := 0.
+	merchantProcessor := anMP.
+	clock := DateAndTime now. ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 20:40:47'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 20:40:47'!
+FAILURE!
+
+!classDefinition: #RestInterface category: 'TusLibros' stamp: 'DA 6/14/2023 21:00:24'!
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:00:22' prior: 50627152!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - lastUsed at: aCartId) > 30 ifTrue: [self cartExpiredErrorMessage].
+	cart add: anAmount of: aBook ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:00:48' prior: 50627455!
+initializeAuthenticatingWith: anAuthenticationSystem acceptingItemsOf: aCatalog merchantProcessor: anMP
+
+	authenticationSystem := anAuthenticationSystem.
+	catalog := aCatalog.
+	carts := Dictionary new.
+	lastUsed := Dictionary new.
+	lastId := 0.
+	merchantProcessor := anMP.
+	clock := DateAndTime now. ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:01:31' prior: 50627484!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - lastUsed at: aCartId) > 30 ifTrue: [self cartExpiredErrorMessage].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+!testRun: #RestInterfaceTest #test01CanCreateCartWithValidUserAndPassword stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test02CanNotCreateCartWithInvalidUser stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test03CanNotCreateCartWithInvalidPassword stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test04CanAddItemsToACreatedCart stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test05CanNotAddItemToNotCreatedCart stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test06CanNotAddItemNotSellByTheStore stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test07ListCartOfAnEmptyCartReturnsAnEmptyBag stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test08CanNotListCartOfInvalidCartId stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test10CanCheckoutACart stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test11CanNotCheckoutANotCreatedCart stamp: 'DA 6/14/2023 21:02:27'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test12CanNotCheckoutAnEmptyCart stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:02:27'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:02:33'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:02:42'!
+expiredTimeErrorDescription
+	self shouldBeImplemented.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:02:54' prior: 50627568!
+expiredTimeErrorDescription
+	'Expired session time'! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:02:56'!
+FAILURE!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:03:16' prior: 50627508!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - lastUsed at: aCartId) > 30 ifTrue: [self expiredTimeErrorMessage].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:03:28' prior: 50627582!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - lastUsed at: aCartId) > 30 ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:03:38'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:03:38'!
+FAILURE!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:04:09' prior: 50627398!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:04:11'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:05:10' prior: 50627595!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	((self now - lastUsed at: aCartId) > 30) ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:05:19'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:05:19'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:06:12'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:07:06' prior: 50627639!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	((self now - (lastUsed at: aCartId)) > 30) ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:07:17' prior: 50627663!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - (lastUsed at: aCartId) > 30) ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:07:26'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:07:26'!
+ERROR!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:08:38' prior: 50627182!
+createCartFor: aUser authenticatedWith: aPassword
+
+	| cartId |
+	
+	(self is: aUser authenticatingWith: aPassword) ifFalse: [ self signalInvalidUserAndOrPassword ].
+	
+	cartId := self generateCartId.
+	carts at: cartId put: (Cart acceptingItemsOf: catalog).
+	lastUsed at: cartId put: DateAndTime now.
+	
+	^cartId ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:08:59' prior: 50627696!
+createCartFor: aUser authenticatedWith: aPassword
+
+	| cartId |
+	
+	(self is: aUser authenticatingWith: aPassword) ifFalse: [ self signalInvalidUserAndOrPassword ].
+	
+	cartId := self generateCartId.
+	carts at: cartId put: (Cart acceptingItemsOf: catalog).
+	lastUsed at: cartId put: self now.
+	
+	^cartId ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:09:17'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:09:17'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:10:52'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:11:10'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:11:10'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:11:19'!
+ERROR!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 21:12:21' prior: 50627615!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	"nterface add: self validBook quantity: 1 toCartIdentifiedAs: cartId."
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:12:24'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 21:12:24'!
+FAILURE!
+
+----SNAPSHOT----(14 June 2023 21:14:22) CuisUniversity-5832.image priorSource: 9429652!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:31:19' prior: 50627676!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - (lastUsed at: aCartId) > Duration minutes: 30) ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+----STARTUP---- (14 June 2023 22:32:21) as D:\windows64\CuisUniversity-5832.image!
+
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:34:22'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:34:22'!
+FAILURE!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:35:12' prior: 50627743!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:35:59' prior: 50627676!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - (lastUsed at: aCartId) > (Duration minutes: 30)) ifTrue: [self expiredTimeErrorDescription].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:36:10'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:36:10'!
+FAILURE!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:38:04' prior: 50627803!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - (lastUsed at: aCartId) > (Duration minutes: 30)) ifTrue: [self signalExpiredTime].
+	
+	cart add: anAmount of: aBook.
+	lastUsed at: aCartId put: DateAndTime now.  ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:38:26'!
+signalExpiredTime
+	
+	self error: self expiredTimeErrorDescription! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:38:32'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:38:32'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:38:33'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:38:57'!
+ERROR!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:39:06' prior: 50627783!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:39:10'!
+PASSED!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:39:56'!
+test13CartNotAddingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!methodRemoval: RestInterfaceTest #test13AssertExpiredTimeWhenInteractingCart stamp: 'DA 6/14/2023 22:39:56'!
+test13AssertExpiredTimeWhenInteractingCart
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:40:17'!
+test13CartNotListingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:40:34' prior: 50627167!
+checkOutCartIdentifiedAs: aCartId withCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [self signalInvalidCartId ].
+	
+	Cashier 
+		toCheckout: cart 
+		charging: (CreditCard expiringOn: anExpirationMonthOfYear) 
+		throught: merchantProcessor 
+		on: self clock 
+		registeringOn: salesBook! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:41:14'!
+test14CartNotListingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!methodRemoval: RestInterfaceTest #test13CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 22:41:14'!
+test13CartNotListingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:42:38' prior: 50627946!
+test14CartNotListingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface listCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test14CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 22:42:44'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test14CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 22:42:44'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test14CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 22:43:02'!
+FAILURE!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:43:49' prior: 50627239!
+listCartIdentifiedAs: aCartId
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(self now - (lastUsed at: aCartId) > (Duration minutes: 30)) ifTrue: [self signalExpiredTime].
+	
+	^cart content! !
+
+!testRun: #RestInterfaceTest #test14CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 22:43:54'!
+PASSED!
+
+Object subclass: #CartSessionData
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartSessionData category: 'TusLibros' stamp: 'DA 6/14/2023 22:49:33'!
+Object subclass: #CartSessionData
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 22:59:53'!
+updateCartSession: aCartId
+	|cart|
+	cart := carts at: aCartId ifAbsent: [ self signalInvalidCartId ].
+	(cart isExpired: self now) ifTrue: [self signalExpiredTime].
+	cart updateLastUse: self now. ! !
+
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:03:32' prior: 50628036!
+updateCartSession: aCartId
+	self assertCartExists: aCartId. 
+	self assertCartNotExpired: aCartId.
+	self updateLastUseFor: aCartId.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:04:04'!
+assertCartExists: aCartId. 
+	carts at: aCartId ifAbsent: [ self signalInvalidCartId ].! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:04:50'!
+assertCartNotExpired: aCartId. 
+	((carts at: aCartId) isExpired: self now) ifTrue: [self signalExpiredTime].! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:05:48'!
+updateLastUseFor: aCartId
+	(carts at: aCartId) updateLastUsed: self now. ! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:09:22'!
+retrieveCart: aCartId. 
+	^carts detect: [:aCart | aCart id = aCartId] ifNone: [ self signalInvalidCartId ].! !
+
+!methodRemoval: RestInterface #assertCartExists: stamp: 'DA 6/14/2023 23:09:30'!
+assertCartExists: aCartId. 
+	carts at: aCartId ifAbsent: [ self signalInvalidCartId ].!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:09:56' prior: 50628072!
+assertCartNotExpired: aCart 
+	aCart isExpired: self now ifTrue: [self signalExpiredTime].! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:10:35' prior: 50628059!
+updateCartSession: aCartId
+	|cart|
+	cart := self retrieveCart: aCartId.
+	self assertCartNotExpired: cart.
+	self updateLastUseFor: cart.! !
+
+!methodRemoval: RestInterface #updateLastUseFor: stamp: 'DA 6/14/2023 23:10:59'!
+updateLastUseFor: aCartId
+	(carts at: aCartId) updateLastUsed: self now. !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:11:22' prior: 50628102!
+updateCartSession: aCartId
+	|cart|
+	cart := self retrieveCart: aCartId.
+	self assertCartNotExpired: cart.
+	cart updateLastUsed: self now.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:13:41' prior: 50627824!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+	|cart|
+	self updateCartSession: aCartId.
+	cart := self retrieveCart: aCartId.
+	cart add: anAmount of: aBook.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:14:31'!
+tryUpdateCartSession: aCartId
+	|cart|
+	cart := self retrieveCart: aCartId.
+	self assertCartNotExpired: cart.
+	cart updateLastUsed: self now.! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:14:31' prior: 50628123!
+add: aBook quantity: anAmount toCartIdentifiedAs: aCartId
+	|cart|
+	self tryUpdateCartSession: aCartId.
+	cart := self retrieveCart: aCartId.
+	cart add: anAmount of: aBook.! !
+
+!methodRemoval: RestInterface #updateCartSession: stamp: 'DA 6/14/2023 23:14:31'!
+updateCartSession: aCartId
+	|cart|
+	cart := self retrieveCart: aCartId.
+	self assertCartNotExpired: cart.
+	cart updateLastUsed: self now.!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:16:24' prior: 50628010!
+listCartIdentifiedAs: aCartId
+	| cart |
+	
+	self tryUpdateCartSession: aCartId.
+	cart := self retrieveCart: aCartId.
+	
+	^cart content! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:18:44' prior: 50628084!
+retrieveCart: aCartId
+
+	^carts detect: [:aCart | aCart id = aCartId] ifNone: [ self signalInvalidCartId ].! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:19:11' prior: 50627931!
+checkOutCartIdentifiedAs: aCartId withCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	| cart |
+	
+	cart := carts at: aCartId ifAbsent: [self signalInvalidCartId ].
+	
+	Cashier 
+		toCheckout: cart 
+		charging: (CreditCard expiringOn: anExpirationMonthOfYear) 
+		throught: merchantProcessor 
+		on: self now
+		registeringOn: salesBook! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:19:50' prior: 50628096!
+assertCartNotExpired: aCart 
+	(aCart isExpired: self now) ifTrue: [self signalExpiredTime].! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:20:04'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:20:04'!
+FAILURE!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:20:28' prior: 50627878!
+test13CartNotAddingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:20:47'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:21:07'!
+ERROR!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:23:28' prior: 50628199!
+test13CartNotAddingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:24:09' prior: 50628170!
+checkOutCartIdentifiedAs: aCartId withCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	| cart |
+	
+	cart := self retrieveCart: aCartId.
+	
+	Cashier 
+		toCheckout: cart 
+		charging: (CreditCard expiringOn: anExpirationMonthOfYear) 
+		throught: merchantProcessor 
+		on: self now
+		registeringOn: salesBook! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:24:54' prior: 50628244!
+checkOutCartIdentifiedAs: aCartId withCreditCardNumbered: aCreditCartNumber ownedBy: anOwner expiringOn: anExpirationMonthOfYear
+
+	| cart |
+	self tryUpdateCartSession: aCartId.
+	cart := self retrieveCart: aCartId.
+	
+	Cashier 
+		toCheckout: cart 
+		charging: (CreditCard expiringOn: anExpirationMonthOfYear) 
+		throught: merchantProcessor 
+		on: self now
+		registeringOn: salesBook! !
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:25:49' prior: 50627495!
+initializeAuthenticatingWith: anAuthenticationSystem acceptingItemsOf: aCatalog merchantProcessor: anMP
+
+	authenticationSystem := anAuthenticationSystem.
+	catalog := aCatalog.
+	carts := OrderedCollection new.
+	lastId := 0.
+	merchantProcessor := anMP.
+	clock := DateAndTime now. ! !
+
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #RestInterface category: 'TusLibros' stamp: 'DA 6/14/2023 23:26:02'!
+Object subclass: #RestInterface
+	instanceVariableNames: 'authenticationSystem carts catalog lastId merchantProcessor salesBook clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartSession category: 'TusLibros' stamp: 'DA 6/14/2023 23:28:48'!
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classRemoval: #CartSessionData stamp: 'DA 6/14/2023 23:28:53'!
+Object subclass: #CartSessionData
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:29:14' prior: 50627709!
+createCartFor: aUser authenticatedWith: aPassword
+
+	| cartId |
+	
+	(self is: aUser authenticatingWith: aPassword) ifFalse: [ self signalInvalidUserAndOrPassword ].
+	cartId := self generateCartId.
+	carts add: (CartSession initiateSessionOf: (Cart acceptingItemsOf: catalog) withId: cartId startingAt: self now).
+	
+	^cartId ! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:29:32'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:29:32'!
+ERROR!
+!CartSession class methodsFor: 'instance creation' stamp: 'DA 6/14/2023 23:29:37'!
+initiateSessionOf: aCart withId: aSmallInteger startingAt: aDateAndTime 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeInitiateSessionOf: aCart withId: aSmallInteger startingAt: aDateAndTime ! !
+!CartSession class methodsFor: 'instance creation' stamp: 'DA 6/14/2023 23:30:15' prior: 50628340!
+initiateSessionOf: aCart withId: aCartId startingAt: aDate 
+	^self new initializeInitiateSessionOf: aCart withId: aCartId startingAt: aDate ! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:30:16'!
+ERROR!
+
+!classDefinition: #CartSession category: 'TusLibros' stamp: 'DA 6/14/2023 23:30:27'!
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed cartId'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartSession category: 'TusLibros' stamp: 'DA 6/14/2023 23:30:27'!
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed cartId date'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartSession methodsFor: 'initialization' stamp: 'DA 6/14/2023 23:30:27'!
+initializeInitiateSessionOf: aCart withId: aCartId startingAt: aDate 
+	self shouldBeImplemented.
+	cart := aCart.
+	cartId := aCartId.
+	date := aDate.! !
+!CartSession methodsFor: 'initialization' stamp: 'DA 6/14/2023 23:30:42' prior: 50628378!
+initializeInitiateSessionOf: aCart withId: aCartId startingAt: aDate 
+	cart := aCart.
+	cartId := aCartId.
+	lastUsed := aDate.! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:30:43'!
+FAILURE!
+
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CartSession category: 'TusLibros' stamp: 'DA 6/14/2023 23:30:59'!
+Object subclass: #CartSession
+	instanceVariableNames: 'cart id lastUsed'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CartSession methodsFor: 'initialization' stamp: 'DA 6/14/2023 23:31:04' prior: 50628386!
+initializeInitiateSessionOf: aCart withId: aCartId startingAt: aDate 
+	cart := aCart.
+	id := aCartId.
+	lastUsed := aDate.! !
+!CartSession methodsFor: 'initialization' stamp: 'DA 6/14/2023 23:31:38'!
+isExpired: aDatetime
+	! !
+!CartSession methodsFor: 'initialization' stamp: 'DA 6/14/2023 23:32:21' prior: 50628416!
+isExpired: aDatetime
+	^ (aDatetime - lastUsed) > (Duration minutes: 30). ! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:32:41'!
+FAILURE!
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:32:41'!
+FAILURE!
+!CartSession methodsFor: 'nil' stamp: 'DA 6/14/2023 23:34:04'!
+updateLastUsed: aDatetime
+	lastUsed := aDatetime! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:34:29' prior: 50628226!
+test13CartNotAddingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:34:51'!
+ERROR!
+!CartSession methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:36:07'!
+id 
+	^ id! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:36:29'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:36:48'!
+ERROR!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:36:57' prior: 50628437!
+test13CartNotAddingItemsWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test13CartNotAddingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:37:00'!
+PASSED!
+
+!testRun: #RestInterfaceTest #test14CartNotListingItemsWithExpiredSesion stamp: 'DA 6/14/2023 23:37:04'!
+PASSED!
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:38:18'!
+test15CartNotCheckoutWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface listCartIdentifiedAs: cartId]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:39:04' prior: 50628496!
+test15CartNotCheckoutWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface 
+			checkOutCartIdentifiedAs: cartId 
+			withCreditCardNumbered: '1111222233334444' 
+			ownedBy: 'Juan Perez' 
+			expiringOn: testObjectsFactory notExpiredMonthOfYear ]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:39:16' prior: 50628513!
+test15CartNotCheckoutWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	
+	interface addMinutes: 31.
+	
+	self
+		should: [interface 
+			checkOutCartIdentifiedAs: cartId 
+			withCreditCardNumbered: '1111222233334444' 
+			ownedBy: 'Juan Perez' 
+			expiringOn: testObjectsFactory notExpiredMonthOfYear ]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+!RestInterfaceTest methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:39:36' prior: 50628534!
+test15CartNotCheckoutWithExpiredSesion
+
+	| interface cartId |
+	interface := self createDefaultInterface .
+
+	cartId := interface createCartFor: self validUser authenticatedWith: self validUserPassword.
+	interface add: self validBook quantity: 1 toCartIdentifiedAs: cartId.
+	interface addMinutes: 31.
+	
+	self
+		should: [interface 
+			checkOutCartIdentifiedAs: cartId 
+			withCreditCardNumbered: '1111222233334444' 
+			ownedBy: 'Juan Perez' 
+			expiringOn: testObjectsFactory notExpiredMonthOfYear ]
+		raise: Error
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = interface expiredTimeErrorDescription]
+		
+		
+		! !
+
+!testRun: #RestInterfaceTest #test15CartNotCheckoutWithExpiredSesion stamp: 'DA 6/14/2023 23:39:41'!
+ERROR!
+
+!testRun: #RestInterfaceTest #test15CartNotCheckoutWithExpiredSesion stamp: 'DA 6/14/2023 23:39:41'!
+ERROR!
+!CartSession methodsFor: 'nil' stamp: 'DA 6/14/2023 23:40:37'!
+add: anAmount of: aBook
+	cart add: anAmount of: aBook ! !
+
+!testRun: #RestInterfaceTest #test15CartNotCheckoutWithExpiredSesion stamp: 'DA 6/14/2023 23:40:47'!
+PASSED!
+!RestInterface methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:42:51' prior: 50628163!
+retrieveCart: aCartId
+
+	^carts detect: [:aCart | aCart hasCartId: aCartId] ifNone: [ self signalInvalidCartId ].! !
+!CartSession methodsFor: 'as yet unclassified' stamp: 'DA 6/14/2023 23:43:16'!
+hasCartId: aCartId
+	^ id = aCartId ! !
+
+!methodRemoval: CartSession #id stamp: 'DA 6/14/2023 23:43:20'!
+id 
+	^ id!
+
+----SNAPSHOT----(14 June 2023 23:43:36) CuisUniversity-5832.image priorSource: 9475802!
+
+----SNAPSHOT----(14 June 2023 23:56:25) CuisUniversity-5832.image priorSource: 9502578!
