@@ -1,0 +1,2627 @@
+
+
+----QUIT----(30 May 2023 00:05:32) CuisUniversity-5832.image priorSource: 4928100!
+
+----STARTUP---- (30 May 2023 00:05:33) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-5832.image!
+
+
+----QUIT----(30 May 2023 00:05:33) CuisUniversity-5832.image priorSource: 9366537!
+
+----STARTUP---- (15 June 2023 20:17:27) as /home/julian/Escritorio/tuslibrosIT4/CuisUniversity-5832.image!
+
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/WebClient.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/TusLibros-Model Ejercicio it4.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/TusLibros-Tests Ejercicio it4.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/TusLibrosREST Ejercicio it4.st----!
+
+----SNAPSHOT----(15 June 2023 20:44:52) CuisUniversity-5832.image priorSource: 9366758!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/15/2023 20:49:21'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'JUL 6/15/2023 20:49:39'!
+PASSED!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/Packages/TerseGuide.pck.st----!
+
+[] fork
+!
+
+[^2] fork!
+
+[^2] fork!
+
+[^2] value!
+
+[[^2] value ] fork
+!
+
+list := OrderedCollection new with:2 with:3!
+
+list := OrderedCollection with:2 with:3!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:06:41' prior: 50633519!
+totalSalesOf: anItem
+	
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem] forkAndWait .
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/15/2023 21:07:18'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:10:40' prior: 50638387!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem]  .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:11:53' prior: 50638403!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem]  .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:12:04'!
+m1: anItem
+
+	^ [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem]! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:12:04' prior: 50638417!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: self m1: anItem  .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:12:04' prior: 50638440!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: self m1: anItem  .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:12:04' prior: 50638448!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: self m1: anItem  .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:13:17' prior: 50638456!
+totalSalesOf: anItem
+	|readySemaphore|
+	readySemaphore := 	Semaphore new.
+		
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem] .
+
+! !
+
+!methodRemoval: TusLibrosSystemFacade #m1: stamp: 'JUL 6/15/2023 21:21:29'!
+m1: anItem
+
+	^ [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem]!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:28:21' prior: 50638464!
+totalSalesOf: anItem
+
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem  sem | 
+		quantityPerItem := 0.
+		sem := Semaphore new.
+		
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity] ].
+		quantityPerItem
+		] .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:32:30' prior: 50638487!
+totalSalesOf: anItem
+
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		
+		
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity] ].
+		quantityPerItem
+		] .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:34:18' prior: 50638500!
+totalSalesOf: anItem
+
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | quantityPerItem | 
+		quantityPerItem := 0.
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity] ].
+		quantityPerItem
+		] .
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:49:29' prior: 50633492!
+totalMoneyRaised
+	
+	(Delay forSeconds: 1) wait.
+	
+	^salesBook sum: [:aSale | | sem |
+		sem := Semaphore new.
+		[aSale total.
+		sem signal.] fork.
+		sem wait. 
+		 ].
+	
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:50:49' prior: 50633509!
+totalSales
+	
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | totalQuantity sem |
+		sem := Semaphore new. 
+		totalQuantity := 0.
+		aSale lineItemsDo: [:aLineItem | totalQuantity := totalQuantity + aLineItem quantity.
+			sem signal.] fork.
+			sem wait.
+		totalQuantity].
+	
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/15/2023 21:51:05'!
+ERROR!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'NR 6/12/2022 21:34:25' prior: 50638524!
+totalMoneyRaised
+	
+	(Delay forSeconds: 1) wait.
+	
+	^salesBook sum: [:aSale | aSale total].
+	
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'NR 6/13/2022 07:18:34' prior: 50638533!
+totalSales
+	
+	(Delay forSeconds: 1) wait.
+
+	^salesBook sum: [:aSale | | totalQuantity |
+		totalQuantity := 0.
+		aSale lineItemsDo: [:aLineItem | totalQuantity := totalQuantity + aLineItem quantity].
+		totalQuantity].
+	
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 01:29:56' prior: 50633475!
+storePerformance
+
+	| totalMoney totalSales performance |
+	
+	performance := Dictionary new.
+	
+	[totalSales := self totalSales] fork.
+	totalMoney := self totalMoneyRaised.
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 01:30:59' prior: 50638565!
+storePerformance
+
+	| totalMoney totalSales performance sem|
+	
+	performance := Dictionary new.
+	
+	sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork.
+	
+	sem wait.
+	totalMoney := self totalMoneyRaised.
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:31:17'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:31:19'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:31:56'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:31:58'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 01:32:42' prior: 50638582!
+storePerformance
+
+	| totalMoney totalSales performance sem|
+	
+	performance := Dictionary new.
+	
+	sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork.
+	
+	totalMoney := self totalMoneyRaised.
+	sem wait.
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:32:55'!
+PASSED!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 01:34:08' prior: 50638617!
+storePerformance
+
+	| totalMoney totalSales performance sem|
+	
+	performance := Dictionary new.
+	
+	sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork.
+	
+	totalMoney := self totalMoneyRaised.
+	
+	sem wait.
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 01:35:03' prior: 50633434!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales sem |
+
+	bookPerformance := Dictionary new.
+	
+	sem := Semaphore new.
+		
+	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork.
+	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+	sem wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:35:48'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 01:35:49'!
+PASSED!
+
+----SNAPSHOT----(16 June 2023 01:42:23) CuisUniversity-5832.image priorSource: 9721637!
+
+----SNAPSHOT----(16 June 2023 01:42:41) CuisUniversity-5832.image priorSource: 9825138!
+
+----SNAPSHOT----(16 June 2023 13:46:13) CuisUniversity-5832.image priorSource: 9825227!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 14:50:02' prior: 50638659!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales sem |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn thread:  "
+	
+	sem := Semaphore new.
+	
+	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork.
+	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+	sem wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsIsNotValid stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsIsNotValid stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardNumberShouldBeDigitsOnly stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test04NameCanNotBeEmpty stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test05IsExpiredOnNextExpirationMonth stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test06IsNotExpiredOnExpirationMonth stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CanGetCreditCardInfoFromIt stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CheckOutReturnsTransactionIdAndImpactsCustomerPurchases stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10_1_CanNotCheckoutAnAlreadyCheckedOutCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 14:50:02'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 14:50:03'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 14:50:04'!
+PASSED!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 14:50:16' prior: 50638695!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales sem |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	sem := Semaphore new.
+	
+	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork.
+	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+	sem wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 14:56:54'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 14:56:02' prior: 50638640!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run : [totalSales := self totalSales .].
+	
+	"sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork."
+	
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	"sem wait."
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 14:57:48'!
+ERROR!
+!BlockExecutor class methodsFor: 'instance creation' stamp: 'JUL 6/16/2023 14:57:58'!
+run
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeRun! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 14:59:20' prior: 50638906!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	"aThread := BlockExecutor run : [totalSales := self totalSales .].
+"	
+	"sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork."
+	
+	totalMoney := self totalMoneyRaised.
+	
+	"aThread wait.
+	"
+	"sem wait."
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!classRemoval: #BlockExecutor stamp: 'JUL 6/16/2023 14:59:35'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 15:00:55'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:00:47' prior: 50638939!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+	
+	"sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork."
+	
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	"sem wait."
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:01:19'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:01:25'!
+ERROR!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:01:25'!
+ERROR!
+!BlockExecutor class methodsFor: 'instance creation' stamp: 'JUL 6/16/2023 15:01:35'!
+run: aBlockClosure 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeRun: aBlockClosure ! !
+!BlockExecutor class methodsFor: 'instance creation' stamp: 'JUL 6/16/2023 15:01:46' prior: 50639008!
+run: aBlockClosure 
+	^self new initializeRun: aBlockClosure ! !
+!BlockExecutor class methodsFor: 'instance creation' stamp: 'JUL 6/16/2023 15:02:00' prior: 50639017!
+run: aBlock
+	^self new initializeRun: aBlock! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:02:03'!
+ERROR!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 15:02:19'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 15:02:19'!
+initializeRun: aBlock 
+	self shouldBeImplemented.
+	block := aBlock.! !
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 15:04:20'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block sem'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 15:04:16' prior: 50639038!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	aBlock fork.
+	sem signal.
+	"block := aBlock."! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:04:24'!
+ERROR!
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 15:05:03'!
+wait
+	self shouldBeImplemented.! !
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 15:05:12' prior: 50639061!
+wait
+	sem wait.! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:05:16'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:05:25'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:05:30'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:05:36'!
+PASSED!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:06:06' prior: 50638975!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:00:47' prior: 50639085!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+	
+	"sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork."
+	
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	"sem wait."
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:08:09' prior: 50638872!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+	"sem := Semaphore new."
+	
+"	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork."	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"	sem wait."
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:08:46' prior: 50639126!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+	"sem := Semaphore new."
+	
+"	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork."	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"	sem wait."
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:08:49' prior: 50639156!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+	"sem := Semaphore new."
+	
+"	[totalSales := self totalSalesOf: anItem.
+		sem signal.] fork."	
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"	sem wait."
+
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:13'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:14'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:15'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:27'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:28'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CheckOutReturnsTransactionIdAndImpactsCustomerPurchases stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10_1_CanNotCheckoutAnAlreadyCheckedOutCart stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 15:09:39'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:40'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:41'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:09:42'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:14:53'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:14:54'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:28:05' prior: 50639186!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"	sem wait."
+
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:28:08' prior: 50639327!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+	totalMoney := self totalMoneyRaisedBy: anItem.
+
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:28:12' prior: 50639354!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.
+
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:28:52' prior: 50639381!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"totalSales :="
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:35:47' prior: 50639408!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ ^self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.
+"totalSales :="
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 15:36:35'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block sem blockResult'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 15:36:27' prior: 50639051!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	blockResult := aBlock fork.
+	sem signal.
+	"block := aBlock."! !
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 15:36:51' prior: 50639066!
+wait
+	sem wait.
+	^blockResult .! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 15:37:10' prior: 50639435!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ ^self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:37:56'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:37:57'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 15:38:18'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:04:48' prior: 50639482!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	"totalSales := " 
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:06:20'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:06:21'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:07:51'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CheckOutReturnsTransactionIdAndImpactsCustomerPurchases stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10_1_CanNotCheckoutAnAlreadyCheckedOutCart stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'JUL 6/16/2023 16:09:13'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:09:14'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:09:15'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:21:52'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:21:53'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:21:54'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:22:05'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:22:06'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:22:07'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:22:15'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:22:16'!
+FAILURE!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 16:26:46' prior: 50639470!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	aBlock fork.
+	sem signal.
+	"block := aBlock."! !
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 16:26:57' prior: 50639477!
+wait
+	sem wait.! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:27:12'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:27:17'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:27:18'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:27:25'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:27:26'!
+PASSED!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 16:32:56'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block sem blockResult sem2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 16:32:51' prior: 50639671!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem2 wait.]fork.
+	sem signal.
+	"block := aBlock."! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:34:57' prior: 50639104!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+	
+	"sem := Semaphore new.
+	
+	[totalSales := self totalSales. 
+		sem signal.] fork."
+	
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	aThread signal.
+	
+	"sem wait."
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:35:25' prior: 50639716!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	aThread signal.
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:35:45' prior: 50639521!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:35:55' prior: 50639759!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread wait.
+	
+	aThread signal.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:36:00'!
+ERROR!
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 16:36:10'!
+signal
+	self shouldBeImplemented.! !
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 16:36:18' prior: 50639817!
+signal
+	sem2 signal.! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:36:21'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:38:12'!
+FAILURE!
+
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block sem sem2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 16:41:08'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'block sem sem2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:37'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:38'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:45'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:46'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:56'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:41:57'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:42:07'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 16:42:08'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:45:07' prior: 50639739!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	"aThread signal."
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 16:45:19' prior: 50639786!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread wait.
+	
+	"aThread signal."
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 16:45:58' prior: 50639708!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem2 wait.]fork.
+	sem signal.! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:02:46' prior: 50639925!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem2 wait.
+		sem signal.
+		]fork.
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:02:51' prior: 50639897!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread wait.
+	
+	aThread signal.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:02:57' prior: 50639877!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	aThread wait.
+	
+	aThread signal.
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+----SNAPSHOT----(16 June 2023 17:03:24) CuisUniversity-5832.image priorSource: 9825316!
+
+----STARTUP---- (16 June 2023 17:06:08) as /home/julian/Escritorio/tuslibrosIT4/CuisUniversity-5832.image!
+
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:06:36' prior: 50639932!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem signal.
+		sem2 wait.
+		]fork.
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:06:58' prior: 50639967!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal.
+	
+	aThread wait.
+
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:06:59' prior: 50640000!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal.
+	
+	aThread wait.
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+----SNAPSHOT----(16 June 2023 17:07:04) CuisUniversity-5832.image priorSource: 9866724!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:07:09'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:07:10'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:08:57' prior: 50639939!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread signal.
+	
+	aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:09:10'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:09:11'!
+FAILURE!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:12:50' prior: 50640050!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread signal. "sem2 signal"
+	
+	aThread wait. "sem wait"
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:13:12' prior: 50640020!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal. "sem2 signal"
+	
+	aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:20:50' prior: 50639993!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		"sem signal."
+		sem2 wait.
+		]fork.
+	! !
+!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'JUL 6/16/2023 17:22:01' prior: 50634029!
+test20BookPerformanceShouldNotTakeTooLong
+
+	| cartId bookPerformance quantity total |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+		
+	cartId := systemFacade createCartFor: self anotherValidUser authenticatedWith: self anotherValidUserPassword.
+	systemFacade add: 5 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+		
+	self should: [bookPerformance := systemFacade bookPerformance: self validBook ] 
+		notTakeMoreThanMilliseconds: 1100.	
+	quantity := -1.
+	quantity := bookPerformance at: 'quantity'.
+	total := bookPerformance at: 'total'.
+	self assert: 7 equals: quantity.
+	self assert: (testObjectsFactory itemSellByTheStorePrice * 7) equals: total.
+	self assert: 
+		self validBook,' was selled ',quantity asString, ' times and raised a total amount of money equal to: ', total asString
+		equals: (bookPerformance at: 'summary')
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:23:49' prior: 50640085!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread signal. "sem2 signal"
+	
+	"aThread wait." "sem wait"
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:24:55'!
+FAILURE!
+
+----STARTUP---- (16 June 2023 17:25:16) as /home/julian/Escritorio/tuslibrosIT4/CuisUniversity-5832.image!
+
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:28:32' prior: 50640020!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal. "sem2 signal"
+	
+	aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:29:42' prior: 50639993!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		"sem signal."
+		sem2 wait.
+		]fork.
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:30:14' prior: 50640046!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal. "sem2 signal"
+	
+	"aThread wait." "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:30:44' prior: 50640073!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	aThread signal. "sem2 signal"
+	
+	aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:31:07' prior: 50640066!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem signal.
+		"sem2 wait."
+		]fork.
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:31:33' prior: 50640093!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	"aThread signal." "sem2 signal"
+	
+	aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:31:47'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:31:48'!
+FAILURE!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'JUL 6/16/2023 17:32:09' prior: 50634076!
+test21StorePerformanceShouldNotTakeTooLong
+
+	| cartId storePerformance quantity total |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade add: 1 of: self anotherValidBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+	
+	cartId := systemFacade createCartFor: self anotherValidUser authenticatedWith: self anotherValidUserPassword.
+	systemFacade add: 5 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade add: 10 of: self anotherValidBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+			
+	self should: [storePerformance := systemFacade storePerformance] 
+		notTakeMoreThanMilliseconds: 1100.	
+	quantity := -1.
+	quantity := storePerformance at: 'quantity'.
+	total := storePerformance at: 'total'.
+
+	self assert: 18 equals: quantity.
+	self assert: (testObjectsFactory itemSellByTheStorePrice * 7) + (testObjectsFactory anotherItemSellByTheStorePrice * 11) equals: total.
+	self assert:
+		'The store selled a total of ',quantity asString, ' books and raised a total amount of money equal to: ', total asString
+		equals: (storePerformance at: 'summary')
+		! !
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:32:15'!
+FAILURE!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:32:16'!
+FAILURE!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'JUL 6/16/2023 17:32:24' prior: 50640149!
+test21StorePerformanceShouldNotTakeTooLong
+
+	| cartId storePerformance quantity total |
+
+	cartId := systemFacade createCartFor: self validUser authenticatedWith: self validUserPassword.
+	systemFacade add: 2 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade add: 1 of: self anotherValidBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+	
+	cartId := systemFacade createCartFor: self anotherValidUser authenticatedWith: self anotherValidUserPassword.
+	systemFacade add: 5 of: self validBook toCartIdentifiedAs: cartId.
+	systemFacade add: 10 of: self anotherValidBook toCartIdentifiedAs: cartId.
+	systemFacade 
+		checkOutCartIdentifiedAs: cartId 
+		withCreditCardNumbered: testObjectsFactory validCreditCardNumber 
+		ownedBy: testObjectsFactory validOwnerName 
+		expiringOn: testObjectsFactory notExpiredMonthOfYear.
+			
+	self should: [storePerformance := systemFacade storePerformance] 
+		notTakeMoreThanMilliseconds: 1100.	
+	"quantity := -1."
+	quantity := storePerformance at: 'quantity'.
+	total := storePerformance at: 'total'.
+
+	self assert: 18 equals: quantity.
+	self assert: (testObjectsFactory itemSellByTheStorePrice * 7) + (testObjectsFactory anotherItemSellByTheStorePrice * 11) equals: total.
+	self assert:
+		'The store selled a total of ',quantity asString, ' books and raised a total amount of money equal to: ', total asString
+		equals: (storePerformance at: 'summary')
+		! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:33:30' prior: 50640113!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[aBlock . 
+		sem signal.
+		"sem2 wait."
+		]fork.
+	! !
+
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'returnedValue sem sem2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 17:33:53'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'returnedValue sem sem2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 17:34:27' prior: 50640264!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	sem2 := Semaphore new.
+	[returnedValue := aBlock value. 
+		sem signal.
+		"sem2 wait."
+		]fork.
+	! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:35:01' prior: 50640120!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[totalSales := self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	"aThread signal." "sem2 signal"
+	
+	totalSales := aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 17:35:18' prior: 50639677!
+wait
+	sem wait.
+	^returnedValue.! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:35:32' prior: 50640292!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:["totalSales := "self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	"aThread signal." "sem2 signal"
+	
+	totalSales := aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+
+----SNAPSHOT----(16 June 2023 17:35:52) CuisUniversity-5832.image priorSource: 9868421!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:35:57'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:36:05'!
+PASSED!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:36:19' prior: 50639939!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ totalSales := self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	aThread wait.
+	
+	"aThread signal."
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 17:36:36' prior: 50640349!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ "totalSales := "self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	"aThread signal."
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:36:56'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 17:36:57'!
+PASSED!
+
+----SNAPSHOT----(16 June 2023 17:38:06) CuisUniversity-5832.image priorSource: 9878000!
+
+----QUIT----(16 June 2023 17:54:25) CuisUniversity-5832.image priorSource: 9880369!
+
+----STARTUP---- (16 June 2023 17:54:35) as /home/julian/Escritorio/tuslibrosIT4/CuisUniversity-5832.image!
+
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+WebServer reset!
+
+TusLibrosServerRestInterface installForDefaultSystem!
+
+TusLibrosServerRestInterface installForDefaultSystem.!
+
+WebServer installPackage !
+
+WebServer reset.!
+
+WebServer reset.!
+
+TusLibrosServerRestInterface installForDefaultSystem.
+!
+
+TusLibrosServerRestInterface installForDefaultSystem.!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/Packages/System/Collections-CompactArrays.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibros/Packages/Features/Compression.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibros/Packages/Features/Sound.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibros/Packages/Features/Cryptography-DigitalSignatures.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibros/Packages/Features/Identities-UUID.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibrosIT4/Packages/System/Network-Kernel.pck.st----!
+
+----End fileIn of /home/julian/Escritorio/tuslibros/Packages/Features/WebClient.pck.st----!
+
+!methodRemoval: String #encodeForHTTP stamp: 'Install-WebClient 6/16/2023 18:58:58'!
+encodeForHTTP!
+
+!methodRemoval: WebUtils class #urlEncode: stamp: 'Install-WebClient 6/16/2023 18:58:58'!
+urlEncode: urlString
+	"For backwards compatibility only. Use 'urlString urlEncoded' if you can."
+
+	^urlString encodeForHTTP!
+
+!methodRemoval: WebRequest #send400Response: stamp: 'Install-WebClient 6/16/2023 18:58:58'!
+send400Response: errorMessageText
+	"Send a 400 bad request response"
+
+	| message |
+	message := '<html><head><title>400 Bad Request</title></head><body>',
+		'<h1>400 Bad Request</h1>
+		<p>', errorMessageText,
+		'</p></body></html>'.
+	
+	self sendResponseCode: 400 
+		content: message asUtf8Bytes 
+		type: 'text/html; charset=utf-8'
+		close: true.!
+
+!methodRemoval: String #unescapePercents stamp: 'Install-WebClient 6/16/2023 18:58:58'!
+unescapePercents
+	"change each %XY substring to the character with ASCII value XY in hex.  This is the opposite of #encodeForHTTP"
+	| ans c asciiVal pos oldPos specialChars |
+	ans _ WriteStream on: String new.
+	oldPos _ 1.
+	specialChars _ '+%' asCharacterSet.
+
+	[pos _ self indexOfAnyOf: specialChars startingAt: oldPos ifAbsent: [ 0 ]. pos > 0 ]
+	whileTrue: [
+		ans nextPutAll: (self copyFrom: oldPos to: pos - 1).
+		c _ self at: pos.
+		c = $+ ifTrue: [ans nextPut: $ ] ifFalse: [
+			(c = $% and: [pos + 2 <= self size]) ifTrue: [
+				asciiVal _ (self at: pos+1) asUppercase digitValue * 16 +
+					(self at: pos+2) asUppercase digitValue.
+				pos _ pos + 2.
+				asciiVal > 255 ifTrue: [^self].	"not really an escaped string"
+				ans nextPut: (Character numericValue: asciiVal)]
+			ifFalse: [ans nextPut: c]].
+		oldPos _ pos+1].
+	ans nextPutAll: (self copyFrom: oldPos to: self size).
+	^ ans contents!
+
+TusLibrosServerRestInterface installForDefaultSystem.!
+
+TusLibrosServerRestInterface installForDefaultSystem.!
+
+WebServer reset.!
+
+TusLibrosServerRestInterface installForDefaultSystem.
+!
+
+TusLibrosClientTestWindow open.!
+
+----End fileIn of /home/julian/Escritorio/cuis/Packages/Features/WebClient.pck.st----!
+
+!methodRemoval: String #percentEscapeUrl stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+percentEscapeUrl
+	"Answer an instance of String where all characters are ASCII.
+	If we contain any ASCII character that is invalid in an URL, parentEscape it
+	If we contain any non-ASCII character, percentEscape its UTF-8 bytes.
+	See https://en.wikipedia.org/wiki/URL_encoding"
+
+	| badChars |
+	badChars := String invalidAsciiInUrls.
+	(self isAscii and: [(self indexOfAnyOf: badChars) = 0]) ifTrue: [
+		^self ].
+	^String percentEscapingNonAsciiAndThoseIn: badChars bytes: self asUtf8Bytes!
+
+!methodRemoval: String #percentEscapeUrlField stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+percentEscapeUrlField
+	"Answer an instance of String where all characters are ASCII.
+	If we contain any ASCII character that is invalid in an URL field, parentEscape it
+	If we contain any non-ASCII character, percentEscape its UTF-8 bytes.
+	See https://en.wikipedia.org/wiki/URL_encoding"
+
+	| badChars |
+	badChars := String invalidAsciiInUrlFields.
+	(self isAscii and: [(self indexOfAnyOf: badChars) = 0]) ifTrue: [
+		^self ].
+	^String percentEscapingNonAsciiAndThoseIn: badChars bytes: self asUtf8Bytes!
+
+!methodRemoval: String class #invalidAsciiInUrlFields stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+invalidAsciiInUrlFields
+	"Answer a CharacterSet with all ASCII characters that are invalid in an URL field.
+	See https://en.wikipedia.org/wiki/URL_encoding
+	Do include Reserved Characters (i.e. Characters that are used to form URLs)
+	This is appropriate to prepare any ASCII String to be used as a field name or value in an URL.
+	See senders.	"
+
+	^`CharacterSet newFrom: 
+		(((0 to: 127) collect: [ :i | Character asciiValue: i ]) reject: [ :c | c isAlphaNumeric  | ('.-_' includes: c)])`!
+
+!methodRemoval: String class #invalidAsciiInUrls stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+invalidAsciiInUrls
+	"Answer a CharacterSet with all ASCII characters that are invalid in an URL.
+	See https://en.wikipedia.org/wiki/URL_encoding
+	Do not include Reserved Characters (i.e. Characters that are used to form URLs)
+	This is appropriate for preparing a complete URL to be sent to network primitives.
+	See senders.	"
+
+	^`CharacterSet newFrom: 
+		((0 to: 31) collect: [ :i | Character asciiValue: i ]),
+		{Character space. $". $<. $>. $\. $^. $`. ${. $|. $}. Character asciiValue: 127}`.!
+
+!methodRemoval: UnicodeString #percentEscapeUrlField stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+percentEscapeUrlField
+	"Answer an instance of String where all characters are ASCII.
+	If we contain any ASCII character that is invalid in an URL field, parentEscape it
+	If we contain any non-ASCII character, percentEscape its UTF-8 bytes.
+	See https://en.wikipedia.org/wiki/URL_encoding"
+
+	| badChars |
+	badChars := String invalidAsciiInUrlFields.
+	(self isAscii and: [(bytes indexOfAnyOf: badChars startingAt: 1 ifAbsent: 0) = 0]) ifTrue: [
+		^self asByteString ].
+	^String percentEscapingNonAsciiAndThoseIn: badChars bytes: self asUtf8Bytes!
+
+!methodRemoval: UnicodeString #percentEscapeUrl stamp: 'Install-WebClient 6/16/2023 19:03:43'!
+percentEscapeUrl
+	"Answer an instance of String where all characters are ASCII.
+	If we contain any ASCII character that is invalid in an URL, parentEscape it
+	If we contain any non-ASCII character, percentEscape its UTF-8 bytes.
+	See https://en.wikipedia.org/wiki/URL_encoding"
+
+	| badChars |
+	badChars := String invalidAsciiInUrls.
+	(self isAscii and: [(bytes indexOfAnyOf: badChars startingAt: 1 ifAbsent: 0) = 0]) ifTrue: [
+		^self asByteString ].
+	^String percentEscapingNonAsciiAndThoseIn: badChars bytes: self asUtf8Bytes!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:16:49' prior: 50640377!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	"tenemos que encapsular el comportamiento del semaforo y fork
+	podemos crear un objeto que se le pase un bloque a ejecutar, el inplemente el semaforo 
+	y que tenga un mensaje que sea 'waitThreadExecution'
+	ExecuteIn T "
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	"aThread signal."
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:16:59' prior: 50640318!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+		
+	"aThread signal." "sem2 signal"
+	
+	totalSales := aThread wait. "sem wait"
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 20:18:04' prior: 50640284!
+initializeRun: aBlock 
+	sem := Semaphore new.
+	[returnedValue := aBlock value. 
+		sem signal.
+		]fork.
+	! !
+
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'returnedValue sem'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+
+!classDefinition: #BlockExecutor category: 'TusLibros-Model' stamp: 'JUL 6/16/2023 20:19:08'!
+Object subclass: #BlockExecutor
+	instanceVariableNames: 'returnedValue sem'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Model'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:20:46' prior: 50686240!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	totalSales := aThread wait.
+		
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:21:09' prior: 50686212!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:30:29' prior: 50686298!
+bookPerformance: anItem
+
+	| bookPerformance totalMoney totalSales aThread |
+
+	bookPerformance := Dictionary new.
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	
+	
+	bookPerformance at: 'quantity' put: totalSales.
+	bookPerformance at: 'total' put: totalMoney.
+	bookPerformance at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookPerformance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:34:28'!
+generateBookSummaryOf: anItem with: totalSales with: totalMoney
+	|bookSummary|
+	bookSummary := Dictionary new.
+	bookSummary at: 'quantity' put: totalSales.
+	bookSummary at: 'total' put: totalMoney.
+	bookSummary at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookSummary
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:35:23' prior: 50686318!
+bookPerformance: anItem
+	|  totalMoney totalSales aThread |
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	^self generateBookSummaryOf: anItem with: totalMoney  with: totalSales 
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:36:19'!
+generateBookSummaryOf: anItem withSales: totalSales withMoney: totalMoney
+	|bookSummary|
+	bookSummary := Dictionary new.
+	bookSummary at: 'quantity' put: totalSales.
+	bookSummary at: 'total' put: totalMoney.
+	bookSummary at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookSummary
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'as yet unclassified' stamp: 'JUL 6/16/2023 20:36:19' prior: 50686353!
+bookPerformance: anItem
+	|  totalMoney totalSales aThread |
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	^self generateBookSummaryOf: anItem withSales: totalMoney  withMoney: totalSales 
+	
+
+! !
+
+!methodRemoval: TusLibrosSystemFacade #generateBookSummaryOf:with:with: stamp: 'JUL 6/16/2023 20:36:19'!
+generateBookSummaryOf: anItem with: totalSales with: totalMoney
+	|bookSummary|
+	bookSummary := Dictionary new.
+	bookSummary at: 'quantity' put: totalSales.
+	bookSummary at: 'total' put: totalMoney.
+	bookSummary at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^bookSummary
+	
+
+!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:36:34' prior: 50686381!
+bookPerformance: anItem
+	|  totalMoney totalSales aThread |
+	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
+
+	totalMoney := self totalMoneyRaisedBy: anItem.	
+	
+	totalSales := aThread wait.
+	
+	^self generateBookSummaryOf: anItem withSales: totalSales  withMoney: totalMoney 
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:38:28' prior: 50686279!
+storePerformance
+
+	| totalMoney totalSales performance aThread |
+	
+	performance := Dictionary new.
+	
+	aThread := BlockExecutor run:[self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	totalSales := aThread wait.
+	
+	self generateStoreSummaryWithSales: totalSales withMoney: totalMoney. 
+	
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:39:18'!
+generateStoreSummaryWithSales: totalSales withMoney: totalMoney
+	| performance |
+	performance at: 'quantity' put: totalSales.
+	performance at: 'total' put: totalMoney.
+	performance at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^performance
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:39:37' prior: 50686443!
+generateStoreSummaryWithSales: totalSales withMoney: totalMoney
+	| storeSummary |
+	storeSummary at: 'quantity' put: totalSales.
+	storeSummary at: 'total' put: totalMoney.
+	storeSummary at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^storeSummary
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:40:05' prior: 50686457!
+generateStoreSummaryWithSales: totalSales withMoney: totalMoney
+	| storeSummary |
+	storeSummary := Dictionary new. 
+	
+	storeSummary at: 'quantity' put: totalSales.
+	storeSummary at: 'total' put: totalMoney.
+	storeSummary at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
+	
+	^storeSummary
+	
+
+! !
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:40:31' prior: 50686422!
+storePerformance
+
+	| totalMoney totalSales aThread |
+	
+	aThread := BlockExecutor run:[self totalSales .].
+		
+	totalMoney := self totalMoneyRaised.
+	
+	totalSales := aThread wait.
+	
+	^self generateStoreSummaryWithSales: totalSales withMoney: totalMoney. 
+	! !
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 20:40:47'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'JUL 6/16/2023 20:40:48'!
+PASSED!
+
+----SNAPSHOT----(16 June 2023 20:40:53) CuisUniversity-5832.image priorSource: 9880458!
+!WebRequest methodsFor: 'as yet unclassified' stamp: 'JUL 6/16/2023 20:48:12'!
+send400Response: aRenameMe1 
+	self shouldBeImplemented.! !
+
+WebServer reset.!
+
+TusLibrosServerRestInterface installForDefaultSystem.!
+
+TusLibrosClientTestWindow open.!
