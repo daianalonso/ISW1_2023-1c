@@ -3190,3 +3190,161 @@ createCart
 	restInterface createCartFor: 'hernan' password: 'smalltalk' execute: [ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived .] ! !
 
 ----SNAPSHOT----(19 June 2023 02:23:17) CuisUniversity-5832.image priorSource: 11376794!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/19/2023 02:30:04' prior: 50687157!
+createCartFor: aUser password: aPassword execute: createCartBlock 
+
+	| fieldDict |
+	
+	fieldDict := Dictionary newFromPairs: {'clientId'. aUser. 'password'. aPassword}.		
+	
+	self request: (self url,'/createCart') withFields: fieldDict  onSuccess: [ :resp | createCartBlock value: (WebUtils jsonDecode: resp readStream) ]  onFailure: [:resp | self error: resp].
+! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:35:00' prior: 50686865!
+addToCart
+
+	| cartId bookIsbn |
+
+	[(self areCartIdAndBookSelected) ifTrue:[
+		cartId := self selectedCartId.
+		bookIsbn := self selectedBook.
+		restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId execute: [ :content | 
+		self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)] ] 
+	] on: Error do: [ :anError | self triggerEvent: #showPopUpErrorMessage with: anError messageText ].! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:35:18' prior: 50687180!
+createCart
+	
+	[ restInterface createCartFor: 'hernan' password: 'smalltalk' execute: [ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived .]  
+		]on: Error do: [ :anError | self triggerEvent: #showPopUpErrorMessage with: anError messageText ].! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:35:33' prior: 50686818!
+listCart
+
+	| cartId |
+	
+	[(self isCartIdSelected) ifTrue:[
+		cartId := self selectedCartId.
+		restInterface listCart: cartId execute: [ :listCarts | 
+			currentSelectedCartContent := listCarts .
+		self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId ] ] 
+	]on: Error do: [ :anError | self triggerEvent: #showPopUpErrorMessage with: anError messageText ].! !
+!TusLibrosClientTestWindow methodsFor: 'events' stamp: 'JUL 6/19/2023 02:36:23'!
+popUpErrorMessage: aMessageError
+	self inform: aMessageError.! !
+!TusLibrosClientTestWindow methodsFor: 'initialization' stamp: 'JUL 6/19/2023 02:37:07' prior: 50634932!
+initializeWith: aTitle
+
+	self setLabel: aTitle.
+	self model: (TusLibrosClientTestWindowModel new).
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	self openInWorld.
+			
+	self model when: #newCartIdArrived send: #refreshListOfCartIds to: self.		
+	self model when: #selectedCartChanged send: #refreshCartButtonsLabels: to: self.	
+	self model when: #bookAddedToCart send: #informBook:addedToCart: to: self.
+	self model when: #newCurrentSelectedCartContentArrived send: #refreshCurrentSelectedCartContent: to: self.
+	self model when: # to: self.! !
+!TusLibrosClientTestWindow methodsFor: 'initialization' stamp: 'JUL 6/19/2023 02:38:06' prior: 50687257!
+initializeWith: aTitle
+
+	self setLabel: aTitle.
+	self model: (TusLibrosClientTestWindowModel new).
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	self openInWorld.
+			
+	self model when: #newCartIdArrived send: #refreshListOfCartIds to: self.		
+	self model when: #selectedCartChanged send: #refreshCartButtonsLabels: to: self.	
+	self model when: #bookAddedToCart send: #informBook:addedToCart: to: self.
+	self model when: #newCurrentSelectedCartContentArrived send: #refreshCurrentSelectedCartContent: to: self.
+! !
+!TusLibrosClientTestWindow methodsFor: 'initialization' stamp: 'JUL 6/19/2023 02:38:14' prior: 50687278!
+initializeWith: aTitle
+
+	self setLabel: aTitle.
+	self model: (TusLibrosClientTestWindowModel new).
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	self openInWorld.
+			
+	self model when: #newCartIdArrived send: #refreshListOfCartIds to: self.		
+	self model when: #selectedCartChanged send: #refreshCartButtonsLabels: to: self.	
+	self model when: #bookAddedToCart send: #informBook:addedToCart: to: self.
+	self model when: #newCurrentSelectedCartContentArrived send: #refreshCurrentSelectedCartContent: to: self.
+	"self model when: #showPopUpErrorMessage send: # to: self."! !
+!TusLibrosClientTestWindow methodsFor: 'initialization' stamp: 'JUL 6/19/2023 02:39:03' prior: 50687299!
+initializeWith: aTitle
+
+	self setLabel: aTitle.
+	self model: (TusLibrosClientTestWindowModel new).
+	self morphExtent: (self defaultExtent).
+	self buildMorphicWindow.
+	self openInWorld.
+			
+	self model when: #newCartIdArrived send: #refreshListOfCartIds to: self.		
+	self model when: #selectedCartChanged send: #refreshCartButtonsLabels: to: self.	
+	self model when: #bookAddedToCart send: #informBook:addedToCart: to: self.
+	self model when: #newCurrentSelectedCartContentArrived send: #refreshCurrentSelectedCartContent: to: self.
+	self model when: #showPopUpErrorMessage send: #popUpErrorMessage: to: self.! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:39:45' prior: 50687224!
+createCart
+	
+	[ restInterface createCartFor: 'herna1n' password: 'smalltalk' execute: [ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived .]  
+		]on: Error do: [ :anError | self triggerEvent: #showPopUpErrorMessage with: anError messageText ].! !
+
+WebServer reset.
+
+TusLibrosServerRestInterface installForDefaultSystem.
+
+TusLibrosClientTestWindow open.!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/19/2023 02:40:42' prior: 50687144!
+request: url withFields: fieldDict onSuccess: aSuccessBlock onFailure: aFailureBlock
+	[
+	|resp|
+	"self halt."
+	resp := WebClient htmlSubmit: url fields: fieldDict.
+		
+	resp isSuccess 
+		ifTrue: [aSuccessBlock value: resp content]
+		ifFalse:[aFailureBlock value: resp content]
+	] fork.! !
+
+WebServer reset.
+!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/19/2023 02:42:25' prior: 50687192!
+createCartFor: aUser password: aPassword execute: createCartBlock 
+
+	| fieldDict |
+	self halt.
+	fieldDict := Dictionary newFromPairs: {'clientId'. aUser. 'password'. aPassword}.		
+	
+	self request: (self url,'/createCart') withFields: fieldDict  onSuccess: [ :resp | createCartBlock value: (WebUtils jsonDecode: resp readStream) ]  onFailure: [:resp | self error: resp].
+! !
+
+WebServer reset.
+
+TusLibrosServerRestInterface installForDefaultSystem.
+
+TusLibrosClientTestWindow open.!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/19/2023 02:43:52' prior: 50687372!
+createCartFor: aUser password: aPassword execute: createCartBlock 
+
+	| fieldDict |
+	self halt.
+	fieldDict := Dictionary newFromPairs: {'clientId'. aUser. 'password'. aPassword}.		
+	
+	self 
+		request: (self url,'/createCart') 
+		withFields: fieldDict  
+		onSuccess: [ :resp | createCartBlock value: (WebUtils jsonDecode: resp readStream) ]  
+		onFailure: [:resp | self error: resp].
+! !
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:46:29' prior: 50687344!
+createCart
+	
+	[ restInterface 
+		createCartFor: 'herna1n' 
+		password: 'smalltalk' 
+		execute: [ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived .]  
+	]on: Error do: [ :anError | self triggerEvent: #showPopUpErrorMessage with: anError messageText ].! !
+
+----SNAPSHOT----(19 June 2023 03:14:26) CuisUniversity-5832.image priorSource: 11377189!
