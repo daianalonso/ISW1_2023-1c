@@ -241,44 +241,45 @@ Object subclass: #TusLibrosClientRestInterface
 	poolDictionaries: ''
 	category: 'TusLibrosREST'!
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'NR 6/13/2022 07:05:17'!
-add: quantity of: bookIsbn toCartIdentifiedAs: cartId
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/18/2023 19:17:42'!
+add: quantity of: bookIsbn toCartIdentifiedAs: cartId execute: addBookBlock
 
-	| fieldDict resp |
+	| fieldDict |
 
 	fieldDict := Dictionary newFromPairs: {'cartId'. cartId. 'bookIsbn'. bookIsbn. 'bookQuantity'. quantity}.		
-		
-	resp := WebClient htmlSubmit: (self url,'/addToCart') fields: fieldDict.
-		
-	resp isSuccess 
-		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream))]
-		ifFalse:[^self error: resp content]! !
+	self request: (self url,'/addToCart')  withFields: fieldDict  onSuccess: [ :resp | addBookBlock value: (WebUtils jsonDecode: resp  readStream)]  onFailure: [ :resp | self error: resp] .
+	! !
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'NR 6/9/2022 08:11:20'!
-createCartFor: aUser password: aPassword
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/18/2023 20:24:23'!
+createCartFor: aUser password: aPassword execute: createCartBlock 
 
-	| fieldDict resp |
+	| fieldDict |
 	
 	fieldDict := Dictionary newFromPairs: {'clientId'. aUser. 'password'. aPassword}.		
-	
-	resp := WebClient htmlSubmit: (self url,'/createCart') fields: fieldDict.
-		
-	resp isSuccess 
-		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream))] 
-		ifFalse:[^self error: resp content]! !
+	"self halt."
+	self request: (self url,'/createCart') withFields: fieldDict  onSuccess: [ :resp | createCartBlock value: (WebUtils jsonDecode: resp readStream) ]  onFailure: [:resp | self error: resp].
+! !
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'NR 6/9/2022 08:11:24'!
-listCart: cartId
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/18/2023 19:20:54'!
+listCart: cartId execute: listCartBlock
 
-	| fieldDict resp |
+	| fieldDict |
 	
 	fieldDict := Dictionary newFromPairs: {'cartId'. cartId. }.		
 	
-	resp := WebClient htmlSubmit: (self url,'/listCart') fields: fieldDict.
+	self request: (self url,'/listCart') withFields: fieldDict onSuccess: [ :resp | listCartBlock value: (WebUtils jsonDecode: resp  readStream) asOrderedCollection]  onFailure: [:resp |self error: resp ].! !
+
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JUL 6/18/2023 20:24:14'!
+request: url withFields: fieldDict onSuccess: aSuccessBlock onFailure: aFailureBlock
+	[
+	|resp|
+	self halt.
+	resp := WebClient htmlSubmit: url fields: fieldDict.
 		
 	resp isSuccess 
-		ifTrue:[^(WebUtils jsonDecode: ((resp content) readStream)) asOrderedCollection] 
-		ifFalse:[^self error: resp content]! !
+		ifTrue: [aSuccessBlock value: resp content]
+		ifFalse:[aFailureBlock value: resp content]
+	] fork.! !
 
 
 !TusLibrosClientRestInterface methodsFor: 'initialization' stamp: 'NR 6/9/2022 08:11:33'!
@@ -360,7 +361,7 @@ cartIdsIndex: anIndex
 	! !
 
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'NR 6/13/2022 07:07:36'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/18/2023 19:36:09'!
 addToCart
 
 	| cartId bookIsbn |
@@ -368,27 +369,24 @@ addToCart
 	(self areCartIdAndBookSelected) ifTrue:[
 		cartId := self selectedCartId.
 		bookIsbn := self selectedBook.
-		restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId.
-		self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)]! !
+		restInterface add: 1 of: bookIsbn toCartIdentifiedAs: cartId execute: [ :content | 
+		self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)] ]! !
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'NR 6/9/2022 08:13:07'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/19/2023 02:18:54'!
 createCart
-
-	| newCartId |
 	
-	newCartId := restInterface createCartFor: 'hernan' password: 'smalltalk'.
-	cartIds add: newCartId.
-	self triggerEvent: #newCartIdArrived! !
+	restInterface createCartFor: 'hernan' password: 'smalltalk' execute: [ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived .] ! !
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'NR 6/13/2022 07:08:06'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JUL 6/18/2023 19:24:40'!
 listCart
 
 	| cartId |
 	
 	(self isCartIdSelected) ifTrue:[
 		cartId := self selectedCartId.
-		currentSelectedCartContent := restInterface listCart: cartId.
-		self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId ].! !
+		restInterface listCart: cartId execute: [ :listCarts | 
+			currentSelectedCartContent := listCarts .
+		self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId ] ].! !
 
 
 !TusLibrosClientTestWindowModel methodsFor: 'initialization' stamp: 'NR 6/9/2022 08:13:11'!
@@ -513,19 +511,19 @@ checkOutCart: aRequest
 			transactionId printString ]
 		to: aRequest ! !
 
-!TusLibrosServerRestInterface methodsFor: 'rest interface' stamp: 'NR 6/13/2022 07:11:38'!
+!TusLibrosServerRestInterface methodsFor: 'rest interface' stamp: 'JUL 6/18/2023 20:04:07'!
 createCart: aRequest
 
 	| clientId password |
 
 	(Delay forSeconds: 1) wait.
-	
 	self withFieldsOf: aRequest do: [ :requestFields |
 		clientId := self clientIdFrom: requestFields.
 		password := self passwordFrom: requestFields ].
 	
 	self 
-		answer: [ | cartId | 
+		answer: [ | cartId |
+			self halt. 
 			cartId := systemFacade createCartFor: clientId authenticatedWith: password.
 			cartId printString ]
 		to: aRequest ! !
@@ -606,7 +604,7 @@ defaultSystem
 
 	^systemFacade ! !
 
-!TusLibrosServerRestInterface class methodsFor: 'default objects' stamp: 'HAW 5/5/2020 17:10:11'!
+!TusLibrosServerRestInterface class methodsFor: 'default objects' stamp: 'JUL 6/18/2023 20:22:12'!
 validUsersAndPasswords 
 	
 	^Dictionary new
