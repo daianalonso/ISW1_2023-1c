@@ -1,24 +1,19 @@
 !classDefinition: #BlockExecutor category: 'TusLibros-Model'!
 Object subclass: #BlockExecutor
-	instanceVariableNames: 'returnedValue sem'
+	instanceVariableNames: 'block sem returnedValue'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Model'!
 
-!BlockExecutor methodsFor: 'initialize' stamp: 'JUL 6/16/2023 20:18:04'!
+!BlockExecutor methodsFor: 'initialize' stamp: 'JULI 6/20/2023 21:21:15'!
 initializeRun: aBlock 
 	sem := Semaphore new.
-	[returnedValue := aBlock value. 
+	[ returnedValue := aBlock value.
 		sem signal.
-		]fork.
-	! !
+		] fork.! !
 
 
-!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 16:36:18'!
-signal
-	sem2 signal.! !
-
-!BlockExecutor methodsFor: 'synchronization' stamp: 'JUL 6/16/2023 17:35:18'!
+!BlockExecutor methodsFor: 'synchronization' stamp: 'JULI 6/20/2023 21:22:16'!
 wait
 	sem wait.
 	^returnedValue.! !
@@ -29,7 +24,7 @@ wait
 BlockExecutor class
 	instanceVariableNames: ''!
 
-!BlockExecutor class methodsFor: 'instance creation' stamp: 'JUL 6/16/2023 15:02:00'!
+!BlockExecutor class methodsFor: 'instance creation' stamp: 'JULI 6/20/2023 21:19:58'!
 run: aBlock
 	^self new initializeRun: aBlock! !
 
@@ -789,36 +784,34 @@ salesBook
 	^ salesBook! !
 
 
-!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:36:34'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JULI 6/20/2023 21:23:46'!
 bookPerformance: anItem
-	|  totalMoney totalSales aThread |
+	|  totalMoney totalSales aThread|
 	
-	aThread := BlockExecutor run:[ self totalSalesOf: anItem.].
-
-	totalMoney := self totalMoneyRaisedBy: anItem.	
+	aThread := BlockExecutor run:[ self totalSalesOf: anItem. ].
+	
+	totalMoney := self totalMoneyRaisedBy: anItem.
 	
 	totalSales := aThread wait.
-	
-	^self generateBookSummaryOf: anItem withSales: totalSales  withMoney: totalMoney 
+
+	^self generateBookSummaryOf: anItem withSales: totalSales  withMoney: totalMoney.
+
 	
 
 ! !
 
-!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:36:19'!
-generateBookSummaryOf: anItem withSales: totalSales withMoney: totalMoney
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JULI 6/20/2023 21:10:46'!
+generateBookSummaryOf: anItem withSales: totalSales withMoney: totalMoney 
 	|bookSummary|
 	bookSummary := Dictionary new.
 	bookSummary at: 'quantity' put: totalSales.
 	bookSummary at: 'total' put: totalMoney.
 	bookSummary at: 'summary' put: anItem,' was selled ',totalSales asString, ' times and raised a total amount of money equal to: ', totalMoney asString.
 	
-	^bookSummary
-	
+	^bookSummary! !
 
-! !
-
-!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:40:05'!
-generateStoreSummaryWithSales: totalSales withMoney: totalMoney
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JULI 6/20/2023 21:13:28'!
+generateStoreSummaryWithSales: totalSales withMoney: totalMoney 
 	| storeSummary |
 	storeSummary := Dictionary new. 
 	
@@ -826,10 +819,7 @@ generateStoreSummaryWithSales: totalSales withMoney: totalMoney
 	storeSummary at: 'total' put: totalMoney.
 	storeSummary at: 'summary' put: 'The store selled a total of ',totalSales asString, ' books and raised a total amount of money equal to: ', totalMoney asString.
 	
-	^storeSummary
-	
-
-! !
+	^storeSummary! !
 
 !TusLibrosSystemFacade methodsFor: 'private' stamp: 'HAW 7/23/2020 15:34:54'!
 list: aSale on: quantitiesByItem 
@@ -846,19 +836,19 @@ salesDoneBy: aUser
 	"Esto es un indicio de que por ahi conviene empezar a pensar en modelar un SaleBook - Hernan"
 	^ salesBook select: [ :aSale | aSale wasDoneBy: aUser ]! !
 
-!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/16/2023 20:40:31'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JULI 6/20/2023 21:19:10'!
 storePerformance
 
-	| totalMoney totalSales aThread |
+	| totalMoney totalSales aThread|
 	
-	aThread := BlockExecutor run:[self totalSales .].
-		
+	aThread := BlockExecutor run:[self totalSales.].
+	
 	totalMoney := self totalMoneyRaised.
 	
 	totalSales := aThread wait.
 	
 	^self generateStoreSummaryWithSales: totalSales withMoney: totalMoney. 
-	! !
+! !
 
 !TusLibrosSystemFacade methodsFor: 'private' stamp: 'NR 6/12/2022 21:34:25'!
 totalMoneyRaised
@@ -893,16 +883,15 @@ totalSales
 	
 ! !
 
-!TusLibrosSystemFacade methodsFor: 'private' stamp: 'JUL 6/15/2023 21:34:18'!
+!TusLibrosSystemFacade methodsFor: 'private' stamp: 'NR 6/13/2022 07:15:27'!
 totalSalesOf: anItem
-
+	
 	(Delay forSeconds: 1) wait.
 
 	^salesBook sum: [:aSale | | quantityPerItem | 
 		quantityPerItem := 0.
-		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity] ].
-		quantityPerItem
-		] .
+		aSale lineItemsDo: [:aLineItem | (aLineItem item = anItem) ifTrue: [quantityPerItem := quantityPerItem + aLineItem quantity]].
+		quantityPerItem].
 
 ! !
 
@@ -1390,7 +1379,7 @@ test20BookPerformanceShouldNotTakeTooLong
 		equals: (bookPerformance at: 'summary')
 	! !
 
-!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'JUL 6/16/2023 17:32:24'!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'NR 6/13/2022 08:00:04'!
 test21StorePerformanceShouldNotTakeTooLong
 
 	| cartId storePerformance quantity total |
@@ -1415,7 +1404,7 @@ test21StorePerformanceShouldNotTakeTooLong
 			
 	self should: [storePerformance := systemFacade storePerformance] 
 		notTakeMoreThanMilliseconds: 1100.	
-	"quantity := -1."
+
 	quantity := storePerformance at: 'quantity'.
 	total := storePerformance at: 'total'.
 

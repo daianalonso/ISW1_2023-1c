@@ -446,7 +446,7 @@ test20BookPerformanceShouldNotTakeTooLong
 		equals: (bookPerformance at: 'summary')
 	! !
 
-!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'JUL 6/16/2023 17:32:24'!
+!TusLibrosSystemFacadeTest methodsFor: 'tests - performance' stamp: 'NR 6/13/2022 08:00:04'!
 test21StorePerformanceShouldNotTakeTooLong
 
 	| cartId storePerformance quantity total |
@@ -471,7 +471,7 @@ test21StorePerformanceShouldNotTakeTooLong
 			
 	self should: [storePerformance := systemFacade storePerformance] 
 		notTakeMoreThanMilliseconds: 1100.	
-	"quantity := -1."
+
 	quantity := storePerformance at: 'quantity'.
 	total := storePerformance at: 'total'.
 
