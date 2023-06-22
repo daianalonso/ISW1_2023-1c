@@ -246,50 +246,21 @@ Object subclass: #TusLibrosClientRestInterface
 	poolDictionaries: ''
 	category: 'TusLibrosREST'!
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 01:08:02'!
-add: quantity of: bookIsbn toCartIdentifiedAs: cartId execute: addBookBlock
-
-	| fieldDict  |
-
-	fieldDict := Dictionary newFromPairs: {'cartId'. cartId. 'bookIsbn'. bookIsbn. 'bookQuantity'. quantity}.		
-	"self halt."
-	self
-		request: (self url,'/addToCart')
-		withFields: fieldDict 
-		onSuccess: [ :resp | addBookBlock value: resp ]
-		onFailure: [ :resp | self error: resp ]		.
-! !
-
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 02:12:30'!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 22:28:00'!
 add: quantity of: bookIsbn toCartIdentifiedAs: cartId execute: addBookBlock executeIfFails: errorHandler
 
 	| fieldDict  |
 
 	fieldDict := Dictionary newFromPairs: {'cartId'. cartId. 'bookIsbn'. bookIsbn. 'bookQuantity'. quantity}.		
-	"self halt."
+
 	self
 		request: (self url,'/addToCart')
 		withFields: fieldDict 
 		onSuccess: [ :resp | addBookBlock value: resp ]
-		onFailure: [ :resp | self error: resp ]		
-		withErrorHandler: errorHandler.
+		onFailure: errorHandler.
 ! !
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 01:07:57'!
-createCartFor: aUser password: aPassword execute: createCartBlock
-
-	| fieldDict  |
-	
-	fieldDict := Dictionary newFromPairs: {'clientId'. aUser. 'password'. aPassword}.		
-	
-	self
-		request: (self url,'/createCart')
-		withFields: fieldDict 
-		onSuccess: [ :resp | createCartBlock value: resp ]
-		onFailure: [ :resp | self error: resp ].
-! !
-
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 02:13:39'!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 22:27:27'!
 createCartFor: aUser password: aPassword execute: createCartBlock executeIfFails: errorHandler
 
 	| fieldDict  |
@@ -300,25 +271,10 @@ createCartFor: aUser password: aPassword execute: createCartBlock executeIfFails
 		request: (self url,'/createCart')
 		withFields: fieldDict 
 		onSuccess: [ :resp | createCartBlock value: resp ]
-		onFailure: [ :resp | self error: resp ]
-		withErrorHandler: errorHandler.
+		onFailure: errorHandler .
 ! !
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 01:07:50'!
-listCart: cartId execute: listCartBlock
-
-	| fieldDict  |
-	
-	fieldDict := Dictionary newFromPairs: {'cartId'. cartId. }.		
-	
-	self
-		request: (self url,'/listCart')
-		withFields: fieldDict 
-		onSuccess: [ :resp | listCartBlock value: resp asOrderedCollection ]
-		onFailure: [ :resp | self error: resp ].
-	! !
-
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 02:14:03'!
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 22:27:39'!
 listCart: cartId execute: listCartBlock executeIfFails: errorHandler
 
 	| fieldDict  |
@@ -329,32 +285,19 @@ listCart: cartId execute: listCartBlock executeIfFails: errorHandler
 		request: (self url,'/listCart')
 		withFields: fieldDict 
 		onSuccess: [ :resp | listCartBlock value: resp asOrderedCollection ]
-		onFailure: [ :resp | self error: resp ]
-		withErrorHandler: errorHandler.
+		onFailure: errorHandler .
+
 	! !
 
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 01:05:41'!
-request: url withFields: fieldDict onSuccess: aSuccessBlock onFailure: aFailureBlock
-	[
-		|resp|
-	
-		resp := WebClient htmlSubmit: url fields: fieldDict .
-		resp isSuccess 
-		ifTrue: [ aSuccessBlock value: ( WebUtils jsonDecode: resp content readStream )]
-		ifFalse: [aFailureBlock value: resp content ].
-	] fork.! !
-
-!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 02:23:55'!
-request: url withFields: fieldDict onSuccess: aSuccessBlock onFailure: aFailureBlock withErrorHandler: errorHandler
-	[
+!TusLibrosClientRestInterface methodsFor: 'requests' stamp: 'JULI 6/21/2023 22:26:26'!
+request: url withFields: fieldDict onSuccess: aSuccessBlock onFailure: aFailureBlock 
+	[|resp|
 		[
-			|resp|
-		
 			resp := WebClient htmlSubmit: url fields: fieldDict .
 			resp isSuccess 
 			ifTrue: [ aSuccessBlock value: ( WebUtils jsonDecode: resp content readStream )]
-			ifFalse: [aFailureBlock value: resp content ].
-		] on: Error do:[ :anError | errorHandler value: anError messageText ].
+			ifFalse:[ self error: resp content ]
+		] on: Error do: [ :anError | aFailureBlock value: anError messageText ].
 	] fork.! !
 
 
@@ -437,11 +380,11 @@ cartIdsIndex: anIndex
 	! !
 
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 02:23:41'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 20:28:50'!
 addToCart
 
 	| cartId bookIsbn |
-"	["
+
 	(self areCartIdAndBookSelected) ifTrue:[
 		cartId := self selectedCartId.
 		bookIsbn := self selectedBook.
@@ -450,28 +393,24 @@ addToCart
 			of: bookIsbn 
 			toCartIdentifiedAs: cartId
 			execute: [ :content | 		self triggerEvent: #bookAddedToCart withArguments: (Array with: bookIsbn with: cartId)]
-			executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage]. "'Ha ocurrido un error ' ]."
-		].	
-			
-	"] on: Error do: [ self triggerEvent: #showPopUpErrorMessage with: 'Ha ocurrido un error ']"! !
+			executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage].
+		].! !
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 02:23:13'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 22:31:45'!
 createCart
-	"self halt."
+
 	restInterface 
-		createCartFor: 'hernan1' 
+		createCartFor: 'herna1n' 
 		password: 'smalltalk'
 		execute:[ :newCartId | cartIds add: newCartId. self triggerEvent: #newCartIdArrived. ]
-		"debería enviarle el triggerEvent desde window model para que lo ejecute el client rest interface como estoy haciendo con el #newCartIdArrived"
-		executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage]. "'Ha ocurrido un error ' ]."
-	
-	"] on: Error do: [ self triggerEvent: #showPopUpErrorMessage with: 'Ha ocurrido un error ']"! !
+		executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage].
+! !
 
-!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 02:23:36'!
+!TusLibrosClientTestWindowModel methodsFor: 'buttonSelectors' stamp: 'JULI 6/21/2023 20:29:08'!
 listCart
 
 	| cartId |
-"	["
+
 	(self isCartIdSelected) ifTrue:[
 		cartId := self selectedCartId.
 		restInterface 
@@ -479,9 +418,8 @@ listCart
 			execute: [ :listCarts| 
 					currentSelectedCartContent := listCarts .
 					self triggerEvent: #newCurrentSelectedCartContentArrived with: cartId ]
-			executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage]. "'Ha ocurrido un error ' ]."
-		].
-	"]on: Error do: [ self triggerEvent: #showPopUpErrorMessage with: 'Ha ocurrido un error ']."! !
+			executeIfFails: [ :errorMessage | self triggerEvent: #showPopUpErrorMessage with: errorMessage].
+		].! !
 
 
 !TusLibrosClientTestWindowModel methodsFor: 'initialization' stamp: 'NR 6/9/2022 08:13:11'!
